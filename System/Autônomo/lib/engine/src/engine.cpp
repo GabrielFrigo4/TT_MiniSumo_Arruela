@@ -15,26 +15,17 @@
 #pragma endregion "Size Data Defines"
 
 #pragma region "Engine Pinning Macros"
-#ifndef PWM_A
-#define PWM_A 4
-#endif
 #ifndef A_1
 #define A_1 16
 #endif
 #ifndef A_2
 #define A_2 17
 #endif
-#ifndef PWM_B
-#define PWM_B 23
-#endif
 #ifndef B_1
 #define B_1 18
 #endif
 #ifndef B_2
 #define B_2 19
-#endif
-#ifndef STBY
-#define STBY 5
 #endif
 #pragma endregion "Engine Pinning Macros"
 
@@ -50,58 +41,43 @@ namespace tt::engine
 
 	void setup()
 	{
-		pinMode(PWM_A, OUTPUT);
 		pinMode(A_1, OUTPUT);
 		pinMode(A_2, OUTPUT);
-		pinMode(PWM_B, OUTPUT);
 		pinMode(B_1, OUTPUT);
 		pinMode(B_2, OUTPUT);
-		pinMode(STBY, OUTPUT);
-		set_standby(true);
-	}
-
-	bool get_standby()
-	{
-		return standby_mode;
-	}
-
-	void set_standby(const bool mode)
-	{
-		standby_mode = mode;
-		digitalWrite(STBY, static_cast<uint8_t>(!standby_mode));
 	}
 
 	void init()
 	{
-		set_standby(false);
-
 		current_engine_left = TT_ENGINE_DEFAULT;
-		digitalWrite(A_1, PIN_BOOL(current_engine_left.direction == TT_ENGINE_DIRECTION_BACK));
-		digitalWrite(A_2, PIN_BOOL(current_engine_left.direction == TT_ENGINE_DIRECTION_FRONT));
-		analogWrite(PWM_A, current_engine_left.speed);
+		digitalWrite(A_1, LOW);
+		digitalWrite(A_2, LOW);
 
 		current_engine_right = TT_ENGINE_DEFAULT;
-		digitalWrite(B_1, PIN_BOOL(current_engine_right.direction == TT_ENGINE_DIRECTION_BACK));
-		digitalWrite(B_2, PIN_BOOL(current_engine_right.direction == TT_ENGINE_DIRECTION_FRONT));
-		analogWrite(PWM_B, current_engine_right.speed);
+		digitalWrite(B_1, LOW);
+		digitalWrite(B_2, LOW);
 	}
 
 	void move(const engine_t engine_left, const engine_t engine_right)
 	{
-		if (current_engine_left == engine_left && current_engine_right == engine_right)
-		{
-			return;
-		}
+		//if (current_engine_left == engine_left && current_engine_right == engine_right)
+		//{
+		//	return;
+		//}
+
+		digitalWrite(A_1, LOW);
+		digitalWrite(A_2, LOW);
+		digitalWrite(B_1, LOW);
+		digitalWrite(B_2, LOW);
+		delayMicroseconds(60);
 
 		current_engine_left = engine_left;
-		digitalWrite(A_1, PIN_BOOL(current_engine_left.direction == TT_ENGINE_DIRECTION_BACK));
-		digitalWrite(A_2, PIN_BOOL(current_engine_left.direction == TT_ENGINE_DIRECTION_FRONT));
-		analogWrite(PWM_A, current_engine_left.speed);
+		digitalWrite(A_1, current_engine_left.speed * (current_engine_left.direction == TT_ENGINE_DIRECTION_BACK));
+		digitalWrite(A_2, current_engine_left.speed * (current_engine_left.direction == TT_ENGINE_DIRECTION_FRONT));
 
 		current_engine_right = engine_right;
-		digitalWrite(B_1, PIN_BOOL(current_engine_right.direction == TT_ENGINE_DIRECTION_BACK));
-		digitalWrite(B_2, PIN_BOOL(current_engine_right.direction == TT_ENGINE_DIRECTION_FRONT));
-		analogWrite(PWM_B, current_engine_right.speed);
+		digitalWrite(B_1, current_engine_right.speed * (current_engine_right.direction == TT_ENGINE_DIRECTION_BACK));
+		digitalWrite(B_2, current_engine_right.speed * (current_engine_right.direction == TT_ENGINE_DIRECTION_FRONT));
 	}
 
 	void stop()

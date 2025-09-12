@@ -35,7 +35,6 @@ void setup()
 	Serial.printf(STRLN("Setup Controller!"));
 
 	tt::engine::setup();
-	tt::engine::set_standby(false);
 	Serial.printf(STRLN("Setup Engine!"));
 }
 #pragma endregion "Main Setup"

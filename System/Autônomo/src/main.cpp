@@ -251,7 +251,6 @@ void setup_luta()
 	} while (!(ready && tt::receiver::receiver() == tt::receiver_t::begin));
 
 	tt::internal::set_led(false);
-	tt::engine::set_standby(false);
 }
 
 void setup()
@@ -293,7 +292,7 @@ void __init__()
 	tt::engine::init();
 
 #if __DEBUG_ENGINE_STOP__
-	tt::engine::set_standby(true);
+	tt::engine::stop();
 #endif
 
 	setup_estrategia();
@@ -421,7 +420,6 @@ void sensor_task(void *pvParameters)
 	}
 
 	tt::internal::set_led(true);
-	tt::engine::set_standby(true);
 	tt::engine::stop();
 	tt::serial::end();
 	ESP.restart();

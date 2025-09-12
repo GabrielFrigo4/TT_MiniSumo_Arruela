@@ -169,7 +169,6 @@ void setup()
 	vTaskDelay(512);
 
 	tt::engine::setup();
-	tt::engine::set_standby(false);
 	Serial.printf(STRLN("Setup Engine!"));
 
 	tt::sensor::setup();
@@ -197,7 +196,7 @@ void __init__()
 	tt::engine::init();
 
 #if DEBUG_ENGINE_STOP
-	tt::engine::set_standby(true);
+	tt::engine::stop();
 #endif
 }
 
@@ -272,7 +271,6 @@ void sensor_task(void *pvParameters)
 	}
 
 	tt::internal::set_led(true);
-	tt::engine::set_standby(true);
 	tt::engine::stop();
 	tt::serial::end();
 	ESP.restart();
