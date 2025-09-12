@@ -16,9 +16,15 @@
 #pragma endregion "Size Data Defines"
 
 #pragma region "Sensor Pinning Macros"
+#ifndef SENSOR_FRONT
 #define SENSOR_FRONT 39
+#endif
+#ifndef SENSOR_RIGHT
 #define SENSOR_RIGHT 36
+#endif
+#ifndef SENSOR_LEFT
 #define SENSOR_LEFT 34
+#endif
 #pragma endregion "Sensor Pinning Macros"
 
 namespace tt::sensor
