@@ -16,4 +16,8 @@ monitor:
 
 .PHONY: erase
 erase:
+	platformio run --target erase
+
+.PHONY: erase_py
+erase_py:
 	python -m esptool --chip esp32 erase_flash

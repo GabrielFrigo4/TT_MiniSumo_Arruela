@@ -18,6 +18,8 @@ if /i "%arg%"=="build" (
 ) else if /i "%arg%"=="monitor" (
 	%USERPROFILE%/.platformio/penv/Scripts/platformio device monitor
 ) else if /i "%arg%"=="erase" (
+	%USERPROFILE%/.platformio/penv/Scripts/platformio run --target erase
+) else if /i "%arg%"=="erase_py" (
 	python -m esptool --chip esp32 erase_flash
 ) else if /i "%arg%"=="help" (
 	echo "options: [ build | upload | clean | monitor | erase | help ]"
