@@ -14,6 +14,15 @@
 #endif
 #pragma endregion "Size Data Defines"
 
+#pragma region "Analog Data Defines"
+#ifndef ANALOG_LOW
+#define ANALOG_LOW 0
+#endif
+#ifndef ANALOG_HIGH
+#define ANALOG_HIGH 255
+#endif
+#pragma endregion "Analog Data Defines"
+
 #pragma region "Engine Pinning Macros"
 #ifndef A_1
 #define A_1 16
@@ -50,42 +59,44 @@ namespace tt::engine
 	void init()
 	{
 		current_engine_left = TT_ENGINE_DEFAULT;
-		digitalWrite(A_1, LOW);
-		digitalWrite(A_2, LOW);
+		analogWrite(A_1, ANALOG_LOW);
+		analogWrite(A_2, ANALOG_LOW);
 
 		current_engine_right = TT_ENGINE_DEFAULT;
-		digitalWrite(B_1, LOW);
-		digitalWrite(B_2, LOW);
+		analogWrite(B_1, ANALOG_LOW);
+		analogWrite(B_2, ANALOG_LOW);
+
+		delayMicroseconds(128);
 	}
 
 	void move(const engine_t engine_left, const engine_t engine_right)
 	{
-		//if (current_engine_left == engine_left && current_engine_right == engine_right)
-		//{
-		//	return;
-		//}
+		if (current_engine_left == engine_left && current_engine_right == engine_right)
+		{
+			return;
+		}
 
-		digitalWrite(A_1, LOW);
-		digitalWrite(A_2, LOW);
-		digitalWrite(B_1, LOW);
-		digitalWrite(B_2, LOW);
-		delayMicroseconds(60);
+		analogWrite(A_1, ANALOG_LOW);
+		analogWrite(A_2, ANALOG_LOW);
+		analogWrite(B_1, ANALOG_LOW);
+		analogWrite(B_2, ANALOG_LOW);
+		delayMicroseconds(128);
 
 		current_engine_left = engine_left;
-		digitalWrite(A_1, current_engine_left.speed * (current_engine_left.direction == TT_ENGINE_DIRECTION_BACK));
-		digitalWrite(A_2, current_engine_left.speed * (current_engine_left.direction == TT_ENGINE_DIRECTION_FRONT));
+		analogWrite(A_1, current_engine_left.speed * (current_engine_left.direction == TT_ENGINE_DIRECTION_BACK));
+		analogWrite(A_2, current_engine_left.speed * (current_engine_left.direction == TT_ENGINE_DIRECTION_FRONT));
 
 		current_engine_right = engine_right;
-		digitalWrite(B_1, current_engine_right.speed * (current_engine_right.direction == TT_ENGINE_DIRECTION_BACK));
-		digitalWrite(B_2, current_engine_right.speed * (current_engine_right.direction == TT_ENGINE_DIRECTION_FRONT));
+		analogWrite(B_1, current_engine_right.speed * (current_engine_right.direction == TT_ENGINE_DIRECTION_BACK));
+		analogWrite(B_2, current_engine_right.speed * (current_engine_right.direction == TT_ENGINE_DIRECTION_FRONT));
 	}
 
 	void stop()
 	{
-		digitalWrite(A_1, HIGH);
-		digitalWrite(A_2, HIGH);
-		digitalWrite(B_1, HIGH);
-		digitalWrite(B_2, HIGH);
+		analogWrite(A_1, ANALOG_HIGH);
+		analogWrite(A_2, ANALOG_HIGH);
+		analogWrite(B_1, ANALOG_HIGH);
+		analogWrite(B_2, ANALOG_HIGH);
 
 		current_engine_left = TT_ENGINE_FRONT_STOP;
 		current_engine_right = TT_ENGINE_FRONT_STOP;

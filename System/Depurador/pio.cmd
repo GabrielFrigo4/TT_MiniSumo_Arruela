@@ -19,12 +19,14 @@ if /i "%arg%"=="build" (
 	%USERPROFILE%/.platformio/penv/Scripts/platformio device monitor
 ) else if /i "%arg%"=="erase" (
 	%USERPROFILE%/.platformio/penv/Scripts/platformio run --target erase
-) else if /i "%arg%"=="erase_py" (
-	python -m esptool --chip esp32 erase_flash
+) else if /i "%arg%"=="erase-py" (
+	python -m esptool --chip esp32 erase-flash
+) else if /i "%arg%"=="info-py" (
+	python -m esptool --chip esp32 get-security-info
 ) else if /i "%arg%"=="help" (
-	echo "options: [ build | upload | clean | monitor | erase | help ]"
+	echo "options: [ build | upload | clean | monitor | erase | erase-py | info-py | help ]"
 	exit /b 0
 ) else (
-	echo "options: [ build | upload | clean | monitor | erase | help ]"
+	echo "options: [ build | upload | clean | monitor | erase | erase-py | info-py | help ]"
 	exit /b 1
 )

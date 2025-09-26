@@ -15,12 +15,14 @@ elif [ "$1" = "monitor" ]; then
 	~/.platformio/penv/bin/platformio device monitor
 elif [ "$1" = "erase" ]; then
 	~/.platformio/penv/bin/platformio run --target erase
-elif [ "$1" = "erase_py" ]; then
-	python -m esptool --chip esp32 erase_flash
+elif [ "$1" = "erase-py" ]; then
+	python -m esptool --chip esp32 erase-flash
+elif [ "$1" = "info-py" ]; then
+	python -m esptool --chip esp32 get-security-info
 elif [ "$1" = "help" ]; then
-	echo "options: [ build | upload | clean | monitor | erase | help ]"
+	echo "options: [ build | upload | clean | monitor | erase | erase-py | info-py | help ]"
 	exit 0
 else
-	echo "options: [ build | upload | clean | monitor | erase | help ]"
+	echo "options: [ build | upload | clean | monitor | erase | erase-py | info-py | help ]"
 	exit 1
 fi

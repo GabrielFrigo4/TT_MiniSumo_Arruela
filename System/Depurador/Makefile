@@ -18,6 +18,10 @@ monitor:
 erase:
 	platformio run --target erase
 
-.PHONY: erase_py
-erase_py:
-	python -m esptool --chip esp32 erase_flash
+.PHONY: erase-py
+erase-py:
+	python -m esptool --chip esp32 erase-flash
+
+.PHONY: info-py
+info-py:
+	python -m esptool --chip esp32 get-security-info
