@@ -44,6 +44,7 @@ void update_engine();
 void reset_engine();
 void behavior_just_go();
 void behavior_accelerated_go();
+void behavior_escape(const uint8_t direction);
 void behavior_forward(const uint8_t direction, const uint8_t speed_modifier);
 void behavior_curve(const uint8_t left_direction, const uint8_t righ_direction);
 void macro_curvinha(const direction_t left_direction);

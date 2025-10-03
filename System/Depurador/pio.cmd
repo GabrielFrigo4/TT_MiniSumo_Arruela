@@ -23,10 +23,12 @@ if /i "%arg%"=="build" (
 	python -m esptool --chip esp32 erase-flash
 ) else if /i "%arg%"=="info-py" (
 	python -m esptool --chip esp32 get-security-info
+) else if /i "%arg%"=="mac-py" (
+	python -m esptool --chip esp32 read-mac
 ) else if /i "%arg%"=="help" (
-	echo "options: [ build | upload | clean | monitor | erase | erase-py | info-py | help ]"
+	echo "options: [ build | upload | clean | monitor | erase | erase-py | info-py | mac-py | help ]"
 	exit /b 0
 ) else (
-	echo "options: [ build | upload | clean | monitor | erase | erase-py | info-py | help ]"
+	echo "options: [ build | upload | clean | monitor | erase | erase-py | info-py | mac-py | help ]"
 	exit /b 1
 )

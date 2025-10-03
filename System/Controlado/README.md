@@ -108,7 +108,7 @@
  [ESP32: Erase Flash Memory (Factory Reset)](https://randomnerdtutorials.com/esp32-erase-flash-memory/)
  [esptool.py](https://github.com/espressif/esptool)
 
- Existem alguns bugs no ESP32 que se resolvem limpando a memória flash com `erase_flash`, e algumas informações aparecem ao fazer isso, como o MAC Address.
+ Existem alguns bugs no ESP32 que se resolvem limpando a memória flash com `erase-flash`, e algumas informações aparecem ao fazer isso, como o MAC Address.
 
  Instalar esptool
  ```
@@ -118,14 +118,14 @@
 
  Limpar a Memória Flash
  ```
- python -m esptool --chip esp32 erase_flash
+ python -m esptool --chip esp32 erase-flash
  ```
 
 ## Pegar o MAC Address do ESP32
- Porém, existe a opção para pegar as informações de segurança do ESP com `get_security_info`, que mostra o MAC Address do ESP32 sem limpar a memória flash.
+ Porém, existe a opção para pegar as informações de segurança do ESP com `read-mac`, que mostra o MAC Address do ESP32 sem limpar a memória flash.
  Pegar o MAC Address
  ```
- python -m esptool --chip esp32 get_security_info
+ python -m esptool --chip esp32 read-mac
  ```
 
 # Código

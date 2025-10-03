@@ -25,3 +25,11 @@ erase-py:
 .PHONY: info-py
 info-py:
 	python -m esptool --chip esp32 get-security-info
+
+.PHONY: mac-py
+mac-py:
+	python -m esptool --chip esp32 read-mac
+
+.PHONY: help
+help:
+	@echo "options: [ build | upload | clean | monitor | erase | erase-py | info-py | mac-py | help ]"

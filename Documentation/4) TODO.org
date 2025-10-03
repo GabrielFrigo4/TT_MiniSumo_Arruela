@@ -8,8 +8,6 @@
 ** TODO Criar Input Language [v2.0]
 
 * Controlado (RC)
-** TODO Escapar do Ataque no DOWN [v1.1]
-** TODO Usar o Right Stick para definir a direção do DOWN [v1.1]
 ** TODO Criar Novo Sistema de Macros [v2.0]
 ** TODO Criar Break Macro [v2.0]
 
