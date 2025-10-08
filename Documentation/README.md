@@ -1,4 +1,4 @@
-# Documentation (DOC) [v1.1]
+# Documentation (DOC) [v2.0]
  Mini Sumô da Tamandutech - ARRUELA!
 
  ```

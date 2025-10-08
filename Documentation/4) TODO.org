@@ -2,7 +2,7 @@
 *Lista de Tarefas* pra fazer do *Arruela*
 
 * System (SYS)
-** TODO Criar Kernel + Bootloader [v2.0]
+** TODO None
 
 * Autônomo (AUTO)
 ** TODO Criar Input Language [v2.0]

@@ -1,4 +1,4 @@
-# TT_MiniSumo_Arruela (ARRUELA) [v1.1]
+# TT_MiniSumo_Arruela (ARRUELA) [v2.0]
  Mini Sumô da Tamandutech - ARRUELA!
 
  ```
@@ -77,4 +77,4 @@
  Arquivos ORG que documentam o __Projeto Arruela__
 
 ## System
- São os projetos __PlatformIO__ do __Arruela__
+ É o projeto unificado __PlatformIO__ do __Arruela__

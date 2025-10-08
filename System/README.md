@@ -1,4 +1,4 @@
-# System (SYS) [v1.1]
+# System (SYS) [v2.0]
  Mini Sumô da Tamandutech - ARRUELA!
 
  ```
@@ -71,58 +71,119 @@
 
 ## Pastas e Arquivos
  ```
- Autonomo (AUTO)
+ System (SYS)
  |--include
+    |- boot.hpp
+    |- kernel-auto.hpp
+    |- kernel-db.hpp
+    |- kernel-rc.hpp
     |- main.hpp
  |--lib
+    |--dualshock4
+       |- dualshock4.cpp
+       |- dualshock4.hpp
     |--engine
        |- engine.cpp
        |- engine.hpp
+    |--infrared
+       |- infrared.cpp
+       |- infrared.hpp
     |--internal
        |- internal.cpp
        |- internal.hpp
-    |--receiver
-       |- receiver.cpp
-       |- receiver.hpp
     |--sensor
        |- sensor.cpp
        |- sensor.hpp
     |--serial
        |- serial.cpp
        |- serial.hpp
-    |--storage
-       |- storage.cpp
-       |- storage.hpp
     |--utilitie
        |- utilitie.cpp
        |- utilitie.hpp
  |--src
-    |- main.cpp
- ```
-
- ```
- Controlado (RC)
- |--include
-    |- main.hpp
- |--lib
-    |--controller
-       |- controller.cpp
-       |- controller.hpp
-    |--engine
-       |- engine.cpp
-       |- engine.hpp
-    |--internal
-       |- internal.cpp
-       |- internal.hpp
-    |--utilitie
-       |- utilitie.cpp
-       |- utilitie.hpp
- |--src
+    |- boot.cpp
+    |- kernel-auto.cpp
+    |- kernel-db.cpp
+    |- kernel-rc.cpp
     |- main.cpp
  ```
 
 ## Sobre a Estrutura do Codigo
  Esse código é uma experiência de criar uma nova organização que tem como principio facilitar a manutenção.
+
+# Kernel Template
+ Novos Kernels podem ser criados a partir do Kernel Template
+
+## Include (kernel-template.hpp)
+ ```cpp
+ #include <cstdint>
+ #include <cstddef>
+
+ #pragma region "Main Data Defines"
+ #ifndef ROBO_NAME
+ #define ROBO_NAME "Arruela"
+ #endif
+ #ifndef BYTE_SIZE
+ #define BYTE_SIZE 256
+ #endif
+ #ifndef BUFFER_SIZE
+ #define BUFFER_SIZE (BYTE_SIZE * 2)
+ #endif
+ #ifndef STACK_SIZE
+ #define STACK_SIZE (BYTE_SIZE * 16)
+ #endif
+ #pragma endregion "Main Data Defines"
+
+ #pragma region "String Macros"
+ #ifndef CHARACTER_IS_LOWER_CASE
+ #define CHARACTER_IS_LOWER_CASE(x) (x >= 'a' && x <= 'z')
+ #endif
+ #ifndef CHARACTER_IS_UPPER_CASE
+ #define CHARACTER_IS_UPPER_CASE(x) (x >= 'A' && x <= 'Z')
+ #endif
+ #ifndef CHARACTER_IS_NUMBER
+ #define CHARACTER_IS_NUMBER(x) (x >= '0' && x <= '9')
+ #endif
+ #ifndef STRLN
+ #define STRLN(x) x "\n"
+ #endif
+ #pragma endregion "String Macros"
+
+ namespace tt::kernel_template
+ {
+ #pragma region "Main Signatures"
+ 	void setup();
+ 	void init();
+ 	void update();
+ #pragma endregion "Main Signatures"
+ }
+ ```
+
+## Source (kernel-template.cpp)
+ ```cpp
+ #include <Arduino.h>
+ #include "kernel-template.hpp"
+
+ namespace tt::kernel_template
+ {
+ #pragma region "Main Functions"
+ 	void setup()
+ 	{
+
+ 	}
+
+ 	void init()
+ 	{
+
+ 	}
+
+ 	void update()
+ 	{
+
+ 	}
+ #pragma endregion "Main Functions"
+ }
+ ```
 
 # Configuração de Ambiente
  Para o __Arruela__ __v1.0__ usamos apenas o __PlatformIO__ com o __VS CODE__, migramos o __Controlado (RC)__ do __Arduino IDE__ para o __PlatformIO__ na verção __v1.0__
@@ -211,7 +272,32 @@
 ## ESP32 SDK
  1. [Multiprocessamento no ESP32](https://embarcados.com.br/serie/multiprocessamento-no-esp32/)
  2. [ESP32 API Reference](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/)
- 
-## Observação
- 1. Usar o `tt::serial::end()` causa um BUG que faz com que o robô não ande (provávelmente erro com relação à memória ou task)
- 2. Quando `direction1 != direction2`, as direções de ambos os robôs invertem, sla o pq...
+
+# Emparelhando o controlador PS4 com o ESP32:
+[Controller Pairing Guide](https://github.com/darthcloud/BlueRetro/wiki/Controller-pairing-guide)
+
+## Alterar/Pegar o MAC Address do Controle PS4
+ Quando um controlador PS4 é 'emparelhado' com um console PS4, significa apenas que ele armazenou o endereço MAC Bluetooth do console, que é o único dispositivo ao qual o controlador se conectará. Normalmente, esse emparelhamento acontece quando você conecta o controlador ao console PS4 usando um cabo USB e pressiona o botão PS. Isso inicia a gravação do endereço MAC do console no controlador.
+
+ Portanto, se você deseja conectar seu controlador PS4 ao ESP32, você precisa descobrir qual é o endereço MAC Bluetooth do seu console PS4 e definir o endereço do ESP32 para ele ou alterar o endereço MAC armazenado no controlador PS4.
+
+ Seja qual for o caminho escolhido, você pode querer uma ferramenta para ler e/ou gravar o endereço MAC atualmente emparelhado do controlador PS4. Você pode tentar usar [sixaxispairer](https://github.com/user-none/sixaxispairer) ou [SixaxisPairTool](https://sixaxispairtool.en.lo4d.com/windows) para essa finalidade.
+
+## Limpar a Memória Flash do ESP32
+ [ESP32: Erase Flash Memory (Factory Reset)](https://randomnerdtutorials.com/esp32-erase-flash-memory/)
+ [esptool.py](https://github.com/espressif/esptool)
+
+ Existem alguns bugs no ESP32 que se resolvem limpando a memória flash com `erase-flash`, e algumas informações aparecem ao fazer isso, como o MAC Address.
+
+ Limpar a Memória Flash
+ ```cmd
+ python -m esptool --chip esp32 erase-flash
+ ```
+
+## Pegar o MAC Address do ESP32
+ Existe a opção para pegar o MAC Address do ESP32 do ESP com `read-mac`, que mostra o MAC Address do ESP32 sem limpar a memória flash.
+
+ Pegar o MAC Address
+ ```cmd
+ python -m esptool --chip esp32 read-mac
+ ```
