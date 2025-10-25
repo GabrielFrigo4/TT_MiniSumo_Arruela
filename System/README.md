@@ -188,6 +188,31 @@
 # Configuração de Ambiente
  Para o __Arruela__ __v1.0__ usamos apenas o __PlatformIO__ com o __VS CODE__, migramos o __Controlado (RC)__ do __Arduino IDE__ para o __PlatformIO__ na verção __v1.0__
 
+## PowerShell
+ 1. Site do [PowerShell](https://github.com/PowerShell/PowerShell)
+ 2. Baixe o [PowerShell](https://github.com/PowerShell/PowerShell/releases)
+
+ ```cmd
+ winget install Microsoft.PowerShell
+ ```
+
+## Chocolatey
+ 1. Site do [Chocolatey](https://chocolatey.org)
+ 2. Baixe o [Chocolatey](https://chocolatey.org/install)
+
+ ```cmd
+ pwsh -c "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
+ ```
+
+## Scoop
+ 1. Site do [Scoop](https://scoop.sh/)
+ 2. Site da [Documentação do Scoop](https://github.com/ScoopInstaller/Scoop/wiki)
+
+ ```cmd
+ pwsh -c "Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser"
+ pwsh -c "Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression"
+ ```
+
 ## Git & GitHub
  1. Site do [GitHub Desktop](https://github.com/apps/desktop)
  2. Site do [GitHub CLI](https://cli.github.com/)
@@ -197,30 +222,31 @@
  winget install GitHub.GitHubDesktop
  winget install GitHub.cli
  winget install Git.Git
- ``` 
+ ```
 
 ## Visual Studio Code
  1. Site do [VS Code](https://code.visualstudio.com/)
- 2. [Documentação do VS Code](https://code.visualstudio.com/docs)
+ 2. Site da [Documentação do VS Code](https://code.visualstudio.com/docs)
 
  ```cmd
  winget install Microsoft.VisualStudioCode
- ``` 
+ ```
 
 ## Arduino IDE 2
  1. Site do [Arduino IDE 2](https://www.arduino.cc/en/software/)
- 2. [Documentação do Arduino IDE 2](https://docs.arduino.cc/software/ide/#ide-v2)
+ 2. Site da [Documentação do Arduino IDE 2](https://docs.arduino.cc/software/ide/#ide-v2)
 
  ```cmd
  winget install ArduinoSA.IDE.stable
- ``` 
+ ```
 
 ## CoreUtils
  1. Site do [CoreUtils](https://github.com/uutils/coreutils)
  2. Baixe o [CoreUtils](https://github.com/uutils/coreutils/releases/)
 
  ```
- winget install uutils.coreutils
+ scoop install uutils-coreutils
+ scoop install coreutils
  ```
 
 ## BinUtils
@@ -229,6 +255,7 @@
 
  ```
  winget install BrechtSanders.WinLibs.POSIX.UCRT
+ scoop install binutils
  ```
 
 ## Zip Tools
