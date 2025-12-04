@@ -294,6 +294,12 @@
 
 ## Tamandutech Core Collections (TTCC)
  ```cmd
+ cd "/tmp"
+ git clone "https://github.com/GabrielFrigo4/TTCC.git"
+ cd TTCC
+ make -j$(nproc)
+ sudo make install
+ sudo rm -r "/tmp/TTCC"
  ```
 
 ## ESP32 SDK
