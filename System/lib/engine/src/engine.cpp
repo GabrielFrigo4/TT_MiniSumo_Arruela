@@ -66,7 +66,7 @@ namespace tt::engine
 		analogWrite(B_1, ANALOG_LOW);
 		analogWrite(B_2, ANALOG_LOW);
 
-		delayMicroseconds(128);
+		delayMicroseconds(512);
 	}
 
 	void move(const engine_t engine_left, const engine_t engine_right)
@@ -75,7 +75,7 @@ namespace tt::engine
 		analogWrite(A_2, ANALOG_LOW);
 		analogWrite(B_1, ANALOG_LOW);
 		analogWrite(B_2, ANALOG_LOW);
-		delayMicroseconds(128);
+		delayMicroseconds(512);
 
 		current_engine_left = engine_left;
 		analogWrite(A_1, current_engine_left.speed * (current_engine_left.direction == TT_ENGINE_DIRECTION_BACK));
