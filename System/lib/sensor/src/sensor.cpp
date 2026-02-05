@@ -20,10 +20,10 @@
 #define SENSOR_FRONT 39
 #endif
 #ifndef SENSOR_RIGHT
-#define SENSOR_RIGHT 36
+#define SENSOR_RIGHT 34
 #endif
 #ifndef SENSOR_LEFT
-#define SENSOR_LEFT 34
+#define SENSOR_LEFT 36
 #endif
 #pragma endregion "Sensor Pinning Macros"
 

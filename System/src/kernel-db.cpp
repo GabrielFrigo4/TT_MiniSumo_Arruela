@@ -82,7 +82,6 @@ namespace tt::kernel_db
 		setup_debug();
 		tt::serial::printf(STRLN("Setup Debug!"));
 
-		int TEST = 213;
 		switch (debug)
 		{
 		case DEBUG_ENGINE:
@@ -253,7 +252,6 @@ namespace tt::kernel_db
 
 		tt::internal::set_led(true);
 		tt::engine::stop();
-		tt::engine::set_standby(true);
 		tt::serial::end();
 		ESP.restart();
 	}
@@ -377,12 +375,37 @@ namespace tt::kernel_db
 		tt::engine::stop();
 		vTaskDelay(512);
 		tt::serial::printf(STRLN("(LEFT: FAST FRONT) (RIGHT: SLOW FRONT)"));
-		tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_FRONT_SLOW(4));
+		tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_FRONT_SLOW(3));
 		vTaskDelay(3072);
 		tt::engine::stop();
 		vTaskDelay(512);
-		tt::serial::printf(STRLN("(LEFT: SLOW FRONT) (RIGHT:  FAST FRONT)"));
-		tt::engine::move(TT_ENGINE_FRONT_SLOW(4), TT_ENGINE_FRONT_FULL);
+		tt::serial::printf(STRLN("(LEFT: SLOW FRONT) (RIGHT: FAST FRONT)"));
+		tt::engine::move(TT_ENGINE_FRONT_SLOW(3), TT_ENGINE_FRONT_FULL);
+		vTaskDelay(3072);
+		tt::engine::stop();
+		vTaskDelay(512);
+		tt::serial::printf(STRLN("(LEFT: SLOW[3] FRONT) (RIGHT: SLOW[3] FRONT)"));
+		tt::engine::move(TT_ENGINE_FRONT_SLOW(3), TT_ENGINE_FRONT_SLOW(3));
+		vTaskDelay(3072);
+		tt::engine::stop();
+		vTaskDelay(512);
+		tt::serial::printf(STRLN("(LEFT: SLOW[4] FRONT) (RIGHT: SLOW[4] FRONT)"));
+		tt::engine::move(TT_ENGINE_FRONT_SLOW(4), TT_ENGINE_FRONT_SLOW(4));
+		vTaskDelay(3072);
+		tt::engine::stop();
+		vTaskDelay(512);
+		tt::serial::printf(STRLN("(LEFT: SLOW[5] FRONT) (RIGHT: SLOW[5] FRONT)"));
+		tt::engine::move(TT_ENGINE_FRONT_SLOW(5), TT_ENGINE_FRONT_SLOW(5));
+		vTaskDelay(3072);
+		tt::engine::stop();
+		vTaskDelay(512);
+		tt::serial::printf(STRLN("(LEFT: SLOW[6] FRONT) (RIGHT: SLOW[6] FRONT)"));
+		tt::engine::move(TT_ENGINE_FRONT_SLOW(6), TT_ENGINE_FRONT_SLOW(6));
+		vTaskDelay(3072);
+		tt::engine::stop();
+		vTaskDelay(512);
+		tt::serial::printf(STRLN("(LEFT: SLOW[7] FRONT) (RIGHT: SLOW[7] FRONT)"));
+		tt::engine::move(TT_ENGINE_FRONT_SLOW(7), TT_ENGINE_FRONT_SLOW(7));
 		vTaskDelay(3072);
 		tt::engine::stop();
 		tt::serial::printf(STRLN("END TEST ENGINE!"));

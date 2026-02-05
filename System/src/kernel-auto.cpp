@@ -394,7 +394,6 @@ namespace tt::kernel_auto
 
 		tt::internal::set_led(true);
 		tt::engine::stop();
-		tt::engine::set_standby(true);
 		tt::serial::end();
 		ESP.restart();
 	}

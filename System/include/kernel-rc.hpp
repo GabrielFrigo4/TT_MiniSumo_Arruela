@@ -35,6 +35,9 @@
 #ifndef STICK_TRIGGER
 #define STICK_TRIGGER 48
 #endif
+#ifndef BUTTON_TRIGGER
+#define BUTTON_TRIGGER 32
+#endif
 #pragma endregion "Trigger Defines"
 
 #pragma region "State Defines"

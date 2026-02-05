@@ -47,8 +47,6 @@ namespace tt
 		};
 
 		void setup();
-		bool get_standby();
-		void set_standby(const bool mode);
 		void init();
 		void move(const engine_t engine_left, const engine_t engine_right);
 		void stop();

@@ -164,7 +164,7 @@ namespace tt::kernel_rc
 			return;
 		}
 
-		if (controller.r2)
+		if (controller.r2 && controller.r2_value >= BUTTON_TRIGGER)
 		{
 			Serial.printf(STRLN("(controller.r2)"));
 			behavior_forward(TT_ENGINE_DIRECTION_FRONT, controller.r2_value);
@@ -172,7 +172,7 @@ namespace tt::kernel_rc
 			return;
 		}
 
-		if (controller.l2)
+		if (controller.l2 && controller.l2_value >= BUTTON_TRIGGER)
 		{
 			Serial.printf(STRLN("(controller.l2)"));
 			behavior_forward(TT_ENGINE_DIRECTION_BACK, controller.l2_value * 0.9);
