@@ -1,29 +1,29 @@
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wall"
+#pragma GCC diagnostic ignored "-Wextra"
+#pragma GCC diagnostic ignored "-Werror"
+#pragma GCC diagnostic ignored "-Wcpp"
 #include <Arduino.h>
+#pragma GCC diagnostic pop
 #include "sensor.hpp"
 #include "engine.hpp"
 #include "internal.hpp"
 
 #pragma region "Size Data Defines"
-#ifndef BYTE_SIZE
-#define BYTE_SIZE 256
-#endif
 #ifndef BUFFER_SIZE
-#define BUFFER_SIZE (BYTE_SIZE * 2)
-#endif
-#ifndef STACK_SIZE
-#define STACK_SIZE (BYTE_SIZE * 16)
+#error "[ERROR]: BUFFER_SIZE must be defined before compilation!"
 #endif
 #pragma endregion "Size Data Defines"
 
 #pragma region "Sensor Pinning Macros"
 #ifndef SENSOR_FRONT
-#define SENSOR_FRONT 39
+#error "[ERROR]: SENSOR_FRONT must be defined before compilation!"
 #endif
 #ifndef SENSOR_RIGHT
-#define SENSOR_RIGHT 34
+#error "[ERROR]: SENSOR_RIGHT must be defined before compilation!"
 #endif
 #ifndef SENSOR_LEFT
-#define SENSOR_LEFT 36
+#error "[ERROR]: SENSOR_LEFT must be defined before compilation!"
 #endif
 #pragma endregion "Sensor Pinning Macros"
 

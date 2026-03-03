@@ -1,16 +1,16 @@
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wall"
+#pragma GCC diagnostic ignored "-Wextra"
+#pragma GCC diagnostic ignored "-Werror"
+#pragma GCC diagnostic ignored "-Wcpp"
 #include <Arduino.h>
-#include <utilitie.hpp>
+#pragma GCC diagnostic pop
+#include "utilitie.hpp"
 #include "engine.hpp"
 
 #pragma region "Size Data Defines"
-#ifndef BYTE_SIZE
-#define BYTE_SIZE 256
-#endif
 #ifndef BUFFER_SIZE
-#define BUFFER_SIZE (BYTE_SIZE * 2)
-#endif
-#ifndef STACK_SIZE
-#define STACK_SIZE (BYTE_SIZE * 16)
+#error "[ERROR]: BUFFER_SIZE must be defined before compilation!"
 #endif
 #pragma endregion "Size Data Defines"
 
@@ -25,16 +25,16 @@
 
 #pragma region "Engine Pinning Macros"
 #ifndef A_1
-#define A_1 19
+#error "[ERROR]: A_1 must be defined before compilation!"
 #endif
 #ifndef A_2
-#define A_2 18
+#error "[ERROR]: A_2 must be defined before compilation!"
 #endif
 #ifndef B_1
-#define B_1 17
+#error "[ERROR]: B_1 must be defined before compilation!"
 #endif
 #ifndef B_2
-#define B_2 16
+#error "[ERROR]: B_2 must be defined before compilation!"
 #endif
 #pragma endregion "Engine Pinning Macros"
 

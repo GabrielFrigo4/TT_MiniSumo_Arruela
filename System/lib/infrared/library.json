@@ -1,0 +1,30 @@
+{
+	"name": "infrared",
+	"version": "2.0",
+	"description": "Infrared Resources! Infrared Resources of ESP32.",
+	"authors": [
+		{
+			"name": "Gabriel Frigo",
+			"maintainer": true
+		}
+	],
+	"keywords": [
+		"Infrared",
+		"ESP32"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/GabrielFrigo4/TT_MiniSumo_Arruela"
+	},
+	"platforms": [
+		"espressif32"
+	],
+	"build": {
+		"flags": [
+			"-Wall",
+			"-Wextra",
+			"-Werror",
+			"-Wno-cpp"
+		]
+	}
+}

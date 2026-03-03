@@ -1,0 +1,30 @@
+{
+	"name": "dualshock4",
+	"version": "2.0",
+	"description": "DualShock4 Resources! DualShock4 Resources of ESP32.",
+	"authors": [
+		{
+			"name": "Gabriel Frigo",
+			"maintainer": true
+		}
+	],
+	"keywords": [
+		"DualShock4",
+		"ESP32"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/GabrielFrigo4/TT_MiniSumo_Arruela"
+	},
+	"platforms": [
+		"espressif32"
+	],
+	"build": {
+		"flags": [
+			"-Wall",
+			"-Wextra",
+			"-Werror",
+			"-Wno-cpp"
+		]
+	}
+}

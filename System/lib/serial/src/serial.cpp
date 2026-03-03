@@ -1,22 +1,16 @@
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wall"
+#pragma GCC diagnostic ignored "-Wextra"
+#pragma GCC diagnostic ignored "-Werror"
+#pragma GCC diagnostic ignored "-Wcpp"
 #include <Arduino.h>
 #include <BluetoothSerial.h>
+#pragma GCC diagnostic pop
 #include "serial.hpp"
 
 #if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)
-#error Bluetooth is not enabled! Please run `make menuconfig` to and enable it
+#error "[ERROR]: Bluetooth is not enabled! Please run `make menuconfig` to and enable it"
 #endif
-
-#pragma region "Size Data Defines"
-#ifndef BYTE_SIZE
-#define BYTE_SIZE 256
-#endif
-#ifndef BUFFER_SIZE
-#define BUFFER_SIZE (BYTE_SIZE * 2)
-#endif
-#ifndef STACK_SIZE
-#define STACK_SIZE (BYTE_SIZE * 16)
-#endif
-#pragma endregion "Size Data Defines"
 
 namespace tt::serial
 {
@@ -34,6 +28,8 @@ namespace tt::serial
 		case ESP_SPP_CLOSE_EVT:
 			enable = false;
 			Serial.println("SmartPhone Desconnected!");
+			break;
+		default:
 			break;
 		}
 	}

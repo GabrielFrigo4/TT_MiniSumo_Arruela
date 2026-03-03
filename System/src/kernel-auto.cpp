@@ -367,6 +367,8 @@ namespace tt::kernel_auto
 					vTaskDelay(144);
 				}
 				break;
+			case tt::infrared_t::none:
+				break;
 			}
 		} while (!(ready && tt::infrared::receiver() == tt::infrared_t::begin));
 
@@ -473,7 +475,7 @@ namespace tt::kernel_auto
 			direction_update = direction_t::left;
 			tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_BACK_FULL);
 			vTaskDelay(70);
-			tt::engine::move(TT_ENGINE_FRONT_SLOW(2), TT_ENGINE_FRONT_FULL);
+			tt::engine::move(TT_ENGINE_FRONT_SHIFT(2), TT_ENGINE_FRONT_FULL);
 			vTaskDelay(392);
 			tt::engine::move(TT_ENGINE_BACK_FULL, TT_ENGINE_FRONT_FULL);
 			vTaskDelay(70);
@@ -483,7 +485,7 @@ namespace tt::kernel_auto
 			direction_update = direction_t::right;
 			tt::engine::move(TT_ENGINE_BACK_FULL, TT_ENGINE_FRONT_FULL);
 			vTaskDelay(70);
-			tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_FRONT_SLOW(2));
+			tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_FRONT_SHIFT(2));
 			vTaskDelay(392);
 			tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_BACK_FULL);
 			vTaskDelay(70);
@@ -497,7 +499,7 @@ namespace tt::kernel_auto
 			direction_update = direction_t::left;
 			tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_BACK_FULL);
 			vTaskDelay(70);
-			tt::engine::move(TT_ENGINE_FRONT_SLOW(2), TT_ENGINE_FRONT_FULL);
+			tt::engine::move(TT_ENGINE_FRONT_SHIFT(2), TT_ENGINE_FRONT_FULL);
 			vTaskDelay(196);
 			tt::engine::move(TT_ENGINE_BACK_FULL, TT_ENGINE_FRONT_FULL);
 			vTaskDelay(70);
@@ -507,7 +509,7 @@ namespace tt::kernel_auto
 			direction_update = direction_t::right;
 			tt::engine::move(TT_ENGINE_BACK_FULL, TT_ENGINE_FRONT_FULL);
 			vTaskDelay(70);
-			tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_FRONT_SLOW(2));
+			tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_FRONT_SHIFT(2));
 			vTaskDelay(196);
 			tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_BACK_FULL);
 			vTaskDelay(70);
@@ -521,7 +523,7 @@ namespace tt::kernel_auto
 			direction_update = direction_t::left;
 			tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_BACK_FULL);
 			vTaskDelay(70);
-			tt::engine::move(TT_ENGINE_FRONT_SLOW(3), TT_ENGINE_FRONT_FULL);
+			tt::engine::move(TT_ENGINE_FRONT_SHIFT(3), TT_ENGINE_FRONT_FULL);
 			vTaskDelay(196);
 			tt::engine::move(TT_ENGINE_BACK_FULL, TT_ENGINE_FRONT_FULL);
 			vTaskDelay(70);
@@ -531,7 +533,7 @@ namespace tt::kernel_auto
 			direction_update = direction_t::right;
 			tt::engine::move(TT_ENGINE_BACK_FULL, TT_ENGINE_FRONT_FULL);
 			vTaskDelay(70);
-			tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_FRONT_SLOW(3));
+			tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_FRONT_SHIFT(3));
 			vTaskDelay(196);
 			tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_BACK_FULL);
 			vTaskDelay(70);
@@ -554,7 +556,7 @@ namespace tt::kernel_auto
 
 	void inicio_defesa(int trigger, const int quota)
 	{
-		tt::engine::move(TT_ENGINE_FRONT_SLOW(1), TT_ENGINE_FRONT_SLOW(1));
+		tt::engine::move(TT_ENGINE_FRONT_SHIFT(1), TT_ENGINE_FRONT_SHIFT(1));
 		vTaskDelay(16);
 		tt::engine::stop();
 		while (trigger < quota)
@@ -571,14 +573,14 @@ namespace tt::kernel_auto
 				tt::engine::move(TT_ENGINE_FRONT(DEFESA_SPEED), TT_ENGINE_BACK(DEFESA_SPEED));
 				continue;
 			}
-			tt::engine::move(TT_ENGINE_FRONT_SLOW(4), TT_ENGINE_FRONT_SLOW(4));
+			tt::engine::move(TT_ENGINE_FRONT_SHIFT(4), TT_ENGINE_FRONT_SHIFT(4));
 		}
 		vTaskDelay(24);
 	}
 
 	void inicio_preciso(int trigger, const int quota)
 	{
-		tt::engine::move(TT_ENGINE_FRONT_SLOW(1), TT_ENGINE_FRONT_SLOW(1));
+		tt::engine::move(TT_ENGINE_FRONT_SHIFT(1), TT_ENGINE_FRONT_SHIFT(1));
 		vTaskDelay(16);
 		tt::engine::stop();
 		while (trigger < quota)
@@ -595,13 +597,13 @@ namespace tt::kernel_auto
 				tt::engine::move(TT_ENGINE_FRONT(DEFESA_SPEED), TT_ENGINE_BACK(DEFESA_SPEED));
 				continue;
 			}
-			tt::engine::move(TT_ENGINE_FRONT_SLOW(2), TT_ENGINE_FRONT_SLOW(2));
+			tt::engine::move(TT_ENGINE_FRONT_SHIFT(2), TT_ENGINE_FRONT_SHIFT(2));
 		}
 	}
 
 	void inicio_tranquilo(int trigger, const int quota)
 	{
-		tt::engine::move(TT_ENGINE_FRONT_SLOW(1), TT_ENGINE_FRONT_SLOW(1));
+		tt::engine::move(TT_ENGINE_FRONT_SHIFT(1), TT_ENGINE_FRONT_SHIFT(1));
 		vTaskDelay(16);
 		tt::engine::stop();
 		while (trigger < quota)
@@ -618,7 +620,7 @@ namespace tt::kernel_auto
 				tt::engine::move(TT_ENGINE_FRONT(DEFESA_SPEED), TT_ENGINE_BACK(DEFESA_SPEED));
 				continue;
 			}
-			tt::engine::move(TT_ENGINE_FRONT_SLOW(1), TT_ENGINE_FRONT_SLOW(1));
+			tt::engine::move(TT_ENGINE_FRONT_SHIFT(1), TT_ENGINE_FRONT_SHIFT(1));
 		}
 		inicio_curvinha();
 	}
@@ -630,7 +632,7 @@ namespace tt::kernel_auto
 		if (sensor.front)
 		{
 			tt::engine::stop();
-			for (uint8_t i = TT_ENGINE_SPEED_SLOW(2); i < TT_ENGINE_SPEED_FULL && sensor.front; i += 2)
+			for (uint8_t i = TT_ENGINE_SPEED_SHIFT(2); i < TT_ENGINE_SPEED_FULL && sensor.front; i += 2)
 			{
 				uint8_t left_v = TT_ENGINE_SPEED(i);
 				uint8_t right_v = TT_ENGINE_SPEED(i);

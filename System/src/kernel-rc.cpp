@@ -274,8 +274,8 @@ namespace tt::kernel_rc
 
 	void behavior_curve(const uint8_t left_direction, const uint8_t righ_direction)
 	{
-		const uint8_t min_v = TT_ENGINE_SPEED_SLOW(3);
-		const uint8_t max_v = TT_ENGINE_SPEED_SLOW(2);
+		const uint8_t min_v = TT_ENGINE_SPEED_SHIFT(3);
+		const uint8_t max_v = TT_ENGINE_SPEED_SHIFT(2);
 		const uint8_t base_speed = static_cast<uint8_t>(
 			TT_INTERNAL_BETWEEN((tt::internal::delta_millis() / 3) * 2 + min_v, min_v, max_v));
 
@@ -300,7 +300,7 @@ namespace tt::kernel_rc
 
 	void behavior_accelerated_go()
 	{
-		const uint8_t min_v = TT_ENGINE_SPEED_SLOW(3);
+		const uint8_t min_v = TT_ENGINE_SPEED_SHIFT(3);
 		const uint8_t max_v = TT_ENGINE_SPEED_FULL;
 		const uint8_t base_speed = static_cast<uint8_t>(
 			TT_INTERNAL_BETWEEN(tt::internal::delta_millis() + min_v, min_v, max_v));

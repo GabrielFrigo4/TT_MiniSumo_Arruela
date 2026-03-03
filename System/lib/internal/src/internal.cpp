@@ -1,3 +1,8 @@
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wall"
+#pragma GCC diagnostic ignored "-Wextra"
+#pragma GCC diagnostic ignored "-Werror"
+#pragma GCC diagnostic ignored "-Wcpp"
 #include <Arduino.h>
 #include <WiFi.h>
 #include <esp_bt.h>
@@ -5,23 +10,18 @@
 #include <esp_bt_device.h>
 #include <esp_gap_bt_api.h>
 #include <nvs_flash.h>
+#pragma GCC diagnostic pop
 #include "internal.hpp"
 
 #pragma region "Size Data Defines"
-#ifndef BYTE_SIZE
-#define BYTE_SIZE 256
-#endif
 #ifndef BUFFER_SIZE
-#define BUFFER_SIZE (BYTE_SIZE * 2)
-#endif
-#ifndef STACK_SIZE
-#define STACK_SIZE (BYTE_SIZE * 16)
+#error "[ERROR]: BUFFER_SIZE must be defined before compilation!"
 #endif
 #pragma endregion "Size Data Defines"
 
 #pragma region "Internal Pinning Macros"
 #ifndef LED
-#define LED 2
+#error "[ERROR]: LED must be defined before compilation!"
 #endif
 #pragma endregion "Internal Pinning Macros"
 

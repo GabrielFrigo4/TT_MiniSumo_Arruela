@@ -1,26 +1,26 @@
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wall"
+#pragma GCC diagnostic ignored "-Wextra"
+#pragma GCC diagnostic ignored "-Werror"
+#pragma GCC diagnostic ignored "-Wcpp"
 #include <Arduino.h>
 #include <IRremote.hpp>
+#pragma GCC diagnostic pop
 #include "infrared.hpp"
 
 #if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)
-#error Bluetooth is not enabled! Please run `make menuconfig` to and enable it
+#error "[ERROR]: Bluetooth is not enabled! Please run `make menuconfig` to and enable it"
 #endif
 
 #pragma region "Size Data Defines"
-#ifndef BYTE_SIZE
-#define BYTE_SIZE 256
-#endif
 #ifndef BUFFER_SIZE
-#define BUFFER_SIZE (BYTE_SIZE * 2)
-#endif
-#ifndef STACK_SIZE
-#define STACK_SIZE (BYTE_SIZE * 16)
+#error "[ERROR]: BUFFER_SIZE must be defined before compilation!"
 #endif
 #pragma endregion "Size Data Defines"
 
 #pragma region "Receiver Pinning Macros"
 #ifndef IR
-#define IR 13
+#error "[ERROR]: IR must be defined before compilation!"
 #endif
 #pragma endregion "Receiver Pinning Macros"
 

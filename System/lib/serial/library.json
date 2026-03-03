@@ -1,0 +1,30 @@
+{
+	"name": "serial",
+	"version": "2.0",
+	"description": "Serial Resources! Serial Resources of ESP32.",
+	"authors": [
+		{
+			"name": "Gabriel Frigo",
+			"maintainer": true
+		}
+	],
+	"keywords": [
+		"Serial",
+		"ESP32"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/GabrielFrigo4/TT_MiniSumo_Arruela"
+	},
+	"platforms": [
+		"espressif32"
+	],
+	"build": {
+		"flags": [
+			"-Wall",
+			"-Wextra",
+			"-Werror",
+			"-Wno-cpp"
+		]
+	}
+}
