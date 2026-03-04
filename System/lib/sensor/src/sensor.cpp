@@ -16,33 +16,87 @@
 #pragma endregion "Size Data Defines"
 
 #pragma region "Sensor Pinning Macros"
+#ifndef SENSOR_TRANSISTOR
+#error "[ERROR]: SENSOR_TRANSISTOR must be defined before compilation!"
+#endif
+#ifndef SENSOR_LEFT
+#error "[ERROR]: SENSOR_LEFT must be defined before compilation!"
+#endif
 #ifndef SENSOR_FRONT
 #error "[ERROR]: SENSOR_FRONT must be defined before compilation!"
 #endif
 #ifndef SENSOR_RIGHT
 #error "[ERROR]: SENSOR_RIGHT must be defined before compilation!"
 #endif
-#ifndef SENSOR_LEFT
-#error "[ERROR]: SENSOR_LEFT must be defined before compilation!"
+#ifndef RECEIVER_LEFT
+#error "[ERROR]: RECEIVER_LEFT must be defined before compilation!"
+#endif
+#ifndef RECEIVER_FRONT
+#error "[ERROR]: RECEIVER_FRONT must be defined before compilation!"
+#endif
+#ifndef RECEIVER_RIGHT
+#error "[ERROR]: RECEIVER_RIGHT must be defined before compilation!"
 #endif
 #pragma endregion "Sensor Pinning Macros"
 
 namespace tt::sensor
 {
+	sensor_mode_t sensor_mode = sensor_mode_t::none;
+
 	void setup()
 	{
+		pinMode(SENSOR_TRANSISTOR, OUTPUT);
 		pinMode(SENSOR_LEFT, INPUT);
 		pinMode(SENSOR_FRONT, INPUT);
 		pinMode(SENSOR_RIGHT, INPUT);
 	}
 
+	void init()
+	{
+		set_mode(sensor_mode_t::sender);
+	}
+
 	sensor_t create_snapshot()
 	{
 		sensor_t sensor;
-		sensor.left = digitalRead(SENSOR_LEFT);
-		sensor.front = digitalRead(SENSOR_FRONT);
-		sensor.right = digitalRead(SENSOR_RIGHT);
+		sensor.mode = sensor_mode;
+		switch (sensor_mode)
+		{
+		case sensor_mode_t::sender:
+			sensor.left = digitalRead(SENSOR_LEFT);
+			sensor.front = digitalRead(SENSOR_FRONT);
+			sensor.right = digitalRead(SENSOR_RIGHT);
+			break;
+		case sensor_mode_t::receiver:
+			sensor.left = !digitalRead(RECEIVER_LEFT);
+			sensor.front = !digitalRead(RECEIVER_FRONT);
+			sensor.right = !digitalRead(RECEIVER_RIGHT);
+			break;
+		case sensor_mode_t::none:
+			break;
+		}
 		return sensor;
+	}
+
+	sensor_mode_t get_mode()
+	{
+		return sensor_mode;
+	}
+
+	void set_mode(sensor_mode_t mode)
+	{
+		switch (mode)
+		{
+		case sensor_mode_t::sender:
+			digitalWrite(SENSOR_TRANSISTOR, HIGH);
+			break;
+		case sensor_mode_t::receiver:
+			digitalWrite(SENSOR_TRANSISTOR, LOW);
+			break;
+		case sensor_mode_t::none:
+			break;
+		}
+		sensor_mode = mode;
 	}
 
 	void debug(char *out_buffer, const size_t out_size, sensor_t sensor, const char *msg)

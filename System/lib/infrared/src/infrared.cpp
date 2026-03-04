@@ -19,8 +19,8 @@
 #pragma endregion "Size Data Defines"
 
 #pragma region "Receiver Pinning Macros"
-#ifndef IR
-#error "[ERROR]: IR must be defined before compilation!"
+#ifndef IR_TRIGGER
+#error "[ERROR]: IR_TRIGGER must be defined before compilation!"
 #endif
 #pragma endregion "Receiver Pinning Macros"
 
@@ -28,7 +28,7 @@ namespace tt::infrared
 {
 	void setup()
 	{
-		IrReceiver.begin(IR, ENABLE_LED_FEEDBACK, USE_DEFAULT_FEEDBACK_LED_PIN);
+		IrReceiver.begin(IR_TRIGGER, ENABLE_LED_FEEDBACK, USE_DEFAULT_FEEDBACK_LED_PIN);
 		printActiveIRProtocols(&Serial);
 	}
 

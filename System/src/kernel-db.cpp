@@ -75,6 +75,7 @@ namespace tt::kernel_db
 	void init()
 	{
 		tt::engine::init();
+		tt::sensor::init();
 	}
 
 	void update()

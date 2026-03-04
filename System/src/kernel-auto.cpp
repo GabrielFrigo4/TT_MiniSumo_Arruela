@@ -78,6 +78,7 @@ namespace tt::kernel_auto
 	void init()
 	{
 		tt::engine::init();
+		tt::sensor::init();
 
 		setup_estrategia();
 		Serial.printf(STRLN("Setup Estrategia!"));
