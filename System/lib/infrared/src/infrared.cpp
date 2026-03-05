@@ -100,7 +100,10 @@ namespace tt::infrared
 			rec = const_cast<char *>("none");
 			break;
 		}
-		snprintf(out_buffer, out_size - 1, "\"%s\" = { command:%i; infrared:\"%s\" }\n", msg, static_cast<uint16_t>(infrared), rec);
+		snprintf(
+			out_buffer, out_size - 1,
+			"\"%s\" = { command:%i; infrared:\"%s\" }\n",
+			msg, static_cast<uint16_t>(infrared), rec);
 	}
 
 	void debug(infrared_t infrared, const char *msg)

@@ -106,7 +106,10 @@ namespace tt::engine
 
 	void debug(char *out_buffer, const size_t out_size, engine_t engine, const char *msg)
 	{
-		snprintf(out_buffer, out_size - 1, "\"%s\" = { direction:%i; speed:%i }\n", msg, engine.direction, engine.speed);
+		snprintf(
+			out_buffer, out_size - 1,
+			"\"%s\" = { direction:%i; speed:%i }\n",
+			msg, engine.direction, engine.speed);
 	}
 
 	void debug(engine_t engine, const char *msg)

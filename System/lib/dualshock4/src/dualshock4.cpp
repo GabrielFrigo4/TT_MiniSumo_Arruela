@@ -73,10 +73,15 @@ namespace tt::dualshock4
 
 	void debug(char *out_buffer, const size_t out_size, const dualshock4_t dualshock4, const char *msg)
 	{
-		snprintf(out_buffer, out_size, "\"%s\" = { R1:%i; L1:%i; R2:%i; R2_Value:%i; L2:%i; L2_Value:%i; Square:%i; Cross:%i; Circle:%i; Triangle:%i; RStickX:%i; RStickY:%i; LStickX:%i; LStickY:%i }\n",
-				 msg, dualshock4.r1, dualshock4.l1, dualshock4.r2, dualshock4.r2_value, dualshock4.l2, dualshock4.l2_value,
-				 dualshock4.square, dualshock4.cross, dualshock4.circle, dualshock4.triangle,
-				 dualshock4.r_stick_x, dualshock4.r_stick_y, dualshock4.l_stick_x, dualshock4.l_stick_y);
+		snprintf(
+			out_buffer, out_size,
+			"\"%s\" = { R1:%i; L1:%i; R2:%i; R2_Value:%i; L2:%i; L2_Value:%i; Square:%i; Cross:%i; Circle:%i; Triangle:%i; RStickX:%i; RStickY:%i; LStickX:%i; LStickY:%i }\n",
+			msg, dualshock4.r1, dualshock4.l1,
+			dualshock4.r2, dualshock4.r2_value,
+			dualshock4.l2, dualshock4.l2_value,
+			dualshock4.square, dualshock4.cross, dualshock4.circle, dualshock4.triangle,
+			dualshock4.r_stick_x, dualshock4.r_stick_y,
+			dualshock4.l_stick_x, dualshock4.l_stick_y);
 	}
 
 	void debug(const dualshock4_t dualshock4, const char *msg)

@@ -137,8 +137,10 @@ namespace tt::internal
 
 	void debug(char *out_buffer, const size_t out_size, const char *msg)
 	{
-		snprintf(out_buffer, out_size - 1, "\"%s\" = { begin:%lli; end:%lli; delta:%lli }\n", msg,
-				 begin_millis(), end_millis(), delta_millis());
+		snprintf(
+			out_buffer, out_size - 1,
+			"\"%s\" = { begin:%lli; end:%lli; delta:%lli }\n",
+			msg, begin_millis(), end_millis(), delta_millis());
 	}
 
 	void debug(const char *msg)

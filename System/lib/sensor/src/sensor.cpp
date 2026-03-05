@@ -43,6 +43,22 @@ namespace tt::sensor
 {
 	sensor_mode_t sensor_mode = sensor_mode_t::none;
 
+	static const char *mode_to_string(sensor_mode_t mode)
+	{
+		static const char *const mode_strings[] = {
+			"sender",
+			"receiver",
+			"none",
+		};
+
+		if (mode <= sensor_mode_t::none)
+		{
+			return mode_strings[mode];
+		}
+
+		return "unknown";
+	}
+
 	void setup()
 	{
 		pinMode(SENSOR_TRANSISTOR, OUTPUT);
@@ -101,7 +117,11 @@ namespace tt::sensor
 
 	void debug(char *out_buffer, const size_t out_size, sensor_t sensor, const char *msg)
 	{
-		snprintf(out_buffer, out_size - 1, "\"%s\" = { left:%i; front:%i; right:%i }\n", msg, sensor.left, sensor.front, sensor.right);
+		snprintf(
+			out_buffer, out_size - 1,
+			"\"%s\" = { left:%i; front:%i; right:%i; mode:%s }\n",
+			msg, sensor.left, sensor.front, sensor.right,
+			mode_to_string(sensor.mode));
 	}
 
 	void debug(sensor_t sensor, const char *msg)
