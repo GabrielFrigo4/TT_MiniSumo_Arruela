@@ -119,7 +119,7 @@ namespace tt::sensor
 	{
 		snprintf(
 			out_buffer, out_size - 1,
-			"\"%s\" = { left:%i; front:%i; right:%i; mode:%s }\n",
+			"\"%s\" = { left:%i; front:%i; right:%i; mode:\"%s\" }\n",
 			msg, sensor.left, sensor.front, sensor.right,
 			mode_to_string(sensor.mode));
 	}
