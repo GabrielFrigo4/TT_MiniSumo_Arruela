@@ -40,7 +40,7 @@ namespace tt::kernel_auto
 #pragma endregion "State Data"
 
 #pragma region "Input Data"
-	char bluetooth_input_char = ESTRATEGIA_LOOP;
+	char bluetooth_input_char = ESTRATEGIA_NONE;
 	char estrategia = bluetooth_input_char;
 #pragma endregion "Input Data"
 
@@ -136,7 +136,7 @@ namespace tt::kernel_auto
 			inicio_tranquilo(TRANQUILO_TRIGGER, TRANQUILO_QUOTA);
 			break;
 
-		case ESTRATEGIA_LOOP:
+		case ESTRATEGIA_NONE:
 			tt::serial::printf(STRLN("LOOP!!!"));
 			break;
 
@@ -179,7 +179,7 @@ namespace tt::kernel_auto
 
 	void setup_estrategia()
 	{
-		bluetooth_input_char = ESTRATEGIA_LOOP;
+		bluetooth_input_char = ESTRATEGIA_NONE;
 		estrategia = bluetooth_input_char;
 
 		while (bluetooth_input_char != COMMAND_SETUP)
@@ -207,8 +207,6 @@ namespace tt::kernel_auto
 				tt::serial::printf(STRLN("\"Comando\" -> \"Nome\""));
 				tt::serial::printf(STRLN("\"%c\" -> \"%s\""), COMMAND_HELP, "HELP");
 				tt::serial::printf(STRLN("\"%c\" -> \"%s\""), COMMAND_CHECK, "CHECK");
-				tt::serial::printf(STRLN("\"%c\" -> \"%s\""), COMMAND_LEFT, "LEFT");
-				tt::serial::printf(STRLN("\"%c\" -> \"%s\""), COMMAND_RIGHT, "RIGHT");
 				tt::serial::printf(STRLN("+----------------------------------+"));
 				tt::serial::printf(STRLN("| Todas as Estratégias (MINÚSCULA) |"));
 				tt::serial::printf(STRLN("+----------------------------------+"));
@@ -222,7 +220,26 @@ namespace tt::kernel_auto
 				tt::serial::printf(STRLN("\"%c\" -> \"%s\""), ESTRATEGIA_DEFESA, "DEFESA");
 				tt::serial::printf(STRLN("\"%c\" -> \"%s\""), ESTRATEGIA_PRECISO, "PRECISO");
 				tt::serial::printf(STRLN("\"%c\" -> \"%s\""), ESTRATEGIA_TRANQUILO, "TRANQUILO");
-				tt::serial::printf(STRLN("\"%c\" -> \"%s\""), ESTRATEGIA_LOOP, "É apenas um loop");
+				tt::serial::printf(STRLN("\"%c\" -> \"%s\""), ESTRATEGIA_NONE, "NONE");
+				tt::serial::printf(STRLN("+----------------------------+"));
+				tt::serial::printf(STRLN("| Todos os Sinais (SÍMBOLOS) |"));
+				tt::serial::printf(STRLN("+----------------------------+"));
+				tt::serial::printf(STRLN("\"%c\" -> \"%s\""), COMMAND_SETUP, "SETUP");
+				tt::serial::printf(STRLN("\"%c\" -> \"%s\""), COMMAND_LEFT, "LEFT");
+				tt::serial::printf(STRLN("\"%c\" -> \"%s\""), COMMAND_RIGHT, "RIGHT");
+				break;
+
+			case COMMAND_CHECK:
+				tt::serial::printf(STRLN("+------------+----------+"));
+				tt::serial::printf(STRLN("| Estratégia | %c        |"), estrategia);
+				tt::serial::printf(STRLN("| Direção    | %s |"), (direction_init == direction_t::right ? "direita " : "esquerda"));
+				tt::serial::printf(STRLN("+------------+----------+"));
+				break;
+
+			case COMMAND_SETUP:
+				tt::serial::printf(STRLN("+------------------+"));
+				tt::serial::printf(STRLN("| SETUP FINALIZADO |"));
+				tt::serial::printf(STRLN("+------------------+"));
 				break;
 
 			case COMMAND_LEFT:
@@ -237,20 +254,6 @@ namespace tt::kernel_auto
 				tt::serial::printf(STRLN("+---------+---------+"));
 				tt::serial::printf(STRLN("| Direção | Direita |"));
 				tt::serial::printf(STRLN("+---------+---------+"));
-				break;
-
-			case COMMAND_CHECK:
-				tt::serial::printf(STRLN("+------------+----------+"));
-				tt::serial::printf(STRLN("| Estratégia | %c        |"), estrategia);
-				tt::serial::printf(STRLN("| Direção    | %s |"), (direction_init == direction_t::right ? "direita " : "esquerda"));
-				tt::serial::printf(STRLN("+------------+----------+"));
-				break;
-
-			case COMMAND_SETUP:
-				tt::serial::printf(STRLN("+------------------+"));
-				tt::serial::printf(STRLN("| SETUP FINALIZADO |"));
-				tt::serial::printf(STRLN("+------------------+"));
-				continue;
 				break;
 
 			default:

@@ -138,6 +138,12 @@
  #ifndef CHARACTER_IS_NUMBER
  #define CHARACTER_IS_NUMBER(x) (x >= '0' && x <= '9')
  #endif
+ #ifndef CHARACTER_IS_SYMBOL
+ #define CHARACTER_IS_SYMBOL(x) (x >= '!' && x <= '~' &&        \
+ 								!CHARACTER_IS_LOWER_CASE(x) && \
+ 								!CHARACTER_IS_UPPER_CASE(x) && \
+ 								!CHARACTER_IS_NUMBER(x))
+ #endif
  #ifndef STRLN
  #define STRLN(x) x "\n"
  #endif

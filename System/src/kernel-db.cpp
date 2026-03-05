@@ -11,7 +11,7 @@ namespace tt::kernel_db
 {
 #pragma region "Signatures"
 	void debug_engine(const tt::engine_t engine_left, const tt::engine_t engine_right, const int timer);
-	void debug_receiver();
+	void debug_infrared();
 	void test_sensor();
 	void test_engine();
 	void sensor_task(void *pvParameters);
@@ -95,9 +95,9 @@ namespace tt::kernel_db
 			debug_engine(engine_left, engine_right, timer);
 			tt::serial::printf(STRLN("End Debug Engine!"));
 			break;
-		case DEBUG_RECEIVER:
+		case DEBUG_INFRARED:
 			tt::serial::printf(STRLN("Begin Debug Receiver!"));
-			debug_receiver();
+			debug_infrared();
 			tt::serial::printf(STRLN("End Debug Receiver!"));
 			break;
 		case DEBUG_CLOSE:
@@ -181,11 +181,17 @@ namespace tt::kernel_db
 				tt::serial::printf(STRLN("\"%c\" -> \"%s\""), TEST_SENSOR, "SENSOR");
 				tt::serial::printf(STRLN("\"%c\" -> \"%s\""), TEST_ENGINE, "ENGINE");
 				tt::serial::printf(STRLN("+-----------------------------+"));
-				tt::serial::printf(STRLN("| Todas os Debugs (MINÚSCULA) |"));
+				tt::serial::printf(STRLN("| Todos os Debugs (MINÚSCULA) |"));
 				tt::serial::printf(STRLN("+-----------------------------+"));
 				tt::serial::printf(STRLN("\"Debug\" -> \"Nome\""));
 				tt::serial::printf(STRLN("\"%c\" -> \"%s\""), DEBUG_ENGINE, "ENGINE");
-				tt::serial::printf(STRLN("\"%c\" -> \"%s\""), DEBUG_RECEIVER, "RECEIVER");
+				tt::serial::printf(STRLN("\"%c\" -> \"%s\""), DEBUG_INFRARED, "INFRARED");
+				tt::serial::printf(STRLN("+----------------------------+"));
+				tt::serial::printf(STRLN("| Todos os Sinais (SÍMBOLOS) |"));
+				tt::serial::printf(STRLN("+----------------------------+"));
+				tt::serial::printf(STRLN("\"%c\" -> \"%s\""), COMMAND_SETUP, "SETUP");
+				tt::serial::printf(STRLN("\"%c\" -> \"%s\""), COMMAND_SENDER, "SENDER");
+				tt::serial::printf(STRLN("\"%c\" -> \"%s\""), COMMAND_RECEIVER, "RECEIVER");
 				tt::serial::printf(STRLN("\"%c\" -> \"%s\""), DEBUG_CLOSE, "CLOSE");
 				break;
 
@@ -197,19 +203,31 @@ namespace tt::kernel_db
 				test_engine();
 				break;
 
+			case COMMAND_SETUP:
+				tt::serial::printf(STRLN("+------------------+"));
+				tt::serial::printf(STRLN("| SETUP FINALIZADO |"));
+				tt::serial::printf(STRLN("+------------------+"));
+				break;
+
+			case COMMAND_SENDER:
+				tt::sensor::set_mode(tt::sensor_mode_t::sender);
+				tt::serial::printf(STRLN("+---------------+"));
+				tt::serial::printf(STRLN("| SENSOR SENDER |"));
+				tt::serial::printf(STRLN("+---------------+"));
+				break;
+
+			case COMMAND_RECEIVER:
+				tt::sensor::set_mode(tt::sensor_mode_t::receiver);
+				tt::serial::printf(STRLN("+-----------------+"));
+				tt::serial::printf(STRLN("| SENSOR RECEIVER |"));
+				tt::serial::printf(STRLN("+-----------------+"));
+				break;
+
 			case DEBUG_CLOSE:
 				running = false;
 				tt::serial::printf(STRLN("+-------------+"));
 				tt::serial::printf(STRLN("| CLOSE DEBUG |"));
 				tt::serial::printf(STRLN("+-------------+"));
-				continue;
-				break;
-
-			case COMMAND_SETUP:
-				tt::serial::printf(STRLN("+------------------+"));
-				tt::serial::printf(STRLN("| SETUP FINALIZADO |"));
-				tt::serial::printf(STRLN("+------------------+"));
-				continue;
 				break;
 
 			default:
@@ -224,7 +242,7 @@ namespace tt::kernel_db
 						tt::serial::printf(STRLN("+-------+-----------+"));
 						break;
 
-					case DEBUG_RECEIVER:
+					case DEBUG_INFRARED:
 						tt::serial::printf(STRLN("+-------+-------------+"));
 						tt::serial::printf(STRLN("| Debug | RECEIVER!!! |"));
 						tt::serial::printf(STRLN("+-------+-------------+"));
@@ -267,7 +285,7 @@ namespace tt::kernel_db
 		tt::engine::stop();
 	}
 
-	void debug_receiver()
+	void debug_infrared()
 	{
 		bool ready = false;
 		bool update = false;

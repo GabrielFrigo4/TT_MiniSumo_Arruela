@@ -71,8 +71,8 @@
 #ifndef ESTRATEGIA_TRANQUILO
 #define ESTRATEGIA_TRANQUILO 'i'
 #endif
-#ifndef ESTRATEGIA_LOOP
-#define ESTRATEGIA_LOOP 'z'
+#ifndef ESTRATEGIA_NONE
+#define ESTRATEGIA_NONE 'z'
 #endif
 #pragma endregion "Command Defines"
 
