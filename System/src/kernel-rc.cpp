@@ -229,7 +229,7 @@ namespace tt::kernel_rc
 		switch (rc_state)
 		{
 		case RC_STATE_CAREFUL:
-			tt::engine::stop();
+			tt::engine::brake();
 			break;
 
 		case RC_STATE_NORMAL:
@@ -292,7 +292,7 @@ namespace tt::kernel_rc
 		case direction_t::left:
 			engine_left.speed -= sense_modifier * (engine_left.speed / 127.0f);
 			break;
-		
+
 		case direction_t::right:
 			engine_right.speed -= sense_modifier * (engine_right.speed / 127.0f);
 			break;

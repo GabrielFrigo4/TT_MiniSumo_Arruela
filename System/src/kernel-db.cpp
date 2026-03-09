@@ -271,7 +271,7 @@ namespace tt::kernel_db
 		}
 
 		tt::internal::set_led(true);
-		tt::engine::stop();
+		tt::engine::brake();
 		tt::serial::end();
 		ESP.restart();
 	}
@@ -280,10 +280,10 @@ namespace tt::kernel_db
 #pragma region "Debug Functions"
 	void debug_engine(const tt::engine_t engine_left, const tt::engine_t engine_right, const int timer)
 	{
-		tt::engine::stop();
+		tt::engine::brake();
 		tt::engine::move(engine_left, engine_right);
 		vTaskDelay(timer);
-		tt::engine::stop();
+		tt::engine::brake();
 	}
 
 	void debug_infrared()
@@ -382,57 +382,57 @@ namespace tt::kernel_db
 		tt::serial::printf(STRLN("(LEFT: FRONT) (RIGHT: FRONT)"));
 		tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_FRONT_FULL);
 		vTaskDelay(3072);
-		tt::engine::stop();
+		tt::engine::brake();
 		vTaskDelay(512);
 		tt::serial::printf(STRLN("(LEFT: FRONT) (RIGHT: BACK)"));
 		tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_BACK_FULL);
 		vTaskDelay(3072);
-		tt::engine::stop();
+		tt::engine::brake();
 		vTaskDelay(512);
 		tt::serial::printf(STRLN("(LEFT: BACK) (RIGHT: FRONT)"));
 		tt::engine::move(TT_ENGINE_BACK_FULL, TT_ENGINE_FRONT_FULL);
 		vTaskDelay(3072);
-		tt::engine::stop();
+		tt::engine::brake();
 		vTaskDelay(512);
 		tt::serial::printf(STRLN("(LEFT: BACK) (RIGHT: BACK)"));
 		tt::engine::move(TT_ENGINE_BACK_FULL, TT_ENGINE_BACK_FULL);
 		vTaskDelay(3072);
-		tt::engine::stop();
+		tt::engine::brake();
 		vTaskDelay(512);
 		tt::serial::printf(STRLN("(LEFT: FAST FRONT) (RIGHT: SLOW FRONT)"));
 		tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_FRONT_SHIFT(3));
 		vTaskDelay(3072);
-		tt::engine::stop();
+		tt::engine::brake();
 		vTaskDelay(512);
 		tt::serial::printf(STRLN("(LEFT: SLOW FRONT) (RIGHT: FAST FRONT)"));
 		tt::engine::move(TT_ENGINE_FRONT_SHIFT(3), TT_ENGINE_FRONT_FULL);
 		vTaskDelay(3072);
-		tt::engine::stop();
+		tt::engine::brake();
 		vTaskDelay(512);
 		tt::serial::printf(STRLN("(LEFT: SLOW[3] FRONT) (RIGHT: SLOW[3] FRONT)"));
 		tt::engine::move(TT_ENGINE_FRONT_SHIFT(3), TT_ENGINE_FRONT_SHIFT(3));
 		vTaskDelay(3072);
-		tt::engine::stop();
+		tt::engine::brake();
 		vTaskDelay(512);
 		tt::serial::printf(STRLN("(LEFT: SLOW[4] FRONT) (RIGHT: SLOW[4] FRONT)"));
 		tt::engine::move(TT_ENGINE_FRONT_SHIFT(4), TT_ENGINE_FRONT_SHIFT(4));
 		vTaskDelay(3072);
-		tt::engine::stop();
+		tt::engine::brake();
 		vTaskDelay(512);
 		tt::serial::printf(STRLN("(LEFT: SLOW[5] FRONT) (RIGHT: SLOW[5] FRONT)"));
 		tt::engine::move(TT_ENGINE_FRONT_SHIFT(5), TT_ENGINE_FRONT_SHIFT(5));
 		vTaskDelay(3072);
-		tt::engine::stop();
+		tt::engine::brake();
 		vTaskDelay(512);
 		tt::serial::printf(STRLN("(LEFT: SLOW[6] FRONT) (RIGHT: SLOW[6] FRONT)"));
 		tt::engine::move(TT_ENGINE_FRONT_SHIFT(6), TT_ENGINE_FRONT_SHIFT(6));
 		vTaskDelay(3072);
-		tt::engine::stop();
+		tt::engine::brake();
 		vTaskDelay(512);
 		tt::serial::printf(STRLN("(LEFT: SLOW[7] FRONT) (RIGHT: SLOW[7] FRONT)"));
 		tt::engine::move(TT_ENGINE_FRONT_SHIFT(7), TT_ENGINE_FRONT_SHIFT(7));
 		vTaskDelay(3072);
-		tt::engine::stop();
+		tt::engine::brake();
 		tt::serial::printf(STRLN("END TEST ENGINE!"));
 	}
 #pragma endregion "Test Functions"

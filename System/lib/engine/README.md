@@ -5,15 +5,17 @@
  ```
  Engine
  |--src
-    |- engine.hpp
+    |- engine.cpp
     |- engine.hpp
  ```
 
 ## Funções
- 1. `engine_t`: É uma estrutura que representa um motor (velocidade e direção)
- 2. `void setup()`: Inicializa os motores (os pinos em geral do robô)
- 3. `void init()`: Inicializa os motores (valores dos pinos)
- 4. `void move(const engine_t engine_left, const engine_t engine_right)`: Altera o movimento dos motores
- 5. `void stop()`: Para todos os motores imediatamente
- 6. `void debug(char *out_buffer, const size_t out_size, engine_t engine, const char *msg)`: Mostra as informações do motor na string
- 7. `void debug(const engine_t engine, const char *msg)`: Mostra as informações do motor
+ 1. **`engine_t`**: Estrutura de dados que representa o estado de um motor (velocidade e direção)
+ 2. **`void setup()`**: Configura os pinos de hardware associados aos motores.
+ 3. **`void init()`**: Inicializa os valores e o estado padrão dos motores.
+ 4. **`void move(const engine_t engine_left, const engine_t engine_right)`**: Altera o movimento (velocidade e direção) dos motores.
+ 5. **`void stop(const uint8_t force)`**: Para todos os motores aplicando uma força específica.
+ 6. **`void brake()`**: Freia todos os motores imediatamente (parada brusca).
+ 7. **`void loose()`**: Solta todos os motores imediatamente (deixa em roda livre).
+ 8. **`void debug(char *out_buffer, const size_t out_size, engine_t engine, const char *msg)`**: Formata e grava as informações do motor diretamente na string fornecida (buffer).
+ 9. **`void debug(const engine_t engine, const char *msg)`**: Exibe as informações e o estado atual do motor.

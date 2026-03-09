@@ -5,7 +5,7 @@
  ```
  DualShock4
  |--src
-    |- dualshock4.hpp
+    |- dualshock4.cpp
     |- dualshock4.hpp
  ```
 

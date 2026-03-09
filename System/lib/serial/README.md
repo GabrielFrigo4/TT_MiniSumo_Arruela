@@ -5,7 +5,7 @@
  ```
  Serial
  |--src
-    |- serial.hpp
+    |- serial.cpp
     |- serial.hpp
  ```
 

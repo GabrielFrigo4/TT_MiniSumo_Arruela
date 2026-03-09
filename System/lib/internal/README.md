@@ -5,7 +5,7 @@
  ```
  Internal
  |--src
-    |- internal.hpp
+    |- internal.cpp
     |- internal.hpp
  ```
 

@@ -152,7 +152,7 @@ namespace tt::kernel_auto
 		switch (estrategia)
 		{
 		case ESTRATEGIA_EXIT:
-			tt::engine::stop();
+			tt::engine::brake();
 			break;
 
 		default:
@@ -411,7 +411,7 @@ namespace tt::kernel_auto
 		estrategia = ESTRATEGIA_EXIT;
 		tt::internal::set_led(true);
 		tt::engine::set_standby(true);
-		tt::engine::stop();
+		tt::engine::brake();
 		tt::serial::end();
 		ESP.restart();
 	}
@@ -581,7 +581,7 @@ namespace tt::kernel_auto
 	{
 		tt::engine::move(TT_ENGINE_FRONT_SHIFT(1), TT_ENGINE_FRONT_SHIFT(1));
 		vTaskDelay(16);
-		tt::engine::stop();
+		tt::engine::brake();
 		while (trigger < quota)
 		{
 			vTaskDelay(1);
@@ -605,7 +605,7 @@ namespace tt::kernel_auto
 	{
 		tt::engine::move(TT_ENGINE_FRONT_SHIFT(1), TT_ENGINE_FRONT_SHIFT(1));
 		vTaskDelay(16);
-		tt::engine::stop();
+		tt::engine::brake();
 		while (trigger < quota)
 		{
 			vTaskDelay(1);
@@ -628,7 +628,7 @@ namespace tt::kernel_auto
 	{
 		tt::engine::move(TT_ENGINE_FRONT_SHIFT(1), TT_ENGINE_FRONT_SHIFT(1));
 		vTaskDelay(16);
-		tt::engine::stop();
+		tt::engine::brake();
 		while (trigger < quota)
 		{
 			vTaskDelay(1);
@@ -654,7 +654,7 @@ namespace tt::kernel_auto
 	{
 		if (sensor.front)
 		{
-			tt::engine::stop();
+			tt::engine::brake();
 			for (uint8_t i = TT_ENGINE_SPEED_SHIFT(2); i < TT_ENGINE_SPEED_FULL && sensor.front; i += 2)
 			{
 				uint8_t left_v = TT_ENGINE_SPEED(i);

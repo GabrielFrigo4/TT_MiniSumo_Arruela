@@ -5,7 +5,7 @@
  ```
  Infrared
  |--src
-    |- infrared.hpp
+    |- infrared.cpp
     |- infrared.hpp
  ```
 

@@ -5,7 +5,7 @@
  ```
  Sensor
  |--src
-    |- sensor.hpp
+    |- sensor.cpp
     |- sensor.hpp
  ```
 

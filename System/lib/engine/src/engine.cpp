@@ -79,7 +79,7 @@ namespace tt::engine
 		pinMode(B_1, OUTPUT);
 		pinMode(B_2, OUTPUT);
 		*/
-	
+
 		pinMode(PWM_A, OUTPUT);
 		pinMode(A_1, OUTPUT);
 		pinMode(A_2, OUTPUT);
@@ -160,10 +160,10 @@ namespace tt::engine
 		analogWrite(B_2, ANALOG_LOW);
 		delayMicroseconds(256);
 
-		analogWrite(A_1, ANALOG_HIGH);
-		analogWrite(A_2, ANALOG_HIGH);
-		analogWrite(B_1, ANALOG_HIGH);
-		analogWrite(B_2, ANALOG_HIGH);
+		analogWrite(A_1, force);
+		analogWrite(A_2, force);
+		analogWrite(B_1, force);
+		analogWrite(B_2, force);
 		delayMicroseconds(128);
 
 		current_engine_left = TT_ENGINE_FRONT_STOP;
