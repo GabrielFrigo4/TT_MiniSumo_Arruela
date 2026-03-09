@@ -4,7 +4,7 @@
 #include <internal.hpp>
 #include <sensor.hpp>
 #include <serial.hpp>
-#include <utilitie.hpp>
+#include <utilities.hpp>
 #include "kernel-db.hpp"
 
 namespace tt::kernel_db
@@ -87,9 +87,9 @@ namespace tt::kernel_db
 		{
 		case DEBUG_ENGINE:
 			tt::serial::printf(STRLN("Begin Debug Engine!"));
-			setup_data("Motor Esquerdo Direção", engine_left.direction);
+			setup_data("Motor Esquerdo Direção", engine_left.sense);
 			setup_data("Motor Esquerdo Velocidade", engine_left.speed);
-			setup_data("Motor Direito Direção", engine_right.direction);
+			setup_data("Motor Direito Direção", engine_right.sense);
 			setup_data("Motor Direito Velocidade", engine_right.speed);
 			setup_data("Tempo de Duração em Milissegundos", timer);
 			debug_engine(engine_left, engine_right, timer);
@@ -189,6 +189,7 @@ namespace tt::kernel_db
 				tt::serial::printf(STRLN("+----------------------------+"));
 				tt::serial::printf(STRLN("| Todos os Sinais (SÍMBOLOS) |"));
 				tt::serial::printf(STRLN("+----------------------------+"));
+				tt::serial::printf(STRLN("\"Sinal\" -> \"Nome\""));
 				tt::serial::printf(STRLN("\"%c\" -> \"%s\""), COMMAND_SETUP, "SETUP");
 				tt::serial::printf(STRLN("\"%c\" -> \"%s\""), COMMAND_SENDER, "SENDER");
 				tt::serial::printf(STRLN("\"%c\" -> \"%s\""), COMMAND_RECEIVER, "RECEIVER");
@@ -309,6 +310,7 @@ namespace tt::kernel_db
 					vTaskDelay(48);
 				}
 				break;
+
 			case tt::infrared_t::begin:
 				if (ready)
 				{
@@ -322,6 +324,7 @@ namespace tt::kernel_db
 					vTaskDelay(96);
 				}
 				break;
+
 			case tt::infrared_t::end:
 				for (int i = 0; i < 2; i++)
 				{
@@ -331,6 +334,7 @@ namespace tt::kernel_db
 					vTaskDelay(144);
 				}
 				break;
+
 			case tt::infrared_t::none:
 				break;
 			}

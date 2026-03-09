@@ -19,8 +19,8 @@ namespace tt
 		bool update();
 		infrared_t receiver();
 		bool signal(infrared_t sig);
-		void debug(char *out_buffer, const size_t out_size, infrared_t infrared, const char *msg);
-		void debug(infrared_t infrared, const char *msg);
+		void debug(char *out_buffer, const size_t out_size, const infrared_t infrared, const char *msg);
+		void debug(const infrared_t infrared, const char *msg);
 	}
 
 	typedef infrared::infrared_t infrared_t;

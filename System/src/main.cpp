@@ -8,21 +8,22 @@
 #pragma region "State Data"
 uint8_t loop_state = LOOP_STATE_BOOT_INIT;
 uint8_t kernel_state = KERNEL_STATE_DB;
+const char start_mode = KERNEL_STATE_TO_BOOT_OPTION(DEFAULT_KERNEL_STATE);
 #pragma endregion "State Data"
 
 #pragma region "Setup Functions"
 void setup()
 {
-	tt::boot::setup();
+	tt::boot::setup(start_mode);
 }
 #pragma endregion "Setup Functions"
 
 #pragma region "Loop Functions"
 void boot_init()
 {
-	tt::boot::init();
+	tt::boot::init(start_mode);
 	kernel_state = tt::boot::get_boot();
-	tt::boot::dispose();
+	tt::boot::dispose(start_mode);
 }
 
 void kernel_setup()
@@ -32,12 +33,15 @@ void kernel_setup()
 	case KERNEL_STATE_AUTO:
 		tt::kernel_auto::setup();
 		break;
+
 	case KERNEL_STATE_RC:
 		tt::kernel_rc::setup();
 		break;
+
 	case KERNEL_STATE_DB:
 		tt::kernel_db::setup();
 		break;
+
 	default:
 		break;
 	}
@@ -50,12 +54,15 @@ void kernel_init()
 	case KERNEL_STATE_AUTO:
 		tt::kernel_auto::init();
 		break;
+
 	case KERNEL_STATE_RC:
 		tt::kernel_rc::init();
 		break;
+
 	case KERNEL_STATE_DB:
 		tt::kernel_db::init();
 		break;
+
 	default:
 		break;
 	}
@@ -68,12 +75,15 @@ void kernel_update()
 	case KERNEL_STATE_AUTO:
 		tt::kernel_auto::update();
 		break;
+
 	case KERNEL_STATE_RC:
 		tt::kernel_rc::update();
 		break;
+
 	case KERNEL_STATE_DB:
 		tt::kernel_db::update();
 		break;
+
 	default:
 		break;
 	}
@@ -87,17 +97,21 @@ void loop()
 		boot_init();
 		loop_state = LOOP_STATE_KERNEL_SETUP;
 		break;
+
 	case LOOP_STATE_KERNEL_SETUP:
 		kernel_setup();
 		loop_state = LOOP_STATE_KERNEL_INIT;
 		break;
+
 	case LOOP_STATE_KERNEL_INIT:
 		kernel_init();
 		loop_state = LOOP_STATE_KERNEL_UPDATE;
 		break;
+
 	case LOOP_STATE_KERNEL_UPDATE:
 		kernel_update();
 		break;
+
 	default:
 		break;
 	}

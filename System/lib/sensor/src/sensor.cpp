@@ -61,7 +61,16 @@ namespace tt::sensor
 
 	void setup()
 	{
+		/*
 		pinMode(SENSOR_TRANSISTOR, OUTPUT);
+		pinMode(SENSOR_LEFT, INPUT);
+		pinMode(SENSOR_FRONT, INPUT);
+		pinMode(SENSOR_RIGHT, INPUT);
+		pinMode(RECEIVER_LEFT, INPUT);
+		pinMode(RECEIVER_FRONT, INPUT);
+		pinMode(RECEIVER_RIGHT, INPUT);
+		*/
+
 		pinMode(SENSOR_LEFT, INPUT);
 		pinMode(SENSOR_FRONT, INPUT);
 		pinMode(SENSOR_RIGHT, INPUT);
@@ -83,11 +92,18 @@ namespace tt::sensor
 			sensor.front = digitalRead(SENSOR_FRONT);
 			sensor.right = digitalRead(SENSOR_RIGHT);
 			break;
+
 		case sensor_mode_t::receiver:
+			/*
 			sensor.left = !digitalRead(RECEIVER_LEFT);
 			sensor.front = !digitalRead(RECEIVER_FRONT);
 			sensor.right = !digitalRead(RECEIVER_RIGHT);
+			*/
+			sensor.left = digitalRead(SENSOR_LEFT);
+			sensor.front = digitalRead(SENSOR_FRONT);
+			sensor.right = digitalRead(SENSOR_RIGHT);
 			break;
+
 		case sensor_mode_t::none:
 			break;
 		}
@@ -101,21 +117,25 @@ namespace tt::sensor
 
 	void set_mode(sensor_mode_t mode)
 	{
+		/*
 		switch (mode)
 		{
 		case sensor_mode_t::sender:
 			digitalWrite(SENSOR_TRANSISTOR, HIGH);
 			break;
+
 		case sensor_mode_t::receiver:
 			digitalWrite(SENSOR_TRANSISTOR, LOW);
 			break;
+
 		case sensor_mode_t::none:
 			break;
 		}
+		*/
 		sensor_mode = mode;
 	}
 
-	void debug(char *out_buffer, const size_t out_size, sensor_t sensor, const char *msg)
+	void debug(char *out_buffer, const size_t out_size, const sensor_t sensor, const char *msg)
 	{
 		snprintf(
 			out_buffer, out_size - 1,
@@ -124,7 +144,7 @@ namespace tt::sensor
 			mode_to_string(sensor.mode));
 	}
 
-	void debug(sensor_t sensor, const char *msg)
+	void debug(const sensor_t sensor, const char *msg)
 	{
 		char buffer[BUFFER_SIZE];
 		debug(buffer, BUFFER_SIZE, sensor, msg);

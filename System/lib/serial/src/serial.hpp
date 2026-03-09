@@ -17,7 +17,7 @@ namespace tt
 		void end();
 
 		int read();
-		void write(uint8_t c);
+		void write(const uint8_t c);
 		void flush();
 
 		void ansi_cmd(const char *cmd);

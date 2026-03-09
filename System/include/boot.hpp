@@ -36,19 +36,19 @@
 #define BOOT_OPTION_DB '3'
 #endif
 #ifndef BOOT_OPTION_VALID
-#define BOOT_OPTION_VALID(x) (x >= '1' && x <= '3')
+#define BOOT_OPTION_VALID(x) (x >= BOOT_OPTION_AUTO && x <= BOOT_OPTION_DB)
 #endif
-#ifndef BOOT_OPTION_TO_STATE
-#define BOOT_OPTION_TO_STATE(x) (x - '1')
+#ifndef BOOT_OPTION_TO_KERNEL_STATE
+#define BOOT_OPTION_TO_KERNEL_STATE(x) (x - '1')
 #endif
 #pragma endregion "Boot Options Defines"
 
 namespace tt::boot
 {
 #pragma region "Main Signatures"
-	void setup();
-	void init();
-	void dispose();
+	void setup(char start_mode = '\0');
+	void init(char start_mode = '\0');
+	void dispose(char start_mode = '\0');
 #pragma endregion "Main Signatures"
 
 #pragma region "Boot Signatures"

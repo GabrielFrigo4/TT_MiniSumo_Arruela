@@ -64,12 +64,15 @@ namespace tt::infrared
 		case static_cast<uint16_t>(infrared_t::test):
 			return infrared_t::test;
 			break;
+
 		case static_cast<uint16_t>(infrared_t::begin):
 			return infrared_t::begin;
 			break;
+
 		case static_cast<uint16_t>(infrared_t::end):
 			return infrared_t::end;
 			break;
+
 		default:
 			return infrared_t::none;
 			break;
@@ -82,7 +85,7 @@ namespace tt::infrared
 		return receiver() == sig;
 	}
 
-	void debug(char *out_buffer, const size_t out_size, infrared_t infrared, const char *msg)
+	void debug(char *out_buffer, const size_t out_size, const infrared_t infrared, const char *msg)
 	{
 		char *rec;
 		switch (infrared)
@@ -90,12 +93,15 @@ namespace tt::infrared
 		case infrared_t::test:
 			rec = const_cast<char *>("test");
 			break;
+
 		case infrared_t::begin:
 			rec = const_cast<char *>("begin");
 			break;
+
 		case infrared_t::end:
 			rec = const_cast<char *>("end");
 			break;
+
 		default:
 			rec = const_cast<char *>("none");
 			break;
@@ -106,7 +112,7 @@ namespace tt::infrared
 			msg, static_cast<uint16_t>(infrared), rec);
 	}
 
-	void debug(infrared_t infrared, const char *msg)
+	void debug(const infrared_t infrared, const char *msg)
 	{
 		char buffer[BUFFER_SIZE];
 		debug(buffer, BUFFER_SIZE, infrared, msg);

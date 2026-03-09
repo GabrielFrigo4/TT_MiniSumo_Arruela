@@ -27,10 +27,10 @@
 
 #pragma region "Trigger Defines"
 #ifndef STICK_TRIGGER
-#define STICK_TRIGGER 48
+#define STICK_TRIGGER 24
 #endif
 #ifndef BUTTON_TRIGGER
-#define BUTTON_TRIGGER 32
+#define BUTTON_TRIGGER 16
 #endif
 #pragma endregion "Trigger Defines"
 

@@ -26,6 +26,9 @@
 #pragma endregion "Loop Defines"
 
 #pragma region "Kernel Defines"
+#ifndef DEFAULT_KERNEL_STATE
+#error "[ERROR]: DEFAULT_KERNEL_STATE must be defined before compilation!"
+#endif
 #ifndef KERNEL_STATE_AUTO
 #define KERNEL_STATE_AUTO 0
 #endif
@@ -34,6 +37,9 @@
 #endif
 #ifndef KERNEL_STATE_DB
 #define KERNEL_STATE_DB 2
+#endif
+#ifndef KERNEL_STATE_TO_BOOT_OPTION
+#define KERNEL_STATE_TO_BOOT_OPTION(x) (x + '1')
 #endif
 #pragma endregion "Kernel Defines"
 

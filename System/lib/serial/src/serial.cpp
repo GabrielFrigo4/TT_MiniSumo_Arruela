@@ -25,10 +25,12 @@ namespace tt::serial
 			enable = true;
 			Serial.println("SmartPhone Connected!");
 			break;
+
 		case ESP_SPP_CLOSE_EVT:
 			enable = false;
 			Serial.println("SmartPhone Desconnected!");
 			break;
+
 		default:
 			break;
 		}
@@ -90,7 +92,7 @@ namespace tt::serial
 		return SerialBT.read();
 	}
 
-	void write(uint8_t c)
+	void write(const uint8_t c)
 	{
 		if (!enabled())
 		{

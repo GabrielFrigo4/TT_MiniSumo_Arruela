@@ -74,6 +74,9 @@
 #ifndef ESTRATEGIA_NONE
 #define ESTRATEGIA_NONE 'z'
 #endif
+#ifndef ESTRATEGIA_EXIT
+#define ESTRATEGIA_EXIT ' '
+#endif
 #pragma endregion "Command Defines"
 
 #pragma region "Strategies Defines"

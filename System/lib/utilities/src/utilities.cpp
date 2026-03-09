@@ -5,9 +5,9 @@
 #pragma GCC diagnostic ignored "-Wcpp"
 #include <Arduino.h>
 #pragma GCC diagnostic pop
-#include "utilitie.hpp"
+#include "utilities.hpp"
 
-namespace tt::utilitie
+namespace tt::utilities
 {
 
 }

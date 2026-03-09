@@ -97,9 +97,9 @@
     |--serial
        |- serial.cpp
        |- serial.hpp
-    |--utilitie
-       |- utilitie.cpp
-       |- utilitie.hpp
+    |--utilities
+       |- utilities.cpp
+       |- utilities.hpp
  |--src
     |- boot.cpp
     |- kernel-auto.cpp

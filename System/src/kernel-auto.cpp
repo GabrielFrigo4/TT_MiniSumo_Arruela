@@ -4,7 +4,7 @@
 #include <internal.hpp>
 #include <sensor.hpp>
 #include <serial.hpp>
-#include <utilitie.hpp>
+#include <utilities.hpp>
 #include "kernel-auto.hpp"
 
 namespace tt::kernel_auto
@@ -27,7 +27,7 @@ namespace tt::kernel_auto
 	void inicio_defesa(int trigger, const int quota);
 	void inicio_preciso(int trigger, const int quota);
 	void inicio_tranquilo(int trigger, const int quota);
-	void procura_padrao(uint8_t velocidade_giro);
+	void procura_padrao(const uint8_t velocidade_giro);
 	void sensor_task(void *pvParameters);
 	void setup_task();
 	void setup_connect();
@@ -151,6 +151,10 @@ namespace tt::kernel_auto
 	{
 		switch (estrategia)
 		{
+		case ESTRATEGIA_EXIT:
+			tt::engine::stop();
+			break;
+
 		default:
 			procura_padrao(TT_ENGINE_SPEED(ROTATE_SPEED));
 			break;
@@ -224,6 +228,7 @@ namespace tt::kernel_auto
 				tt::serial::printf(STRLN("+----------------------------+"));
 				tt::serial::printf(STRLN("| Todos os Sinais (SÍMBOLOS) |"));
 				tt::serial::printf(STRLN("+----------------------------+"));
+				tt::serial::printf(STRLN("\"Sinal\" -> \"Nome\""));
 				tt::serial::printf(STRLN("\"%c\" -> \"%s\""), COMMAND_SETUP, "SETUP");
 				tt::serial::printf(STRLN("\"%c\" -> \"%s\""), COMMAND_LEFT, "LEFT");
 				tt::serial::printf(STRLN("\"%c\" -> \"%s\""), COMMAND_RIGHT, "RIGHT");
@@ -323,6 +328,8 @@ namespace tt::kernel_auto
 				break;
 			}
 		}
+
+		tt::serial::erase();
 	}
 
 	void setup_luta()
@@ -349,6 +356,7 @@ namespace tt::kernel_auto
 					vTaskDelay(48);
 				}
 				break;
+
 			case tt::infrared_t::begin:
 				if (ready)
 				{
@@ -362,6 +370,7 @@ namespace tt::kernel_auto
 					vTaskDelay(96);
 				}
 				break;
+
 			case tt::infrared_t::end:
 				for (int i = 0; i < 2; i++)
 				{
@@ -371,6 +380,7 @@ namespace tt::kernel_auto
 					vTaskDelay(144);
 				}
 				break;
+
 			case tt::infrared_t::none:
 				break;
 			}
@@ -398,7 +408,9 @@ namespace tt::kernel_auto
 			}
 		}
 
+		estrategia = ESTRATEGIA_EXIT;
 		tt::internal::set_led(true);
+		tt::engine::set_standby(true);
 		tt::engine::stop();
 		tt::serial::end();
 		ESP.restart();
@@ -436,7 +448,7 @@ namespace tt::kernel_auto
 		vTaskDelay(24);
 
 		tt::engine::move(TT_ENGINE_FRONT(255), TT_ENGINE_FRONT(255));
-		vTaskDelay(48);
+		vTaskDelay(56);
 	}
 
 	void inicio_frentinha()
@@ -469,93 +481,100 @@ namespace tt::kernel_auto
 		vTaskDelay(12);
 
 		tt::engine::move(TT_ENGINE_FRONT(255), TT_ENGINE_FRONT(255));
-		vTaskDelay(48);
+		vTaskDelay(56);
 	}
 
 	void inicio_curvao()
 	{
-		if (direction_init == direction_t::right)
+		switch (direction_init)
 		{
-			direction_update = direction_t::left;
-			tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_BACK_FULL);
-			vTaskDelay(70);
-			tt::engine::move(TT_ENGINE_FRONT_SHIFT(2), TT_ENGINE_FRONT_FULL);
-			vTaskDelay(392);
-			tt::engine::move(TT_ENGINE_BACK_FULL, TT_ENGINE_FRONT_FULL);
-			vTaskDelay(70);
-		}
-		else
-		{
+		case direction_t::left:
 			direction_update = direction_t::right;
 			tt::engine::move(TT_ENGINE_BACK_FULL, TT_ENGINE_FRONT_FULL);
-			vTaskDelay(70);
+			vTaskDelay(72);
 			tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_FRONT_SHIFT(2));
-			vTaskDelay(392);
+			vTaskDelay(490);
 			tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_BACK_FULL);
-			vTaskDelay(70);
+			vTaskDelay(72);
+			break;
+
+		case direction_t::right:
+			direction_update = direction_t::left;
+			tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_BACK_FULL);
+			vTaskDelay(72);
+			tt::engine::move(TT_ENGINE_FRONT_SHIFT(2), TT_ENGINE_FRONT_FULL);
+			vTaskDelay(490);
+			tt::engine::move(TT_ENGINE_BACK_FULL, TT_ENGINE_FRONT_FULL);
+			vTaskDelay(72);
+			break;
 		}
 	}
 
 	void inicio_curvinha()
 	{
-		if (direction_init == direction_t::right)
+		switch (direction_init)
 		{
-			direction_update = direction_t::left;
-			tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_BACK_FULL);
-			vTaskDelay(70);
-			tt::engine::move(TT_ENGINE_FRONT_SHIFT(2), TT_ENGINE_FRONT_FULL);
-			vTaskDelay(196);
-			tt::engine::move(TT_ENGINE_BACK_FULL, TT_ENGINE_FRONT_FULL);
-			vTaskDelay(70);
-		}
-		else
-		{
+		case direction_t::left:
 			direction_update = direction_t::right;
 			tt::engine::move(TT_ENGINE_BACK_FULL, TT_ENGINE_FRONT_FULL);
-			vTaskDelay(70);
+			vTaskDelay(72);
 			tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_FRONT_SHIFT(2));
-			vTaskDelay(196);
+			vTaskDelay(294);
 			tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_BACK_FULL);
-			vTaskDelay(70);
+			vTaskDelay(72);
+			break;
+
+		case direction_t::right:
+			direction_update = direction_t::left;
+			tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_BACK_FULL);
+			vTaskDelay(72);
+			tt::engine::move(TT_ENGINE_FRONT_SHIFT(2), TT_ENGINE_FRONT_FULL);
+			vTaskDelay(294);
+			tt::engine::move(TT_ENGINE_BACK_FULL, TT_ENGINE_FRONT_FULL);
+			vTaskDelay(72);
+			break;
 		}
 	}
 
 	void inicio_ladinho()
 	{
-		if (direction_init == direction_t::right)
+		switch (direction_init)
 		{
-			direction_update = direction_t::left;
-			tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_BACK_FULL);
-			vTaskDelay(70);
-			tt::engine::move(TT_ENGINE_FRONT_SHIFT(3), TT_ENGINE_FRONT_FULL);
-			vTaskDelay(196);
-			tt::engine::move(TT_ENGINE_BACK_FULL, TT_ENGINE_FRONT_FULL);
-			vTaskDelay(70);
-		}
-		else
-		{
+		case direction_t::left:
 			direction_update = direction_t::right;
 			tt::engine::move(TT_ENGINE_BACK_FULL, TT_ENGINE_FRONT_FULL);
-			vTaskDelay(70);
+			vTaskDelay(72);
 			tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_FRONT_SHIFT(3));
 			vTaskDelay(196);
 			tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_BACK_FULL);
-			vTaskDelay(70);
+			vTaskDelay(72);
+			break;
+
+		case direction_t::right:
+			direction_update = direction_t::left;
+			tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_BACK_FULL);
+			vTaskDelay(72);
+			tt::engine::move(TT_ENGINE_FRONT_SHIFT(3), TT_ENGINE_FRONT_FULL);
+			vTaskDelay(196);
+			tt::engine::move(TT_ENGINE_BACK_FULL, TT_ENGINE_FRONT_FULL);
+			vTaskDelay(72);
+			break;
 		}
 	}
 
 	void inicio_costas()
 	{
-		if (direction_init == direction_t::right)
+		switch (direction_init)
 		{
-			tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_BACK_FULL);
-			vTaskDelay(104);
-		}
-		else
-		{
+		case direction_t::left:
 			tt::engine::move(TT_ENGINE_BACK_FULL, TT_ENGINE_FRONT_FULL);
-			vTaskDelay(104);
+			break;
+
+		case direction_t::right:
+			tt::engine::move(TT_ENGINE_FRONT_FULL, TT_ENGINE_BACK_FULL);
+			break;
 		}
+		vTaskDelay(104);
 	}
 
 	void inicio_defesa(int trigger, const int quota)
@@ -631,7 +650,7 @@ namespace tt::kernel_auto
 #pragma endregion "Start Strategies Functions"
 
 #pragma region "Loop Strategies Functions"
-	void procura_padrao(uint8_t velocidade_giro)
+	void procura_padrao(const uint8_t velocidade_giro)
 	{
 		if (sensor.front)
 		{

@@ -25,8 +25,8 @@ namespace tt
 		sensor_t create_snapshot();
 		sensor_mode_t get_mode();
 		void set_mode(sensor_mode_t mode);
-		void debug(char *out_buffer, const size_t out_size, sensor_t sensor, const char *msg);
-		void debug(sensor_t sensor, const char *msg);
+		void debug(char *out_buffer, const size_t out_size, const sensor_t sensor, const char *msg);
+		void debug(const sensor_t sensor, const char *msg);
 	}
 
 	typedef sensor::sensor_t sensor_t;
