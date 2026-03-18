@@ -1,4 +1,12 @@
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wall"
+#pragma GCC diagnostic ignored "-Wextra"
+#pragma GCC diagnostic ignored "-Wvla"
+#pragma GCC diagnostic ignored "-Wshadow"
+#pragma GCC diagnostic ignored "-Werror"
+#pragma GCC diagnostic ignored "-Wcpp"
 #include <Arduino.h>
+#pragma GCC diagnostic pop
 #include <engine.hpp>
 #include <infrared.hpp>
 #include <internal.hpp>
@@ -10,7 +18,7 @@
 namespace tt::kernel_db
 {
 #pragma region "Signatures"
-	void debug_engine(const tt::engine_t engine_left, const tt::engine_t engine_right, const int timer);
+	void debug_engine(const tt::engine_t left, const tt::engine_t right, const int duration_ms);
 	void debug_infrared();
 	void test_sensor();
 	void test_engine();
@@ -40,7 +48,7 @@ namespace tt::kernel_db
 #pragma region "Debug Data"
 	tt::engine_t engine_left = TT_ENGINE_FRONT(32);
 	tt::engine_t engine_right = TT_ENGINE_FRONT(32);
-	int timer = 1 << 10;
+	int timer_ms = 1 << 10;
 #pragma endregion "Debug Data"
 
 #pragma region "Sensor Data"
@@ -91,8 +99,8 @@ namespace tt::kernel_db
 			setup_data("Motor Esquerdo Velocidade", engine_left.speed);
 			setup_data("Motor Direito Direção", engine_right.sense);
 			setup_data("Motor Direito Velocidade", engine_right.speed);
-			setup_data("Tempo de Duração em Milissegundos", timer);
-			debug_engine(engine_left, engine_right, timer);
+			setup_data("Tempo de Duração em Milissegundos", timer_ms);
+			debug_engine(engine_left, engine_right, timer_ms);
 			tt::serial::printf(STRLN("End Debug Engine!"));
 			break;
 		case DEBUG_INFRARED:
@@ -278,11 +286,11 @@ namespace tt::kernel_db
 #pragma endregion "Tesk Functions"
 
 #pragma region "Debug Functions"
-	void debug_engine(const tt::engine_t engine_left, const tt::engine_t engine_right, const int timer)
+	void debug_engine(const tt::engine_t left, const tt::engine_t right, const int duration_ms)
 	{
 		tt::engine::brake();
-		tt::engine::move(engine_left, engine_right);
-		vTaskDelay(timer);
+		tt::engine::move(left, right);
+		vTaskDelay(duration_ms);
 		tt::engine::brake();
 	}
 
