@@ -74,7 +74,7 @@
  2. `System`
 
 ## Documentation
- Arquivos ORG que documentam o __Projeto Arruela__
+ Arquivos ORG que documentam o **Projeto Arruela**
 
 ## System
- É o projeto unificado __PlatformIO__ do __Arruela__
+ É o projeto unificado **PlatformIO** do **Arruela**

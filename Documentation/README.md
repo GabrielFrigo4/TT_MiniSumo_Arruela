@@ -70,33 +70,37 @@
  ```
 
 # O que é?
- Nessa pasta estão todos os arquivos `.org` (org de organização, é uma extensão do [Emacs][emacs], [Emacs Org Mode][emacs-org-mode])
+ Nessa pasta estão todos os arquivos de documentação do projeto, estruturados em Markdown (`.md`).
 
 # Arquivos
- 1. `DOC.org`
- 2. `STD.org`
- 3. `PHY.org`
- 4. `TODO.org`
- 5. `ERR.org`
- 6. `OK.org`
+ 1. [`DOC.md`][doc]
+ 2. [`STD.md`][std]
+ 3. [`PHY.md`][phy]
+ 4. [`TODO.md`][todo]
+ 5. [`ERR.md`][err]
+ 6. [`OK.md`][ok]
 
-## DOCUMENTATION (DOC.org)
- __Documentações__ do __Projeto Arruela__
+## DOCUMENTATION ([DOC.md][doc])
+ **Documentações** do **Projeto Arruela**
 
-## STANDARD (STD.org)
- __Padrões__ do __Projeto Arruela__
+## STANDARD ([STD.md][std])
+ **Padrões** do **Projeto Arruela**
 
-## PHILOSOPHY (PHY.org)
- __Filosofias__ do __Projeto Arruela__
+## PHILOSOPHY ([PHY.md][phy])
+ **Filosofias** do **Projeto Arruela**
 
-## TODO LIST (TODO.org)
- __Listas TODO__ do __Projeto Arruela__
+## TODO LIST ([TODO.md][todo])
+ **Listas de Tarefas (TODO)** do **Projeto Arruela**
 
-## ERROR LIST (ERR.org)
- __Listas de Erros__ do __Projeto Arruela__
+## ERROR LIST ([ERR.md][err])
+ **Listas de Erros** do **Projeto Arruela**
 
-## OK LIST (OK.org)
- __Listas de Soluções__ do __Projeto Arruela__
+## OK LIST ([OK.md][ok])
+ **Listas de Soluções** do **Projeto Arruela**
 
-[emacs]: https://www.gnu.org/software/emacs/
-[emacs-org-mode]: https://orgmode.
+[doc]: ./1%29%20DOCS.md
+[std]: ./2%29%20STD.md
+[phy]: ./3%29%20PHY.md
+[todo]: ./4%29%20TODO.md
+[err]: ./5%29%20ERR.md
+[ok]: ./6%29%20OK.md

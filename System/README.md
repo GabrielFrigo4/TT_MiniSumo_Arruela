@@ -186,7 +186,7 @@
  ```
 
 # Configuração de Ambiente
- Para o __Arruela__ __v1.0__ usamos apenas o __PlatformIO__ com o __VS CODE__, migramos o __Controlado (RC)__ do __Arduino IDE__ para o __PlatformIO__ na verção __v1.0__
+ Para o **Arruela** **v1.0** usamos apenas o **PlatformIO** com o **VS CODE**, migramos o **Controlado (RC)** do **Arduino IDE** para o **PlatformIO** na verção **v1.0**
 
 ## PowerShell
  1. Site do [PowerShell](https://github.com/PowerShell/PowerShell)

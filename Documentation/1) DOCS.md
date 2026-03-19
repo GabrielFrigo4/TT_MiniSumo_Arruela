@@ -1,0 +1,42 @@
+# Arruela Documentation
+ Este arquivo contém a documentação de todos os componentes do projeto **Arruela**.
+
+## Arruela Libraries
+ As **Bibliotecas** são componentes individuais, independentes e reutilizáveis.
+ A criação desses componentes busca facilitar a manutenção e melhorar a legibilidade do código.
+
+### Tabela de Bibilhotecas
+ | lib | desc |
+ |---|---|
+ | dualshock4 | controle de PS4 / DS4 |
+ | engine | motores de tração |
+ | infrared | sensor de infravermelho |
+ | internal | led, timers... |
+ | sensor | sensores de distância |
+ | serial | serial bluetooth |
+ | ultilitie | swap, string... |
+
+## Arruela Systems
+ Os **Sistemas** são módulos independentes que definem o comportamento do **Arruela**
+
+### Bootloader
+ O **Bootloeader** é o primeiro módulo à ser executado no **Arruela**.
+ Tendo como função executar o próximo módulo no **Arruela**, sendo esses módulos chamados de **Kernels**.
+
+### Kernel
+ Um **Kernel** é um módulo que define o comportamento base do **Arruela**.
+ A criação desses módulos busca facilitar a divisão de atividades que o **Arruela** pode atuar.
+
+## Arruela Autônomo (AUTO)
+ O **Arruela Autônomo** é um **Kernel** **Autônomo Release**.
+ Ou seja, ele usa os sensores para buscar o oponente.
+
+## Arruela Controlado (RC)
+ O **Arruela Controlado** é um **Kernel** **Dependente Release**. Ou seja, ele é dependende de um controle RC.
+
+## Arruela Depurador (DB)
+ O **Arruela Depurador** é um **Kernel** **Debug**. Ou seja, ele executa testes provenientes do **Serial Bluetooth**.
+
+## Arruela Almagama (Bootloader + Kernels)
+ O **Arruela Almagama** é a junção do **Bootloader** e dos **Kernels** em um único projeto **Arruela**.
+ Ou seja, só vai precisar compilar uma vez e o **Arruela** poderá executar qualquer um dos **Kernels**.
