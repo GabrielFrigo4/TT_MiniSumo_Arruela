@@ -23,6 +23,8 @@
 		"flags": [
 			"-Wall",
 			"-Wextra",
+			"-Wvla",
+			"-Wshadow",
 			"-Werror",
 			"-Wno-cpp"
 		]
