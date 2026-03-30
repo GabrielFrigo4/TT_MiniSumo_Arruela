@@ -18,6 +18,10 @@ monitor:
 erase:
 	platformio run --target erase
 
+.PHONY: clangd
+clangd:
+	platformio run --target compiledb
+
 .PHONY: erase-py
 erase-py:
 	python -m esptool --chip esp32 erase-flash
@@ -32,4 +36,4 @@ mac-py:
 
 .PHONY: help
 help:
-	@echo "options: [ build | upload | clean | monitor | erase | erase-py | info-py | mac-py | help ]"
+	@echo "options: [ build | upload | clean | monitor | erase | clangd | erase-py | info-py | mac-py | help ]"

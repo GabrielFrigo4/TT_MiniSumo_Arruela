@@ -7,9 +7,9 @@
 #pragma GCC diagnostic ignored "-Wcpp"
 #include <Arduino.h>
 #pragma GCC diagnostic pop
-#include "sensor.hpp"
 #include "engine.hpp"
 #include "internal.hpp"
+#include "sensor.hpp"
 
 #pragma region "Size Data Defines"
 #ifndef BUFFER_SIZE
@@ -43,113 +43,118 @@
 
 namespace tt::sensor
 {
-	sensor_mode_t sensor_mode = sensor_mode_t::none;
+sensor_mode_t sensor_mode = sensor_mode_t::none;
 
-	static const char *mode_to_string(sensor_mode_t mode)
+static const char *mode_to_string(sensor_mode_t mode)
+{
+	static const char *const mode_strings[] = {
+	    "sender",
+	    "receiver",
+	    "none",
+	};
+
+	if (mode <= sensor_mode_t::none)
 	{
-		static const char *const mode_strings[] = {
-			"sender",
-			"receiver",
-			"none",
-		};
-
-		if (mode <= sensor_mode_t::none)
-		{
-			return mode_strings[mode];
-		}
-
-		return "unknown";
+		return mode_strings[mode];
 	}
 
-	void setup()
-	{
-		/*
-		pinMode(SENSOR_TRANSISTOR, OUTPUT);
-		pinMode(SENSOR_LEFT, INPUT);
-		pinMode(SENSOR_FRONT, INPUT);
-		pinMode(SENSOR_RIGHT, INPUT);
-		pinMode(RECEIVER_LEFT, INPUT);
-		pinMode(RECEIVER_FRONT, INPUT);
-		pinMode(RECEIVER_RIGHT, INPUT);
-		*/
-
-		pinMode(SENSOR_LEFT, INPUT);
-		pinMode(SENSOR_FRONT, INPUT);
-		pinMode(SENSOR_RIGHT, INPUT);
-	}
-
-	void init()
-	{
-		set_mode(sensor_mode_t::sender);
-	}
-
-	sensor_t create_snapshot()
-	{
-		sensor_t sensor;
-		sensor.mode = sensor_mode;
-		switch (sensor_mode)
-		{
-		case sensor_mode_t::sender:
-			sensor.left = digitalRead(SENSOR_LEFT);
-			sensor.front = digitalRead(SENSOR_FRONT);
-			sensor.right = digitalRead(SENSOR_RIGHT);
-			break;
-
-		case sensor_mode_t::receiver:
-			/*
-			sensor.left = !digitalRead(RECEIVER_LEFT);
-			sensor.front = !digitalRead(RECEIVER_FRONT);
-			sensor.right = !digitalRead(RECEIVER_RIGHT);
-			*/
-			sensor.left = digitalRead(SENSOR_LEFT);
-			sensor.front = digitalRead(SENSOR_FRONT);
-			sensor.right = digitalRead(SENSOR_RIGHT);
-			break;
-
-		case sensor_mode_t::none:
-			break;
-		}
-		return sensor;
-	}
-
-	sensor_mode_t get_mode()
-	{
-		return sensor_mode;
-	}
-
-	void set_mode(sensor_mode_t mode)
-	{
-		/*
-		switch (mode)
-		{
-		case sensor_mode_t::sender:
-			digitalWrite(SENSOR_TRANSISTOR, HIGH);
-			break;
-
-		case sensor_mode_t::receiver:
-			digitalWrite(SENSOR_TRANSISTOR, LOW);
-			break;
-
-		case sensor_mode_t::none:
-			break;
-		}
-		*/
-		sensor_mode = mode;
-	}
-
-	void debug(char *out_buffer, const size_t out_size, const sensor_t sensor, const char *msg)
-	{
-		snprintf(
-			out_buffer, out_size - 1,
-			"\"%s\" = { left:%i; front:%i; right:%i; mode:\"%s\" }\n",
-			msg, sensor.left, sensor.front, sensor.right,
-			mode_to_string(sensor.mode));
-	}
-
-	void debug(const sensor_t sensor, const char *msg)
-	{
-		char buffer[BUFFER_SIZE];
-		debug(buffer, BUFFER_SIZE, sensor, msg);
-		Serial.print(buffer);
-	}
+	return "unknown";
 }
+
+void setup()
+{
+	/*
+	pinMode(SENSOR_TRANSISTOR, OUTPUT);
+	pinMode(SENSOR_LEFT, INPUT);
+	pinMode(SENSOR_FRONT, INPUT);
+	pinMode(SENSOR_RIGHT, INPUT);
+	pinMode(RECEIVER_LEFT, INPUT);
+	pinMode(RECEIVER_FRONT, INPUT);
+	pinMode(RECEIVER_RIGHT, INPUT);
+	*/
+
+	pinMode(SENSOR_LEFT, INPUT);
+	pinMode(SENSOR_FRONT, INPUT);
+	pinMode(SENSOR_RIGHT, INPUT);
+}
+
+void init()
+{
+	set_mode(sensor_mode_t::sender);
+}
+
+sensor_t create_snapshot()
+{
+	sensor_t sensor;
+	sensor.mode = sensor_mode;
+	switch (sensor_mode)
+	{
+	case sensor_mode_t::sender:
+		sensor.left = digitalRead(SENSOR_LEFT);
+		sensor.front = digitalRead(SENSOR_FRONT);
+		sensor.right = digitalRead(SENSOR_RIGHT);
+		break;
+
+	case sensor_mode_t::receiver:
+		/*
+		sensor.left = !digitalRead(RECEIVER_LEFT);
+		sensor.front = !digitalRead(RECEIVER_FRONT);
+		sensor.right = !digitalRead(RECEIVER_RIGHT);
+		*/
+		sensor.left = digitalRead(SENSOR_LEFT);
+		sensor.front = digitalRead(SENSOR_FRONT);
+		sensor.right = digitalRead(SENSOR_RIGHT);
+		break;
+
+	case sensor_mode_t::none:
+		break;
+	}
+	return sensor;
+}
+
+sensor_mode_t get_mode()
+{
+	return sensor_mode;
+}
+
+void set_mode(sensor_mode_t mode)
+{
+	/*
+	switch (mode)
+	{
+	case sensor_mode_t::sender:
+	    digitalWrite(SENSOR_TRANSISTOR, HIGH);
+	    break;
+
+	case sensor_mode_t::receiver:
+	    digitalWrite(SENSOR_TRANSISTOR, LOW);
+	    break;
+
+	case sensor_mode_t::none:
+	    break;
+	}
+	*/
+	sensor_mode = mode;
+}
+
+void debug(char *out_buffer, const size_t out_size, const sensor_t sensor, const char *msg)
+{
+	snprintf(
+	    out_buffer,
+	    out_size - 1,
+	    "\"%s\" = { left:%i; front:%i; right:%i; mode:\"%s\" }\n",
+	    msg,
+	    sensor.left,
+	    sensor.front,
+	    sensor.right,
+	    mode_to_string(sensor.mode)
+	);
+}
+
+void debug(const sensor_t sensor, const char *msg)
+{
+	char buffer[BUFFER_SIZE];
+	debug(buffer, BUFFER_SIZE, sensor, msg);
+	Serial.print(buffer);
+}
+} // namespace tt::sensor

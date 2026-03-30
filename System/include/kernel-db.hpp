@@ -1,5 +1,5 @@
-#include <cstdint>
 #include <cstddef>
+#include <cstdint>
 
 #pragma region "Main Data Defines"
 #ifndef ROBO_NAME
@@ -21,10 +21,9 @@
 #define CHARACTER_IS_NUMBER(x) (x >= '0' && x <= '9')
 #endif
 #ifndef CHARACTER_IS_SYMBOL
-#define CHARACTER_IS_SYMBOL(x) (x >= '!' && x <= '~' &&        \
-								!CHARACTER_IS_LOWER_CASE(x) && \
-								!CHARACTER_IS_UPPER_CASE(x) && \
-								!CHARACTER_IS_NUMBER(x))
+#define CHARACTER_IS_SYMBOL(x)                                                                 \
+	(x >= '!' && x <= '~' && !CHARACTER_IS_LOWER_CASE(x) && !CHARACTER_IS_UPPER_CASE(x) &&     \
+	 !CHARACTER_IS_NUMBER(x))
 #endif
 #ifndef STRLN
 #define STRLN(x) x "\n"
@@ -79,8 +78,8 @@
 namespace tt::kernel_db
 {
 #pragma region "Main Signatures"
-	void setup();
-	void init();
-	void update();
+void setup();
+void init();
+void update();
 #pragma endregion "Main Signatures"
-}
+} // namespace tt::kernel_db

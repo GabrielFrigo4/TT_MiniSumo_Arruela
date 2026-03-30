@@ -1,5 +1,5 @@
-#include <cstdint>
 #include <cstddef>
+#include <cstdint>
 
 #pragma region "Main Data Defines"
 #ifndef ROBO_NAME
@@ -46,12 +46,12 @@
 namespace tt::boot
 {
 #pragma region "Main Signatures"
-	void setup(char start_mode = '\0');
-	void init(char start_mode = '\0');
-	void dispose(char start_mode = '\0');
+void setup(char start_mode = '\0');
+void init(char start_mode = '\0');
+void dispose(char start_mode = '\0');
 #pragma endregion "Main Signatures"
 
 #pragma region "Boot Signatures"
-	uint8_t get_boot();
+uint8_t get_boot();
 #pragma endregion "Boot Signatures"
-}
+} // namespace tt::boot

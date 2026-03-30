@@ -1,5 +1,5 @@
-#include <cstdint>
 #include <cstddef>
+#include <cstdint>
 
 #pragma region "Engine Direction Macros"
 #define TT_ENGINE_SENSE_DEFAULT 0
@@ -29,34 +29,34 @@
 
 namespace tt
 {
-	namespace engine
+namespace engine
+{
+struct engine_t
+{
+	uint8_t sense;
+	uint8_t speed;
+
+	bool operator==(const engine_t &engine) const
 	{
-		struct engine_t
-		{
-			uint8_t sense;
-			uint8_t speed;
-
-			bool operator==(const engine_t &engine) const
-			{
-				return (sense == engine.sense && speed == engine.speed);
-			}
-			bool operator!=(const engine_t &engine) const
-			{
-				return (sense != engine.sense || speed != engine.speed);
-			}
-		};
-
-		bool get_standby();
-		void set_standby(const bool mode);
-		void setup();
-		void init();
-		void move(const engine_t engine_left, const engine_t engine_right);
-		void stop(const uint8_t force);
-		void brake();
-		void loose();
-		void debug(char *out_buffer, const size_t out_size, const engine_t engine, const char *msg);
-		void debug(const engine_t engine, const char *msg);
+		return (sense == engine.sense && speed == engine.speed);
 	}
+	bool operator!=(const engine_t &engine) const
+	{
+		return (sense != engine.sense || speed != engine.speed);
+	}
+};
 
-	typedef engine::engine_t engine_t;
-}
+bool get_standby();
+void set_standby(const bool mode);
+void setup();
+void init();
+void move(const engine_t engine_left, const engine_t engine_right);
+void stop(const uint8_t force);
+void brake();
+void loose();
+void debug(char *out_buffer, const size_t out_size, const engine_t engine, const char *msg);
+void debug(const engine_t engine, const char *msg);
+} // namespace engine
+
+typedef engine::engine_t engine_t;
+} // namespace tt

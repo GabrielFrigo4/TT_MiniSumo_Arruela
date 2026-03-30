@@ -9,8 +9,8 @@
 #pragma GCC diagnostic pop
 #include "boot.hpp"
 #include "kernel-auto.hpp"
-#include "kernel-rc.hpp"
 #include "kernel-db.hpp"
+#include "kernel-rc.hpp"
 #include "main.hpp"
 
 #pragma region "State Data"

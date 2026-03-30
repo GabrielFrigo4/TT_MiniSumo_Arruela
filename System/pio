@@ -15,6 +15,8 @@ elif [ "$1" = "monitor" ]; then
 	~/.platformio/penv/bin/platformio device monitor
 elif [ "$1" = "erase" ]; then
 	~/.platformio/penv/bin/platformio run --target erase
+elif [ "$1" = "clangd" ]; then
+	~/.platformio/penv/bin/platformio run --target compiledb
 elif [ "$1" = "erase-py" ]; then
 	python -m esptool --chip esp32 erase-flash
 elif [ "$1" = "info-py" ]; then
@@ -22,9 +24,9 @@ elif [ "$1" = "info-py" ]; then
 elif [ "$1" = "mac-py" ]; then
 	python -m esptool --chip esp32 read-mac
 elif [ "$1" = "help" ]; then
-	echo "options: [ build | upload | clean | monitor | erase | erase-py | info-py | mac-py | help ]"
+	echo "options: [ build | upload | clean | monitor | erase | clangd | erase-py | info-py | mac-py | help ]"
 	exit 0
 else
-	echo "options: [ build | upload | clean | monitor | erase | erase-py | info-py | mac-py | help ]"
+	echo "options: [ build | upload | clean | monitor | erase | clangd | erase-py | info-py | mac-py | help ]"
 	exit 1
 fi

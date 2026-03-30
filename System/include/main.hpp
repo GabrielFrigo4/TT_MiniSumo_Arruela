@@ -1,5 +1,5 @@
-#include <cstdint>
 #include <cstddef>
+#include <cstdint>
 
 #pragma region "Main Data Defines"
 #ifndef ROBO_NAME

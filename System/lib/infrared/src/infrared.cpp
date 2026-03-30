@@ -28,96 +28,100 @@
 
 namespace tt::infrared
 {
-	void setup()
+void setup()
+{
+	IrReceiver.begin(IR_TRIGGER, ENABLE_LED_FEEDBACK, USE_DEFAULT_FEEDBACK_LED_PIN);
+	printActiveIRProtocols(&Serial);
+}
+
+bool decode()
+{
+	return IrReceiver.decode();
+}
+
+void resume()
+{
+	IrReceiver.resume();
+}
+
+uint16_t command()
+{
+	return IrReceiver.decodedIRData.command;
+}
+
+bool update()
+{
+	if (decode())
 	{
-		IrReceiver.begin(IR_TRIGGER, ENABLE_LED_FEEDBACK, USE_DEFAULT_FEEDBACK_LED_PIN);
-		printActiveIRProtocols(&Serial);
+		resume();
+		return true;
 	}
+	return false;
+}
 
-	bool decode()
+infrared_t receiver()
+{
+	switch (command())
 	{
-		return IrReceiver.decode();
-	}
+	case static_cast<uint16_t>(infrared_t::test):
+		return infrared_t::test;
+		break;
 
-	void resume()
-	{
-		IrReceiver.resume();
-	}
+	case static_cast<uint16_t>(infrared_t::begin):
+		return infrared_t::begin;
+		break;
 
-	uint16_t command()
-	{
-		return IrReceiver.decodedIRData.command;
-	}
+	case static_cast<uint16_t>(infrared_t::end):
+		return infrared_t::end;
+		break;
 
-	bool update()
-	{
-		if (decode())
-		{
-			resume();
-			return true;
-		}
-		return false;
-	}
-
-	infrared_t receiver()
-	{
-		switch (command())
-		{
-		case static_cast<uint16_t>(infrared_t::test):
-			return infrared_t::test;
-			break;
-
-		case static_cast<uint16_t>(infrared_t::begin):
-			return infrared_t::begin;
-			break;
-
-		case static_cast<uint16_t>(infrared_t::end):
-			return infrared_t::end;
-			break;
-
-		default:
-			return infrared_t::none;
-			break;
-		}
-	}
-
-	bool signal(infrared_t sig)
-	{
-		update();
-		return receiver() == sig;
-	}
-
-	void debug(char *out_buffer, const size_t out_size, const infrared_t infrared, const char *msg)
-	{
-		char *rec;
-		switch (infrared)
-		{
-		case infrared_t::test:
-			rec = const_cast<char *>("test");
-			break;
-
-		case infrared_t::begin:
-			rec = const_cast<char *>("begin");
-			break;
-
-		case infrared_t::end:
-			rec = const_cast<char *>("end");
-			break;
-
-		default:
-			rec = const_cast<char *>("none");
-			break;
-		}
-		snprintf(
-			out_buffer, out_size - 1,
-			"\"%s\" = { command:%i; infrared:\"%s\" }\n",
-			msg, static_cast<uint16_t>(infrared), rec);
-	}
-
-	void debug(const infrared_t infrared, const char *msg)
-	{
-		char buffer[BUFFER_SIZE];
-		debug(buffer, BUFFER_SIZE, infrared, msg);
-		Serial.print(buffer);
+	default:
+		return infrared_t::none;
+		break;
 	}
 }
+
+bool signal(infrared_t sig)
+{
+	update();
+	return receiver() == sig;
+}
+
+void debug(char *out_buffer, const size_t out_size, const infrared_t infrared, const char *msg)
+{
+	char *rec;
+	switch (infrared)
+	{
+	case infrared_t::test:
+		rec = const_cast<char *>("test");
+		break;
+
+	case infrared_t::begin:
+		rec = const_cast<char *>("begin");
+		break;
+
+	case infrared_t::end:
+		rec = const_cast<char *>("end");
+		break;
+
+	default:
+		rec = const_cast<char *>("none");
+		break;
+	}
+	snprintf(
+	    out_buffer,
+	    out_size - 1,
+	    "\"%s\" = { command:%i; infrared:\"%s\" }\n",
+	    msg,
+	    static_cast<uint16_t>(infrared),
+	    rec
+	);
+}
+
+void debug(const infrared_t infrared, const char *msg)
+{
+	char buffer[BUFFER_SIZE];
+	debug(buffer, BUFFER_SIZE, infrared, msg);
+	Serial.print(buffer);
+}
+} // namespace tt::infrared

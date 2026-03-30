@@ -1,5 +1,5 @@
-#include <cstdint>
 #include <cstddef>
+#include <cstdint>
 
 #pragma region "Main Data Defines"
 #ifndef ROBO_NAME
@@ -118,8 +118,8 @@
 namespace tt::kernel_auto
 {
 #pragma region "Main Signatures"
-	void setup();
-	void init();
-	void update();
+void setup();
+void init();
+void update();
 #pragma endregion "Main Signatures"
-}
+} // namespace tt::kernel_auto

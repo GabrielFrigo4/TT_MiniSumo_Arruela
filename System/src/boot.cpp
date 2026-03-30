@@ -7,124 +7,124 @@
 #pragma GCC diagnostic ignored "-Wcpp"
 #include <Arduino.h>
 #pragma GCC diagnostic pop
-#include <serial.hpp>
 #include "boot.hpp"
+#include <serial.hpp>
 
 namespace tt::boot
 {
 #pragma region "Option Data"
-	char boot_option = '\0';
+char boot_option = '\0';
 #pragma region "Option Data"
 
 #pragma region "Main Functions"
-	void setup(char start_mode)
+void setup(char start_mode)
+{
+	Serial.begin(115200);
+	Serial.printf(STRLN("Serial 115200!"));
+
+	switch (start_mode)
 	{
-		Serial.begin(115200);
-		Serial.printf(STRLN("Serial 115200!"));
+	case BOOT_OPTION_RC:
+		break;
 
-		switch (start_mode)
-		{
-		case BOOT_OPTION_RC:
-			break;
+	default:
+		tt::serial::setup(ROBO_NAME);
+		break;
+	}
+	Serial.printf(STRLN("Setup Serial!"));
+}
 
-		default:
-			tt::serial::setup(ROBO_NAME);
-			break;
-		}
-		Serial.printf(STRLN("Setup Serial!"));
+void init(char start_mode)
+{
+	if (BOOT_OPTION_VALID(start_mode))
+	{
+		boot_option = start_mode;
+		return;
 	}
 
-	void init(char start_mode)
+	while (!tt::serial::enabled())
 	{
-		if (BOOT_OPTION_VALID(start_mode))
-		{
-			boot_option = start_mode;
-			return;
-		}
+		vTaskDelay(1);
+	}
+	tt::serial::printf(STRLN("[BOOT START]"));
+	tt::serial::printf(STRLN("[BOOT OPTIONS]"));
+	tt::serial::printf(STRLN("[1] Autônomo (AUTO)"));
+	tt::serial::printf(STRLN("[2] Controlado (RC)"));
+	tt::serial::printf(STRLN("[3] Depurador (DB)"));
 
-		while (!tt::serial::enabled())
+	while (!BOOT_OPTION_VALID(boot_option))
+	{
+		vTaskDelay(1);
+		if (tt::serial::available())
 		{
-			vTaskDelay(1);
-		}
-		tt::serial::printf(STRLN("[BOOT START]"));
-		tt::serial::printf(STRLN("[BOOT OPTIONS]"));
-		tt::serial::printf(STRLN("[1] Autônomo (AUTO)"));
-		tt::serial::printf(STRLN("[2] Controlado (RC)"));
-		tt::serial::printf(STRLN("[3] Depurador (DB)"));
-
-		while (!BOOT_OPTION_VALID(boot_option))
-		{
-			vTaskDelay(1);
-			if (tt::serial::available())
+			boot_option = tt::serial::read();
+			switch (boot_option)
 			{
-				boot_option = tt::serial::read();
-				switch (boot_option)
-				{
-				case BOOT_OPTION_AUTO:
-					tt::serial::printf(STRLN("+------+------+"));
-					tt::serial::printf(STRLN("| BOOT | AUTO |"));
-					tt::serial::printf(STRLN("+------+------+"));
-					break;
+			case BOOT_OPTION_AUTO:
+				tt::serial::printf(STRLN("+------+------+"));
+				tt::serial::printf(STRLN("| BOOT | AUTO |"));
+				tt::serial::printf(STRLN("+------+------+"));
+				break;
 
-				case BOOT_OPTION_RC:
-					tt::serial::printf(STRLN("+------+----+"));
-					tt::serial::printf(STRLN("| BOOT | RC |"));
-					tt::serial::printf(STRLN("+------+----+"));
-					break;
+			case BOOT_OPTION_RC:
+				tt::serial::printf(STRLN("+------+----+"));
+				tt::serial::printf(STRLN("| BOOT | RC |"));
+				tt::serial::printf(STRLN("+------+----+"));
+				break;
 
-				case BOOT_OPTION_DB:
-					tt::serial::printf(STRLN("+------+----+"));
-					tt::serial::printf(STRLN("| BOOT | DB |"));
-					tt::serial::printf(STRLN("+------+----+"));
-					break;
+			case BOOT_OPTION_DB:
+				tt::serial::printf(STRLN("+------+----+"));
+				tt::serial::printf(STRLN("| BOOT | DB |"));
+				tt::serial::printf(STRLN("+------+----+"));
+				break;
 
-				default:
-					tt::serial::printf(STRLN("[ERRO]: Invalid input, try again."));
-					break;
-				}
-				tt::serial::erase();
+			default:
+				tt::serial::printf(STRLN("[ERRO]: Invalid input, try again."));
+				break;
 			}
-			else
-			{
-				continue;
-			}
+			tt::serial::erase();
+		}
+		else
+		{
+			continue;
 		}
 	}
+}
 
-	void dispose(char start_mode)
+void dispose(char start_mode)
+{
+	if (BOOT_OPTION_VALID(start_mode))
 	{
-		if (BOOT_OPTION_VALID(start_mode))
-		{
-			return;
-		}
-
-		vTaskDelay(1024);
-		switch (boot_option)
-		{
-		case BOOT_OPTION_AUTO:
-			tt::serial::clear();
-			break;
-
-		case BOOT_OPTION_RC:
-			tt::serial::end();
-			vTaskDelay(512);
-			break;
-
-		case BOOT_OPTION_DB:
-			tt::serial::clear();
-			break;
-
-		default:
-			break;
-		}
-		vTaskDelay(64);
+		return;
 	}
+
+	vTaskDelay(1024);
+	switch (boot_option)
+	{
+	case BOOT_OPTION_AUTO:
+		tt::serial::clear();
+		break;
+
+	case BOOT_OPTION_RC:
+		tt::serial::end();
+		vTaskDelay(512);
+		break;
+
+	case BOOT_OPTION_DB:
+		tt::serial::clear();
+		break;
+
+	default:
+		break;
+	}
+	vTaskDelay(64);
+}
 #pragma endregion "Main Functions"
 
 #pragma region "Boot Functions"
-	uint8_t get_boot()
-	{
-		return BOOT_OPTION_TO_KERNEL_STATE(boot_option);
-	}
-#pragma endregion "Boot Functions"
+uint8_t get_boot()
+{
+	return BOOT_OPTION_TO_KERNEL_STATE(boot_option);
 }
+#pragma endregion "Boot Functions"
+} // namespace tt::boot
