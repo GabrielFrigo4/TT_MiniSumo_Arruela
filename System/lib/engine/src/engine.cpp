@@ -41,6 +41,7 @@
 #pragma endregion "Engine Pinning Macros"
 
 #pragma region "Engine Legacy Pinning Macros"
+#if !defined MODERN_ELECTRONICS
 #ifndef PWM_A
 #error "[ERROR]: PWM_A must be defined before compilation!"
 #endif
@@ -49,6 +50,7 @@
 #endif
 #ifndef STBY
 #error "[ERROR]: STBY must be defined before compilation!"
+#endif
 #endif
 #pragma endregion "Engine Legacy Pinning Macros"
 
@@ -62,26 +64,20 @@ engine_t current_engine_left = TT_ENGINE_DEFAULT;
 engine_t current_engine_right = TT_ENGINE_DEFAULT;
 bool standby_mode = true;
 
-bool get_standby()
+static void setup_modern()
 {
-	return standby_mode;
-}
-
-void set_standby(const bool mode)
-{
-	standby_mode = mode;
-	digitalWrite(STBY, static_cast<uint8_t>(!standby_mode));
-}
-
-void setup()
-{
-	/*
+#if defined MODERN_ELECTRONICS
 	pinMode(A_1, OUTPUT);
 	pinMode(A_2, OUTPUT);
 	pinMode(B_1, OUTPUT);
 	pinMode(B_2, OUTPUT);
-	*/
+	set_standby(true);
+#endif
+}
 
+static void setup_legacy()
+{
+#if !defined MODERN_ELECTRONICS
 	pinMode(PWM_A, OUTPUT);
 	pinMode(A_1, OUTPUT);
 	pinMode(A_2, OUTPUT);
@@ -90,11 +86,21 @@ void setup()
 	pinMode(B_2, OUTPUT);
 	pinMode(STBY, OUTPUT);
 	set_standby(true);
+#endif
 }
 
-void init()
+void setup()
 {
-	/*
+#if defined MODERN_ELECTRONICS
+	setup_modern();
+#else
+	setup_legacy();
+#endif
+}
+
+static void init_modern()
+{
+#if defined MODERN_ELECTRONICS
 	current_engine_left = TT_ENGINE_DEFAULT;
 	analogWrite(A_1, ANALOG_LOW);
 	analogWrite(A_2, ANALOG_LOW);
@@ -104,8 +110,12 @@ void init()
 	analogWrite(B_2, ANALOG_LOW);
 
 	delayMicroseconds(256);
-	*/
+#endif
+}
 
+static void init_legacy()
+{
+#if !defined MODERN_ELECTRONICS
 	set_standby(false);
 
 	current_engine_left = TT_ENGINE_DEFAULT;
@@ -117,11 +127,50 @@ void init()
 	digitalWrite(B_1, PIN_BOOL(current_engine_right.sense == TT_ENGINE_SENSE_BACK));
 	digitalWrite(B_2, PIN_BOOL(current_engine_right.sense == TT_ENGINE_SENSE_FRONT));
 	analogWrite(PWM_B, current_engine_right.speed);
+#endif
 }
 
-void move(const engine_t engine_left, const engine_t engine_right)
+void init()
 {
-	/*
+#if defined MODERN_ELECTRONICS
+	init_modern();
+#else
+	init_legacy();
+#endif
+}
+
+bool get_standby()
+{
+	return standby_mode;
+}
+
+static void set_standby_modern(const bool mode)
+{
+#if defined MODERN_ELECTRONICS
+	standby_mode = mode;
+#endif
+}
+
+static void set_standby_legacy(const bool mode)
+{
+#if !defined MODERN_ELECTRONICS
+	standby_mode = mode;
+	digitalWrite(STBY, static_cast<uint8_t>(!standby_mode));
+#endif
+}
+
+void set_standby(const bool mode)
+{
+#if defined MODERN_ELECTRONICS
+	set_standby_modern(mode);
+#else
+	set_standby_legacy(mode);
+#endif
+}
+
+static void move_modern(const engine_t engine_left, const engine_t engine_right)
+{
+#if defined MODERN_ELECTRONICS
 	analogWrite(A_1, ANALOG_LOW);
 	analogWrite(A_2, ANALOG_LOW);
 	analogWrite(B_1, ANALOG_LOW);
@@ -129,16 +178,18 @@ void move(const engine_t engine_left, const engine_t engine_right)
 	delayMicroseconds(256);
 
 	current_engine_left = engine_left;
-	analogWrite(A_1, current_engine_left.speed * (current_engine_left.sense ==
-	TT_ENGINE_SENSE_BACK)); analogWrite(A_2, current_engine_left.speed *
-	(current_engine_left.sense == TT_ENGINE_SENSE_FRONT));
+	analogWrite(A_1, current_engine_left.speed * (current_engine_left.sense == TT_ENGINE_SENSE_BACK));
+	analogWrite(A_2, current_engine_left.speed * (current_engine_left.sense == TT_ENGINE_SENSE_FRONT));
 
 	current_engine_right = engine_right;
-	analogWrite(B_1, current_engine_right.speed * (current_engine_right.sense ==
-	TT_ENGINE_SENSE_BACK)); analogWrite(B_2, current_engine_right.speed *
-	(current_engine_right.sense == TT_ENGINE_SENSE_FRONT));
-	*/
+	analogWrite(B_1, current_engine_right.speed * (current_engine_right.sense == TT_ENGINE_SENSE_BACK));
+	analogWrite(B_2, current_engine_right.speed * (current_engine_right.sense == TT_ENGINE_SENSE_FRONT));
+#endif
+}
 
+static void move_legacy(const engine_t engine_left, const engine_t engine_right)
+{
+#if !defined MODERN_ELECTRONICS
 	if (current_engine_left == engine_left && current_engine_right == engine_right)
 	{
 		return;
@@ -153,11 +204,21 @@ void move(const engine_t engine_left, const engine_t engine_right)
 	digitalWrite(B_1, PIN_BOOL(current_engine_right.sense == TT_ENGINE_SENSE_BACK));
 	digitalWrite(B_2, PIN_BOOL(current_engine_right.sense == TT_ENGINE_SENSE_FRONT));
 	analogWrite(PWM_B, current_engine_right.speed);
+#endif
 }
 
-void stop(const uint8_t force)
+void move(const engine_t engine_left, const engine_t engine_right)
 {
-	/*
+#if defined MODERN_ELECTRONICS
+	move_modern(engine_left, engine_right);
+#else
+	move_legacy(engine_left, engine_right);
+#endif
+}
+
+static void stop_modern(const uint8_t force)
+{
+#if defined MODERN_ELECTRONICS
 	analogWrite(A_1, ANALOG_LOW);
 	analogWrite(A_2, ANALOG_LOW);
 	analogWrite(B_1, ANALOG_LOW);
@@ -172,8 +233,12 @@ void stop(const uint8_t force)
 
 	current_engine_left = TT_ENGINE_FRONT_STOP;
 	current_engine_right = TT_ENGINE_FRONT_STOP;
-	*/
+#endif
+}
 
+static void stop_legacy(const uint8_t force)
+{
+#if !defined MODERN_ELECTRONICS
 	analogWrite(PWM_A, force);
 	analogWrite(PWM_B, force);
 
@@ -184,6 +249,16 @@ void stop(const uint8_t force)
 
 	current_engine_left = TT_ENGINE_FRONT_STOP;
 	current_engine_right = TT_ENGINE_FRONT_STOP;
+#endif
+}
+
+void stop(const uint8_t force)
+{
+#if defined MODERN_ELECTRONICS
+	stop_modern(force);
+#else
+	stop_legacy(force);
+#endif
 }
 
 void brake()

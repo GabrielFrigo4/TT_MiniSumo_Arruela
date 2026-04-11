@@ -46,10 +46,10 @@ struct engine_t
 	}
 };
 
-bool get_standby();
-void set_standby(const bool mode);
 void setup();
 void init();
+bool get_standby();
+void set_standby(const bool mode);
 void move(const engine_t engine_left, const engine_t engine_right);
 void stop(const uint8_t force);
 void brake();
