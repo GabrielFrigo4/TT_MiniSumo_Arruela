@@ -78,8 +78,13 @@ void update()
 	if (tt::dualshock4::disconnected())
 	{
 		tt::internal::set_led(false);
+		tt::engine::set_standby(true);
 		reset_engine();
 		return;
+	}
+	else if (tt::engine::get_standby())
+	{
+		tt::engine::set_standby(false);
 	}
 
 	special_diagonal();
@@ -252,7 +257,7 @@ void reset_engine()
 		break;
 
 	case RC_STATE_NORMAL:
-		tt::engine::move(engine_left, engine_right);
+		tt::engine::loose();
 		break;
 
 	default:
