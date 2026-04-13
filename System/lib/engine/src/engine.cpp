@@ -66,7 +66,7 @@ bool standby_mode = true;
 
 static void h_bridge_write(uint8_t pin, int value)
 {
-	analogWrite(pin, value * !standby_mode)
+	analogWrite(pin, value * !standby_mode);
 }
 
 static void setup_modern()
@@ -185,12 +185,20 @@ static void move_modern(const engine_t engine_left, const engine_t engine_right)
 	delayMicroseconds(256);
 
 	current_engine_left = engine_left;
-	h_bridge_write(A_1, current_engine_left.speed * (current_engine_left.sense == TT_ENGINE_SENSE_BACK));
-	h_bridge_write(A_2, current_engine_left.speed * (current_engine_left.sense == TT_ENGINE_SENSE_FRONT));
+	h_bridge_write(
+	    A_1, current_engine_left.speed * (current_engine_left.sense == TT_ENGINE_SENSE_BACK)
+	);
+	h_bridge_write(
+	    A_2, current_engine_left.speed * (current_engine_left.sense == TT_ENGINE_SENSE_FRONT)
+	);
 
 	current_engine_right = engine_right;
-	h_bridge_write(B_1, current_engine_right.speed * (current_engine_right.sense == TT_ENGINE_SENSE_BACK));
-	h_bridge_write(B_2, current_engine_right.speed * (current_engine_right.sense == TT_ENGINE_SENSE_FRONT));
+	h_bridge_write(
+	    B_1, current_engine_right.speed * (current_engine_right.sense == TT_ENGINE_SENSE_BACK)
+	);
+	h_bridge_write(
+	    B_2, current_engine_right.speed * (current_engine_right.sense == TT_ENGINE_SENSE_FRONT)
+	);
 #endif
 }
 
