@@ -70,8 +70,8 @@
  ```
 
 ## Pastas
- 1. **`Documentation`
- 2. **`System`
+ 1. [**`Documentation`**](<Documentation>)
+ 2. [**`System`**](<System>)
 
 ## Documentation
  Arquivos ORG que documentam o **Projeto Arruela**
