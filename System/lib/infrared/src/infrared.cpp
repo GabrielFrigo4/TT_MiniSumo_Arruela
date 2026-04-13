@@ -11,18 +11,18 @@
 #include "infrared.hpp"
 
 #if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)
-#error "[ERROR]: Bluetooth is not enabled! Please run `make menuconfig` to and enable it"
+#error "[ERRO]: Bluetooth is not enabled! Please run `make menuconfig` to and enable it"
 #endif
 
 #pragma region "Size Data Defines"
 #ifndef BUFFER_SIZE
-#error "[ERROR]: BUFFER_SIZE must be defined before compilation!"
+#error "[ERRO]: BUFFER_SIZE must be defined before compilation!"
 #endif
 #pragma endregion "Size Data Defines"
 
 #pragma region "Receiver Pinning Macros"
-#ifndef IR_TRIGGER
-#error "[ERROR]: IR_TRIGGER must be defined before compilation!"
+#ifndef INFRARED_TRIGGER
+#error "[ERRO]: INFRARED_TRIGGER must be defined before compilation!"
 #endif
 #pragma endregion "Receiver Pinning Macros"
 
@@ -30,7 +30,7 @@ namespace tt::infrared
 {
 void setup()
 {
-	IrReceiver.begin(IR_TRIGGER, ENABLE_LED_FEEDBACK, USE_DEFAULT_FEEDBACK_LED_PIN);
+	IrReceiver.begin(INFRARED_TRIGGER, ENABLE_LED_FEEDBACK, USE_DEFAULT_FEEDBACK_LED_PIN);
 	printActiveIRProtocols(&Serial);
 }
 

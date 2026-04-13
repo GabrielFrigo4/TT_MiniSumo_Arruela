@@ -14,10 +14,12 @@ enum sensor_mode_t : uint16_t
 
 struct sensor_t
 {
+	sensor_mode_t mode;
 	int left;
 	int front;
 	int right;
-	sensor_mode_t mode;
+	int dist;
+	int line;
 };
 
 void setup();

@@ -6,7 +6,7 @@
 #define ROBO_NAME "Arruela"
 #endif
 #ifndef BUFFER_SIZE
-#error "[ERROR]: BUFFER_SIZE must be defined before compilation!"
+#error "[ERRO]: BUFFER_SIZE must be defined before compilation!"
 #endif
 #pragma endregion "Main Data Defines"
 
@@ -27,7 +27,7 @@
 
 #pragma region "Kernel Defines"
 #ifndef DEFAULT_KERNEL_STATE
-#error "[ERROR]: DEFAULT_KERNEL_STATE must be defined before compilation!"
+#error "[ERRO]: DEFAULT_KERNEL_STATE must be defined before compilation!"
 #endif
 #ifndef KERNEL_STATE_AUTO
 #define KERNEL_STATE_AUTO 0
@@ -39,7 +39,7 @@
 #define KERNEL_STATE_DB 2
 #endif
 #ifndef KERNEL_STATE_TO_BOOT_OPTION
-#define KERNEL_STATE_TO_BOOT_OPTION(x) (x + '1')
+#define KERNEL_STATE_TO_BOOT_OPTION(x) (x + '0')
 #endif
 #pragma endregion "Kernel Defines"
 

@@ -20,7 +20,7 @@ char boot_option = '\0';
 void setup(char start_mode)
 {
 	Serial.begin(115200);
-	Serial.printf(STRLN("Serial 115200!"));
+	Serial.printf(STRLN("[INFO]: Serial 115200!"));
 
 	switch (start_mode)
 	{
@@ -31,7 +31,7 @@ void setup(char start_mode)
 		tt::serial::setup(ROBO_NAME);
 		break;
 	}
-	Serial.printf(STRLN("Setup Serial!"));
+	Serial.printf(STRLN("[INFO]: Setup Serial!"));
 }
 
 void init(char start_mode)
@@ -48,9 +48,9 @@ void init(char start_mode)
 	}
 	tt::serial::printf(STRLN("[BOOT START]"));
 	tt::serial::printf(STRLN("[BOOT OPTIONS]"));
-	tt::serial::printf(STRLN("[1] Autônomo (AUTO)"));
-	tt::serial::printf(STRLN("[2] Controlado (RC)"));
-	tt::serial::printf(STRLN("[3] Depurador (DB)"));
+	tt::serial::printf(STRLN("[%c] Autônomo (AUTO)"), BOOT_OPTION_AUTO);
+	tt::serial::printf(STRLN("[%c] Controlado (RC)"), BOOT_OPTION_RC);
+	tt::serial::printf(STRLN("[%c] Depurador (DB)"), BOOT_OPTION_DB);
 
 	while (!BOOT_OPTION_VALID(boot_option))
 	{

@@ -6,6 +6,8 @@
 #pragma GCC diagnostic ignored "-Werror"
 #pragma GCC diagnostic ignored "-Wcpp"
 #include <Arduino.h>
+#include <Wire.h>
+#include <VL53L0X.h>
 #pragma GCC diagnostic pop
 #include "engine.hpp"
 #include "internal.hpp"
@@ -13,37 +15,50 @@
 
 #pragma region "Size Data Defines"
 #ifndef BUFFER_SIZE
-#error "[ERROR]: BUFFER_SIZE must be defined before compilation!"
+#error "[ERRO]: BUFFER_SIZE must be defined before compilation!"
 #endif
 #pragma endregion "Size Data Defines"
 
+#pragma region "String Macros"
+#ifndef STRLN
+#define STRLN(x) x "\n"
+#endif
+#pragma endregion "String Macros"
+
 #pragma region "Sensor Pinning Macros"
 #ifndef SENSOR_TRANSISTOR
-#error "[ERROR]: SENSOR_TRANSISTOR must be defined before compilation!"
+#error "[ERRO]: SENSOR_TRANSISTOR must be defined before compilation!"
 #endif
-#ifndef SENSOR_LEFT
-#error "[ERROR]: SENSOR_LEFT must be defined before compilation!"
+#ifndef SENDER_LEFT
+#error "[ERRO]: SENDER_LEFT must be defined before compilation!"
 #endif
-#ifndef SENSOR_FRONT
-#error "[ERROR]: SENSOR_FRONT must be defined before compilation!"
+#ifndef SENDER_FRONT
+#error "[ERRO]: SENDER_FRONT must be defined before compilation!"
 #endif
-#ifndef SENSOR_RIGHT
-#error "[ERROR]: SENSOR_RIGHT must be defined before compilation!"
+#ifndef SENDER_RIGHT
+#error "[ERRO]: SENDER_RIGHT must be defined before compilation!"
 #endif
 #ifndef RECEIVER_LEFT
-#error "[ERROR]: RECEIVER_LEFT must be defined before compilation!"
-#endif
-#ifndef RECEIVER_FRONT
-#error "[ERROR]: RECEIVER_FRONT must be defined before compilation!"
+#error "[ERRO]: RECEIVER_LEFT must be defined before compilation!"
 #endif
 #ifndef RECEIVER_RIGHT
-#error "[ERROR]: RECEIVER_RIGHT must be defined before compilation!"
+#error "[ERRO]: RECEIVER_RIGHT must be defined before compilation!"
+#endif
+#ifndef SENSOR_LINE
+#error "[ERRO]: SENSOR_LINE must be defined before compilation!"
+#endif
+#ifndef SENSOR_DATA
+#error "[ERRO]: SENSOR_DATA must be defined before compilation!"
+#endif
+#ifndef SENSOR_CLOCK
+#error "[ERRO]: SENSOR_CLOCK must be defined before compilation!"
 #endif
 #pragma endregion "Sensor Pinning Macros"
 
 namespace tt::sensor
 {
 sensor_mode_t sensor_mode = sensor_mode_t::none;
+VL53L0X sensor_dist;
 
 static const char *mode_to_string(sensor_mode_t mode)
 {
@@ -63,19 +78,22 @@ static const char *mode_to_string(sensor_mode_t mode)
 
 void setup()
 {
-	/*
 	pinMode(SENSOR_TRANSISTOR, OUTPUT);
-	pinMode(SENSOR_LEFT, INPUT);
-	pinMode(SENSOR_FRONT, INPUT);
-	pinMode(SENSOR_RIGHT, INPUT);
+	pinMode(SENDER_LEFT, INPUT);
+	pinMode(SENDER_FRONT, INPUT);
+	pinMode(SENDER_RIGHT, INPUT);
 	pinMode(RECEIVER_LEFT, INPUT);
-	pinMode(RECEIVER_FRONT, INPUT);
 	pinMode(RECEIVER_RIGHT, INPUT);
-	*/
+	pinMode(SENSOR_LINE, INPUT_PULLUP);
 
-	pinMode(SENSOR_LEFT, INPUT);
-	pinMode(SENSOR_FRONT, INPUT);
-	pinMode(SENSOR_RIGHT, INPUT);
+	Wire.begin(SENSOR_DATA, SENSOR_CLOCK);
+	if (sensor_dist.init()) {
+		Serial.printf(STRLN("[INFO]: VL53L0X Init"));
+		sensor_dist.startContinuous();
+		Serial.printf(STRLN("[INFO]: VL53L0X Start Continuous"));
+	} else {
+		Serial.printf(STRLN("[ERRO]: VL53L0X don't Init"));
+	}
 }
 
 void init()
@@ -90,25 +108,22 @@ sensor_t create_snapshot()
 	switch (sensor_mode)
 	{
 	case sensor_mode_t::sender:
-		sensor.left = digitalRead(SENSOR_LEFT);
-		sensor.front = digitalRead(SENSOR_FRONT);
-		sensor.right = digitalRead(SENSOR_RIGHT);
+		sensor.left = digitalRead(SENDER_LEFT);
+		sensor.front = digitalRead(SENDER_FRONT);
+		sensor.right = digitalRead(SENDER_RIGHT);
 		break;
 
 	case sensor_mode_t::receiver:
-		/*
 		sensor.left = !digitalRead(RECEIVER_LEFT);
-		sensor.front = !digitalRead(RECEIVER_FRONT);
 		sensor.right = !digitalRead(RECEIVER_RIGHT);
-		*/
-		sensor.left = digitalRead(SENSOR_LEFT);
-		sensor.front = digitalRead(SENSOR_FRONT);
-		sensor.right = digitalRead(SENSOR_RIGHT);
+		sensor.front = sensor.left || sensor.right;
 		break;
 
 	case sensor_mode_t::none:
 		break;
 	}
+	sensor.dist = sensor_dist.readRangeContinuousMillimeters();
+	sensor.line = digitalRead(SENSOR_LINE);
 	return sensor;
 }
 
@@ -119,7 +134,6 @@ sensor_mode_t get_mode()
 
 void set_mode(sensor_mode_t mode)
 {
-	/*
 	switch (mode)
 	{
 	case sensor_mode_t::sender:
@@ -133,8 +147,6 @@ void set_mode(sensor_mode_t mode)
 	case sensor_mode_t::none:
 	    break;
 	}
-	*/
-	sensor_mode = mode;
 }
 
 void debug(char *out_buffer, const size_t out_size, const sensor_t sensor, const char *msg)
@@ -142,12 +154,14 @@ void debug(char *out_buffer, const size_t out_size, const sensor_t sensor, const
 	snprintf(
 	    out_buffer,
 	    out_size - 1,
-	    "\"%s\" = { left:%i; front:%i; right:%i; mode:\"%s\" }\n",
+	    "\"%s\" = { mode:\"%s\"; left:%i; front:%i; right:%i; dist:%i; line:%i }\n",
 	    msg,
+	    mode_to_string(sensor.mode),
 	    sensor.left,
 	    sensor.front,
 	    sensor.right,
-	    mode_to_string(sensor.mode)
+		sensor.dist,
+		sensor.line
 	);
 }
 

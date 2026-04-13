@@ -6,7 +6,7 @@
 #define ROBO_NAME "Arruela"
 #endif
 #ifndef BUFFER_SIZE
-#error "[ERROR]: BUFFER_SIZE must be defined before compilation!"
+#error "[ERRO]: BUFFER_SIZE must be defined before compilation!"
 #endif
 #pragma endregion "Main Data Defines"
 
@@ -27,19 +27,19 @@
 
 #pragma region "Boot Options Defines"
 #ifndef BOOT_OPTION_AUTO
-#define BOOT_OPTION_AUTO '1'
+#define BOOT_OPTION_AUTO '0'
 #endif
 #ifndef BOOT_OPTION_RC
-#define BOOT_OPTION_RC '2'
+#define BOOT_OPTION_RC '1'
 #endif
 #ifndef BOOT_OPTION_DB
-#define BOOT_OPTION_DB '3'
+#define BOOT_OPTION_DB '2'
 #endif
 #ifndef BOOT_OPTION_VALID
 #define BOOT_OPTION_VALID(x) (x >= BOOT_OPTION_AUTO && x <= BOOT_OPTION_DB)
 #endif
 #ifndef BOOT_OPTION_TO_KERNEL_STATE
-#define BOOT_OPTION_TO_KERNEL_STATE(x) (x - '1')
+#define BOOT_OPTION_TO_KERNEL_STATE(x) (x - '0')
 #endif
 #pragma endregion "Boot Options Defines"
 

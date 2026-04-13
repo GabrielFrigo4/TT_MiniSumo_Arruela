@@ -56,15 +56,15 @@ void setup()
 {
 	tt::internal::setup();
 	tt::internal::set_led(false);
-	Serial.printf(STRLN("Setup Internal!"));
-	Serial.printf(STRLN("Mac Address: %s"), tt::internal::mac_address());
+	Serial.printf(STRLN("[INFO]: Setup Internal!"));
+	Serial.printf(STRLN("[INFO]: Mac Address: %s"), tt::internal::mac_address());
 	vTaskDelay(512);
 
 	tt::dualshock4::setup(tt::internal::mac_address());
-	Serial.printf(STRLN("Setup DualShock4!"));
+	Serial.printf(STRLN("[INFO]: Setup DualShock4!"));
 
 	tt::engine::setup();
-	Serial.printf(STRLN("Setup Engine!"));
+	Serial.printf(STRLN("[INFO]: Setup Engine!"));
 }
 
 void init()
@@ -92,49 +92,49 @@ void update()
 
 	if (controller.l1)
 	{
-		Serial.printf(STRLN("(controller.l1)"));
+		Serial.printf(STRLN("[INFO]: (controller.l1)"));
 		macro_ladinho(left);
 		return;
 	}
 
 	if (controller.r1)
 	{
-		Serial.printf(STRLN("(controller.r1)"));
+		Serial.printf(STRLN("[INFO]: (controller.r1)"));
 		macro_ladinho(right);
 		return;
 	}
 
 	if (controller.square)
 	{
-		Serial.printf(STRLN("(controller.square)"));
+		Serial.printf(STRLN("[INFO]: (controller.square)"));
 		macro_curvinha(left);
 		return;
 	}
 
 	if (controller.circle)
 	{
-		Serial.printf(STRLN("(controller.circle)"));
+		Serial.printf(STRLN("[INFO]: (controller.circle)"));
 		macro_curvinha(right);
 		return;
 	}
 
 	if (controller.left)
 	{
-		Serial.printf(STRLN("(controller.left)"));
+		Serial.printf(STRLN("[INFO]: (controller.left)"));
 		macro_curvao(left);
 		return;
 	}
 
 	if (controller.right)
 	{
-		Serial.printf(STRLN("(controller.right)"));
+		Serial.printf(STRLN("[INFO]: (controller.right)"));
 		macro_curvao(right);
 		return;
 	}
 
 	if (controller.up)
 	{
-		Serial.printf(STRLN("(controller.up)"));
+		Serial.printf(STRLN("[INFO]: (controller.up)"));
 		behavior_accelerated_go();
 		update_engine();
 		return;
@@ -142,7 +142,7 @@ void update()
 
 	if (controller.down)
 	{
-		Serial.printf(STRLN("(controller.down)"));
+		Serial.printf(STRLN("[INFO]: (controller.down)"));
 		behavior_escape(TT_ENGINE_SENSE_BACK);
 		update_engine();
 		return;
@@ -150,7 +150,7 @@ void update()
 
 	if (controller.cross)
 	{
-		Serial.printf(STRLN("(controller.cross)"));
+		Serial.printf(STRLN("[INFO]: (controller.cross)"));
 		behavior_just_go();
 		update_engine();
 		return;
@@ -158,7 +158,7 @@ void update()
 
 	if (controller.r2 && controller.r2_value >= BUTTON_TRIGGER)
 	{
-		Serial.printf(STRLN("(controller.r2)"));
+		Serial.printf(STRLN("[INFO]: (controller.r2)"));
 		behavior_forward(
 		    TT_ENGINE_SENSE_FRONT, controller.r2_value, tt::utilities::abs(controller.l_stick_x)
 		);
@@ -168,7 +168,7 @@ void update()
 
 	if (controller.l2 && controller.l2_value >= BUTTON_TRIGGER)
 	{
-		Serial.printf(STRLN("(controller.l2)"));
+		Serial.printf(STRLN("[INFO]: (controller.l2)"));
 		behavior_forward(
 		    TT_ENGINE_SENSE_BACK,
 		    controller.l2_value * 0.9,
@@ -180,7 +180,7 @@ void update()
 
 	if (controller.l_stick_x <= -STICK_TRIGGER)
 	{
-		Serial.printf(STRLN("(controller.l_stick_x <= -STICK_TRIGGER)"));
+		Serial.printf(STRLN("[INFO]: (controller.l_stick_x <= -STICK_TRIGGER)"));
 		behavior_curve(TT_ENGINE_SENSE_BACK, TT_ENGINE_SENSE_FRONT);
 		update_engine();
 		return;
@@ -188,7 +188,7 @@ void update()
 
 	if (controller.l_stick_x >= STICK_TRIGGER)
 	{
-		Serial.printf(STRLN("(controller.l_stick_x >= STICK_TRIGGER)"));
+		Serial.printf(STRLN("[INFO]: (controller.l_stick_x >= STICK_TRIGGER)"));
 		behavior_curve(TT_ENGINE_SENSE_FRONT, TT_ENGINE_SENSE_BACK);
 		update_engine();
 		return;
@@ -204,7 +204,7 @@ void update_controller()
 	controller = tt::dualshock4::create_snapshot();
 	if (controller.triangle)
 	{
-		Serial.printf(STRLN("(controller.triangle)"));
+		Serial.printf(STRLN("([INFO]: controller.triangle)"));
 		if (!triangle)
 		{
 			switch (rc_state)

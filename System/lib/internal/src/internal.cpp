@@ -17,13 +17,13 @@
 
 #pragma region "Size Data Defines"
 #ifndef BUFFER_SIZE
-#error "[ERROR]: BUFFER_SIZE must be defined before compilation!"
+#error "[ERRO]: BUFFER_SIZE must be defined before compilation!"
 #endif
 #pragma endregion "Size Data Defines"
 
 #pragma region "Internal Pinning Macros"
-#ifndef LED
-#error "[ERROR]: LED must be defined before compilation!"
+#ifndef INTERNAL_LED
+#error "[ERRO]: INTERNAL_LED must be defined before compilation!"
 #endif
 #pragma endregion "Internal Pinning Macros"
 
@@ -36,7 +36,7 @@ bool led_mode = false;
 
 void setup()
 {
-	pinMode(LED, OUTPUT);
+	pinMode(INTERNAL_LED, OUTPUT);
 	setup_millis();
 	setup_micros();
 	WiFi.macAddress().toCharArray(wifi_mac_address, sizeof(wifi_mac_address));
@@ -52,7 +52,7 @@ void set_led(const bool mode)
 	if (led_mode != mode)
 	{
 		led_mode = mode;
-		digitalWrite(LED, static_cast<uint8_t>(led_mode));
+		digitalWrite(INTERNAL_LED, static_cast<uint8_t>(led_mode));
 	}
 }
 

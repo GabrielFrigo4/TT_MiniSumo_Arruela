@@ -6,10 +6,10 @@
 #define ROBO_NAME "Arruela"
 #endif
 #ifndef BUFFER_SIZE
-#error "[ERROR]: BUFFER_SIZE must be defined before compilation!"
+#error "[ERRO]: BUFFER_SIZE must be defined before compilation!"
 #endif
 #ifndef STACK_SIZE
-#error "[ERROR]: STACK_SIZE must be defined before compilation!"
+#error "[ERRO]: STACK_SIZE must be defined before compilation!"
 #endif
 #pragma endregion "Main Data Defines"
 

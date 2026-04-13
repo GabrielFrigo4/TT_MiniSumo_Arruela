@@ -63,24 +63,24 @@ void setup()
 {
 	tt::internal::setup();
 	tt::internal::set_led(false);
-	Serial.printf(STRLN("Setup Internal!"));
-	Serial.printf(STRLN("Mac Address: %s"), tt::internal::mac_address());
+	Serial.printf(STRLN("[INFO]: Setup Internal!"));
+	Serial.printf(STRLN("[INFO]: Mac Address: %s"), tt::internal::mac_address());
 	vTaskDelay(512);
 
 	tt::engine::setup();
-	Serial.printf(STRLN("Setup Engine!"));
+	Serial.printf(STRLN("[INFO]: Setup Engine!"));
 
 	tt::sensor::setup();
-	Serial.printf(STRLN("Setup Sensor!"));
+	Serial.printf(STRLN("[INFO]: Setup Sensor!"));
 
 	tt::infrared::setup();
-	Serial.printf(STRLN("Setup Infrared!"));
+	Serial.printf(STRLN("[INFO]: Setup Infrared!"));
 
 	setup_task();
-	Serial.printf(STRLN("Setup Task!"));
+	Serial.printf(STRLN("[INFO]: Setup Task!"));
 
 	setup_connect();
-	Serial.printf(STRLN("Setup Connect!"));
+	Serial.printf(STRLN("[INFO]: Setup Connect!"));
 }
 
 void init()
@@ -89,10 +89,10 @@ void init()
 	tt::sensor::init();
 
 	setup_estrategia();
-	Serial.printf(STRLN("Setup Estrategia!"));
+	Serial.printf(STRLN("[INFO]: Setup Estrategia!"));
 
 	setup_luta();
-	Serial.printf(STRLN("Setup Luta!"));
+	Serial.printf(STRLN("[INFO]: Setup Luta!"));
 
 	sensor_usage = SENSOR_USAGE_ALL;
 	tt::serial::printf(STRLN("Começou!"));

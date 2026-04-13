@@ -22,6 +22,7 @@ void debug_engine(const tt::engine_t left, const tt::engine_t right, const int d
 void debug_infrared();
 void test_sensor();
 void test_engine();
+void test_engine_slow();
 void sensor_task(void *pvParameters);
 void setup_task();
 void setup_connect();
@@ -59,24 +60,24 @@ void setup()
 {
 	tt::internal::setup();
 	tt::internal::set_led(false);
-	Serial.printf(STRLN("Setup Internal!"));
-	Serial.printf(STRLN("Mac Address: %s"), tt::internal::mac_address());
+	Serial.printf(STRLN("[INFO]: Setup Internal!"));
+	Serial.printf(STRLN("[INFO]: Mac Address: %s"), tt::internal::mac_address());
 	vTaskDelay(512);
 
 	tt::engine::setup();
-	Serial.printf(STRLN("Setup Engine!"));
+	Serial.printf(STRLN("[INFO]: Setup Engine!"));
 
 	tt::sensor::setup();
-	Serial.printf(STRLN("Setup Sensor!"));
+	Serial.printf(STRLN("[INFO]: Setup Sensor!"));
 
 	tt::infrared::setup();
-	Serial.printf(STRLN("Setup Infrared!"));
+	Serial.printf(STRLN("[INFO]: Setup Infrared!"));
 
 	setup_task();
-	Serial.printf(STRLN("Setup Task!"));
+	Serial.printf(STRLN("[INFO]: Setup Task!"));
 
 	setup_connect();
-	Serial.printf(STRLN("Setup Connect!"));
+	Serial.printf(STRLN("[INFO]: Setup Connect!"));
 }
 
 void init()
@@ -190,6 +191,7 @@ void setup_debug()
 			tt::serial::printf(STRLN("\"Teste\" -> \"Nome\""));
 			tt::serial::printf(STRLN("\"%c\" -> \"%s\""), TEST_SENSOR, "SENSOR");
 			tt::serial::printf(STRLN("\"%c\" -> \"%s\""), TEST_ENGINE, "ENGINE");
+			tt::serial::printf(STRLN("\"%c\" -> \"%s\""), TEST_ENGINE_SLOW, "ENGINE_SLOW");
 			tt::serial::printf(STRLN("+-----------------------------+"));
 			tt::serial::printf(STRLN("| Todos os Debugs (MINÚSCULA) |"));
 			tt::serial::printf(STRLN("+-----------------------------+"));
@@ -212,6 +214,10 @@ void setup_debug()
 
 		case TEST_ENGINE:
 			test_engine();
+			break;
+
+		case TEST_ENGINE_SLOW:
+			test_engine_slow();
 			break;
 
 		case COMMAND_SETUP:
@@ -421,6 +427,50 @@ void test_engine()
 	vTaskDelay(512);
 	tt::serial::printf(STRLN("(LEFT: SLOW[3] FRONT) (RIGHT: SLOW[3] FRONT)"));
 	tt::engine::move(TT_ENGINE_FRONT_SHIFT(3), TT_ENGINE_FRONT_SHIFT(3));
+	vTaskDelay(3072);
+	tt::engine::brake();
+	vTaskDelay(512);
+	tt::serial::printf(STRLN("(LEFT: SLOW[4] FRONT) (RIGHT: SLOW[4] FRONT)"));
+	tt::engine::move(TT_ENGINE_FRONT_SHIFT(4), TT_ENGINE_FRONT_SHIFT(4));
+	vTaskDelay(3072);
+	tt::engine::brake();
+	vTaskDelay(512);
+	tt::serial::printf(STRLN("(LEFT: SLOW[5] FRONT) (RIGHT: SLOW[5] FRONT)"));
+	tt::engine::move(TT_ENGINE_FRONT_SHIFT(5), TT_ENGINE_FRONT_SHIFT(5));
+	vTaskDelay(3072);
+	tt::engine::brake();
+	vTaskDelay(512);
+	tt::serial::printf(STRLN("(LEFT: SLOW[6] FRONT) (RIGHT: SLOW[6] FRONT)"));
+	tt::engine::move(TT_ENGINE_FRONT_SHIFT(6), TT_ENGINE_FRONT_SHIFT(6));
+	vTaskDelay(3072);
+	tt::engine::brake();
+	vTaskDelay(512);
+	tt::serial::printf(STRLN("(LEFT: SLOW[7] FRONT) (RIGHT: SLOW[7] FRONT)"));
+	tt::engine::move(TT_ENGINE_FRONT_SHIFT(7), TT_ENGINE_FRONT_SHIFT(7));
+	vTaskDelay(3072);
+	tt::engine::brake();
+	tt::serial::printf(STRLN("END TEST ENGINE!"));
+}
+
+void test_engine_slow()
+{
+	tt::serial::printf(STRLN("(LEFT: SLOW[3] FRONT) (RIGHT: SLOW[3] FRONT)"));
+	tt::engine::move(TT_ENGINE_FRONT_SHIFT(3), TT_ENGINE_FRONT_SHIFT(3));
+	vTaskDelay(3072);
+	tt::engine::brake();
+	vTaskDelay(512);
+	tt::serial::printf(STRLN("(LEFT: SLOW[3] FRONT) (RIGHT: SLOW[3] BACK)"));
+	tt::engine::move(TT_ENGINE_FRONT_SHIFT(3), TT_ENGINE_BACK_SHIFT(3));
+	vTaskDelay(3072);
+	tt::engine::brake();
+	vTaskDelay(512);
+	tt::serial::printf(STRLN("(LEFT: SLOW[3] BACK) (RIGHT: SLOW[3] FRONT)"));
+	tt::engine::move(TT_ENGINE_BACK_SHIFT(3), TT_ENGINE_FRONT_SHIFT(3));
+	vTaskDelay(3072);
+	tt::engine::brake();
+	vTaskDelay(512);
+	tt::serial::printf(STRLN("(LEFT: SLOW[3] BACK) (RIGHT: SLOW[3] BACK)"));
+	tt::engine::move(TT_ENGINE_BACK_SHIFT(3), TT_ENGINE_BACK_SHIFT(3));
 	vTaskDelay(3072);
 	tt::engine::brake();
 	vTaskDelay(512);

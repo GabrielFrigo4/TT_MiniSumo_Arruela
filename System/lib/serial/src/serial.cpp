@@ -11,8 +11,14 @@
 #include "serial.hpp"
 
 #if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)
-#error "[ERROR]: Bluetooth is not enabled! Please run `make menuconfig` to and enable it"
+#error "[ERRO]: Bluetooth is not enabled! Please run `make menuconfig` to and enable it"
 #endif
+
+#pragma region "String Macros"
+#ifndef STRLN
+#define STRLN(x) x "\n"
+#endif
+#pragma endregion "String Macros"
 
 namespace tt::serial
 {
@@ -25,12 +31,12 @@ void callback(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
 	{
 	case ESP_SPP_SRV_OPEN_EVT:
 		enable = true;
-		Serial.println("SmartPhone Connected!");
+		Serial.printf(STRLN("[INFO]: SmartPhone Connected!"));
 		break;
 
 	case ESP_SPP_CLOSE_EVT:
 		enable = false;
-		Serial.println("SmartPhone Desconnected!");
+		Serial.printf(STRLN("[INFO]: SmartPhone Desconnected!"));
 		break;
 
 	default:

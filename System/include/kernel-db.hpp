@@ -6,7 +6,7 @@
 #define ROBO_NAME "Arruela"
 #endif
 #ifndef BUFFER_SIZE
-#error "[ERROR]: BUFFER_SIZE must be defined before compilation!"
+#error "[ERRO]: BUFFER_SIZE must be defined before compilation!"
 #endif
 #pragma endregion "Main Data Defines"
 
@@ -48,6 +48,9 @@
 #endif
 #ifndef TEST_ENGINE
 #define TEST_ENGINE 'E'
+#endif
+#ifndef TEST_ENGINE_SLOW
+#define TEST_ENGINE_SLOW 'L'
 #endif
 #ifndef DEBUG_ENGINE
 #define DEBUG_ENGINE 'a'

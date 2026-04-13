@@ -12,7 +12,7 @@
 
 #pragma region "Size Data Defines"
 #ifndef BUFFER_SIZE
-#error "[ERROR]: BUFFER_SIZE must be defined before compilation!"
+#error "[ERRO]: BUFFER_SIZE must be defined before compilation!"
 #endif
 #pragma endregion "Size Data Defines"
 
@@ -26,30 +26,30 @@
 #pragma endregion "Analog Data Defines"
 
 #pragma region "Engine Pinning Macros"
-#ifndef A_1
-#error "[ERROR]: A_1 must be defined before compilation!"
+#ifndef ENGINE_LEFT_1
+#error "[ERRO]: ENGINE_LEFT_1 must be defined before compilation!"
 #endif
-#ifndef A_2
-#error "[ERROR]: A_2 must be defined before compilation!"
+#ifndef ENGINE_LEFT_2
+#error "[ERRO]: ENGINE_LEFT_2 must be defined before compilation!"
 #endif
-#ifndef B_1
-#error "[ERROR]: B_1 must be defined before compilation!"
+#ifndef ENGINE_RIGHT_1
+#error "[ERRO]: ENGINE_RIGHT_1 must be defined before compilation!"
 #endif
-#ifndef B_2
-#error "[ERROR]: B_2 must be defined before compilation!"
+#ifndef ENGINE_RIGHT_2
+#error "[ERRO]: ENGINE_RIGHT_2 must be defined before compilation!"
 #endif
 #pragma endregion "Engine Pinning Macros"
 
 #pragma region "Engine Legacy Pinning Macros"
 #if !defined MODERN_ELECTRONICS
-#ifndef PWM_A
-#error "[ERROR]: PWM_A must be defined before compilation!"
+#ifndef ENGINE_LEFT_PWM
+#error "[ERRO]: ENGINE_LEFT_PWM must be defined before compilation!"
 #endif
-#ifndef PWM_B
-#error "[ERROR]: PWM_B must be defined before compilation!"
+#ifndef ENGINE_RIGHT_PWM
+#error "[ERRO]: ENGINE_RIGHT_PWM must be defined before compilation!"
 #endif
-#ifndef STBY
-#error "[ERROR]: STBY must be defined before compilation!"
+#ifndef ENGINE_STANDBY
+#error "[ERRO]: ENGINE_STANDBY must be defined before compilation!"
 #endif
 #endif
 #pragma endregion "Engine Legacy Pinning Macros"
@@ -69,30 +69,30 @@ static void h_bridge_write(uint8_t pin, int value)
 	analogWrite(pin, value * !standby_mode);
 }
 
+#if defined MODERN_ELECTRONICS
 static void setup_modern()
 {
-#if defined MODERN_ELECTRONICS
-	pinMode(A_1, OUTPUT);
-	pinMode(A_2, OUTPUT);
-	pinMode(B_1, OUTPUT);
-	pinMode(B_2, OUTPUT);
+	pinMode(ENGINE_LEFT_1, OUTPUT);
+	pinMode(ENGINE_LEFT_2, OUTPUT);
+	pinMode(ENGINE_RIGHT_1, OUTPUT);
+	pinMode(ENGINE_RIGHT_2, OUTPUT);
 	set_standby(true);
-#endif
 }
+#endif
 
+#if !defined MODERN_ELECTRONICS
 static void setup_legacy()
 {
-#if !defined MODERN_ELECTRONICS
-	pinMode(PWM_A, OUTPUT);
-	pinMode(A_1, OUTPUT);
-	pinMode(A_2, OUTPUT);
-	pinMode(PWM_B, OUTPUT);
-	pinMode(B_1, OUTPUT);
-	pinMode(B_2, OUTPUT);
-	pinMode(STBY, OUTPUT);
+	pinMode(ENGINE_LEFT_PWM, OUTPUT);
+	pinMode(ENGINE_LEFT_1, OUTPUT);
+	pinMode(ENGINE_LEFT_2, OUTPUT);
+	pinMode(ENGINE_RIGHT_PWM, OUTPUT);
+	pinMode(ENGINE_RIGHT_1, OUTPUT);
+	pinMode(ENGINE_RIGHT_2, OUTPUT);
+	pinMode(ENGINE_STANDBY, OUTPUT);
 	set_standby(true);
-#endif
 }
+#endif
 
 void setup()
 {
@@ -103,39 +103,39 @@ void setup()
 #endif
 }
 
+#if defined MODERN_ELECTRONICS
 static void init_modern()
 {
-#if defined MODERN_ELECTRONICS
 	set_standby(false);
 
 	current_engine_left = TT_ENGINE_DEFAULT;
-	h_bridge_write(A_1, ANALOG_LOW);
-	h_bridge_write(A_2, ANALOG_LOW);
+	h_bridge_write(ENGINE_LEFT_1, ANALOG_LOW);
+	h_bridge_write(ENGINE_LEFT_2, ANALOG_LOW);
 
 	current_engine_right = TT_ENGINE_DEFAULT;
-	h_bridge_write(B_1, ANALOG_LOW);
-	h_bridge_write(B_2, ANALOG_LOW);
+	h_bridge_write(ENGINE_RIGHT_1, ANALOG_LOW);
+	h_bridge_write(ENGINE_RIGHT_2, ANALOG_LOW);
 
 	delayMicroseconds(256);
-#endif
 }
+#endif
 
+#if !defined MODERN_ELECTRONICS
 static void init_legacy()
 {
-#if !defined MODERN_ELECTRONICS
 	set_standby(false);
 
 	current_engine_left = TT_ENGINE_DEFAULT;
-	digitalWrite(A_1, PIN_BOOL(current_engine_left.sense == TT_ENGINE_SENSE_BACK));
-	digitalWrite(A_2, PIN_BOOL(current_engine_left.sense == TT_ENGINE_SENSE_FRONT));
-	analogWrite(PWM_A, current_engine_left.speed);
+	digitalWrite(ENGINE_LEFT_1, PIN_BOOL(current_engine_left.sense == TT_ENGINE_SENSE_BACK));
+	digitalWrite(ENGINE_LEFT_2, PIN_BOOL(current_engine_left.sense == TT_ENGINE_SENSE_FRONT));
+	analogWrite(ENGINE_LEFT_PWM, current_engine_left.speed);
 
 	current_engine_right = TT_ENGINE_DEFAULT;
-	digitalWrite(B_1, PIN_BOOL(current_engine_right.sense == TT_ENGINE_SENSE_BACK));
-	digitalWrite(B_2, PIN_BOOL(current_engine_right.sense == TT_ENGINE_SENSE_FRONT));
-	analogWrite(PWM_B, current_engine_right.speed);
-#endif
+	digitalWrite(ENGINE_RIGHT_1, PIN_BOOL(current_engine_right.sense == TT_ENGINE_SENSE_BACK));
+	digitalWrite(ENGINE_RIGHT_2, PIN_BOOL(current_engine_right.sense == TT_ENGINE_SENSE_FRONT));
+	analogWrite(ENGINE_RIGHT_PWM, current_engine_right.speed);
 }
+#endif
 
 void init()
 {
@@ -151,20 +151,20 @@ bool get_standby()
 	return standby_mode;
 }
 
+#if defined MODERN_ELECTRONICS
 static void set_standby_modern(const bool mode)
 {
-#if defined MODERN_ELECTRONICS
 	standby_mode = mode;
-#endif
 }
+#endif
 
+#if !defined MODERN_ELECTRONICS
 static void set_standby_legacy(const bool mode)
 {
-#if !defined MODERN_ELECTRONICS
 	standby_mode = mode;
-	digitalWrite(STBY, static_cast<uint8_t>(!standby_mode));
-#endif
+	digitalWrite(ENGINE_STANDBY, static_cast<uint8_t>(!standby_mode));
 }
+#endif
 
 void set_standby(const bool mode)
 {
@@ -175,52 +175,52 @@ void set_standby(const bool mode)
 #endif
 }
 
+#if defined MODERN_ELECTRONICS
 static void move_modern(const engine_t engine_left, const engine_t engine_right)
 {
-#if defined MODERN_ELECTRONICS
-	h_bridge_write(A_1, ANALOG_LOW);
-	h_bridge_write(A_2, ANALOG_LOW);
-	h_bridge_write(B_1, ANALOG_LOW);
-	h_bridge_write(B_2, ANALOG_LOW);
+	h_bridge_write(ENGINE_LEFT_1, ANALOG_LOW);
+	h_bridge_write(ENGINE_LEFT_2, ANALOG_LOW);
+	h_bridge_write(ENGINE_RIGHT_1, ANALOG_LOW);
+	h_bridge_write(ENGINE_RIGHT_2, ANALOG_LOW);
 	delayMicroseconds(256);
 
 	current_engine_left = engine_left;
 	h_bridge_write(
-	    A_1, current_engine_left.speed * (current_engine_left.sense == TT_ENGINE_SENSE_BACK)
+	    ENGINE_LEFT_1, current_engine_left.speed * (current_engine_left.sense == TT_ENGINE_SENSE_BACK)
 	);
 	h_bridge_write(
-	    A_2, current_engine_left.speed * (current_engine_left.sense == TT_ENGINE_SENSE_FRONT)
+	    ENGINE_LEFT_2, current_engine_left.speed * (current_engine_left.sense == TT_ENGINE_SENSE_FRONT)
 	);
 
 	current_engine_right = engine_right;
 	h_bridge_write(
-	    B_1, current_engine_right.speed * (current_engine_right.sense == TT_ENGINE_SENSE_BACK)
+	    ENGINE_RIGHT_1, current_engine_right.speed * (current_engine_right.sense == TT_ENGINE_SENSE_BACK)
 	);
 	h_bridge_write(
-	    B_2, current_engine_right.speed * (current_engine_right.sense == TT_ENGINE_SENSE_FRONT)
+	    ENGINE_RIGHT_2, current_engine_right.speed * (current_engine_right.sense == TT_ENGINE_SENSE_FRONT)
 	);
-#endif
 }
+#endif
 
+#if !defined MODERN_ELECTRONICS
 static void move_legacy(const engine_t engine_left, const engine_t engine_right)
 {
-#if !defined MODERN_ELECTRONICS
 	if (current_engine_left == engine_left && current_engine_right == engine_right)
 	{
 		return;
 	}
 
 	current_engine_left = engine_left;
-	digitalWrite(A_1, PIN_BOOL(current_engine_left.sense == TT_ENGINE_SENSE_BACK));
-	digitalWrite(A_2, PIN_BOOL(current_engine_left.sense == TT_ENGINE_SENSE_FRONT));
-	analogWrite(PWM_A, current_engine_left.speed);
+	digitalWrite(ENGINE_LEFT_1, PIN_BOOL(current_engine_left.sense == TT_ENGINE_SENSE_BACK));
+	digitalWrite(ENGINE_LEFT_2, PIN_BOOL(current_engine_left.sense == TT_ENGINE_SENSE_FRONT));
+	analogWrite(ENGINE_LEFT_PWM, current_engine_left.speed);
 
 	current_engine_right = engine_right;
-	digitalWrite(B_1, PIN_BOOL(current_engine_right.sense == TT_ENGINE_SENSE_BACK));
-	digitalWrite(B_2, PIN_BOOL(current_engine_right.sense == TT_ENGINE_SENSE_FRONT));
-	analogWrite(PWM_B, current_engine_right.speed);
-#endif
+	digitalWrite(ENGINE_RIGHT_1, PIN_BOOL(current_engine_right.sense == TT_ENGINE_SENSE_BACK));
+	digitalWrite(ENGINE_RIGHT_2, PIN_BOOL(current_engine_right.sense == TT_ENGINE_SENSE_FRONT));
+	analogWrite(ENGINE_RIGHT_PWM, current_engine_right.speed);
 }
+#endif
 
 void move(const engine_t engine_left, const engine_t engine_right)
 {
@@ -231,40 +231,40 @@ void move(const engine_t engine_left, const engine_t engine_right)
 #endif
 }
 
+#if defined MODERN_ELECTRONICS
 static void stop_modern(const uint8_t force)
 {
-#if defined MODERN_ELECTRONICS
 	current_engine_left = TT_ENGINE_FRONT_STOP;
 	current_engine_right = TT_ENGINE_FRONT_STOP;
 
-	h_bridge_write(A_1, ANALOG_LOW);
-	h_bridge_write(A_2, ANALOG_LOW);
-	h_bridge_write(B_1, ANALOG_LOW);
-	h_bridge_write(B_2, ANALOG_LOW);
+	h_bridge_write(ENGINE_LEFT_1, ANALOG_LOW);
+	h_bridge_write(ENGINE_LEFT_2, ANALOG_LOW);
+	h_bridge_write(ENGINE_RIGHT_1, ANALOG_LOW);
+	h_bridge_write(ENGINE_RIGHT_2, ANALOG_LOW);
 	delayMicroseconds(256);
 
-	h_bridge_write(A_1, force);
-	h_bridge_write(A_2, force);
-	h_bridge_write(B_1, force);
-	h_bridge_write(B_2, force);
+	h_bridge_write(ENGINE_LEFT_1, force);
+	h_bridge_write(ENGINE_LEFT_2, force);
+	h_bridge_write(ENGINE_RIGHT_1, force);
+	h_bridge_write(ENGINE_RIGHT_2, force);
 	delayMicroseconds(128);
-#endif
 }
+#endif
 
+#if !defined MODERN_ELECTRONICS
 static void stop_legacy(const uint8_t force)
 {
-#if !defined MODERN_ELECTRONICS
 	current_engine_left = TT_ENGINE_FRONT_STOP;
-	digitalWrite(A_1, HIGH);
-	digitalWrite(A_2, HIGH);
-	analogWrite(PWM_A, force);
+	digitalWrite(ENGINE_LEFT_1, HIGH);
+	digitalWrite(ENGINE_LEFT_2, HIGH);
+	analogWrite(ENGINE_LEFT_PWM, force);
 
 	current_engine_right = TT_ENGINE_FRONT_STOP;
-	digitalWrite(B_1, HIGH);
-	digitalWrite(B_2, HIGH);
-	analogWrite(PWM_B, force);
-#endif
+	digitalWrite(ENGINE_RIGHT_1, HIGH);
+	digitalWrite(ENGINE_RIGHT_2, HIGH);
+	analogWrite(ENGINE_RIGHT_PWM, force);
 }
+#endif
 
 void stop(const uint8_t force)
 {
