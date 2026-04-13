@@ -98,9 +98,9 @@
 ## OK LIST ([OK.md][ok])
  **Listas de Soluções** do **Projeto Arruela**
 
-[doc]: ./1%29%20DOCS.md
-[std]: ./2%29%20STD.md
-[phy]: ./3%29%20PHY.md
-[todo]: ./4%29%20TODO.md
-[err]: ./5%29%20ERR.md
-[ok]: ./6%29%20OK.md
+[doc]: <./1) DOCS.md>
+[std]: <./2) STD.md>
+[phy]: <./3) PHY.md>
+[todo]: <./4) TODO.md>
+[err]: <./5) ERR.md>
+[ok]: <./6) OK.md>
