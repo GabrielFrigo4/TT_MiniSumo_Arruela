@@ -186,18 +186,22 @@ static void move_modern(const engine_t engine_left, const engine_t engine_right)
 
 	current_engine_left = engine_left;
 	h_bridge_write(
-	    ENGINE_LEFT_1, current_engine_left.speed * (current_engine_left.sense == TT_ENGINE_SENSE_BACK)
+	    ENGINE_LEFT_1,
+	    current_engine_left.speed * (current_engine_left.sense == TT_ENGINE_SENSE_BACK)
 	);
 	h_bridge_write(
-	    ENGINE_LEFT_2, current_engine_left.speed * (current_engine_left.sense == TT_ENGINE_SENSE_FRONT)
+	    ENGINE_LEFT_2,
+	    current_engine_left.speed * (current_engine_left.sense == TT_ENGINE_SENSE_FRONT)
 	);
 
 	current_engine_right = engine_right;
 	h_bridge_write(
-	    ENGINE_RIGHT_1, current_engine_right.speed * (current_engine_right.sense == TT_ENGINE_SENSE_BACK)
+	    ENGINE_RIGHT_1,
+	    current_engine_right.speed * (current_engine_right.sense == TT_ENGINE_SENSE_BACK)
 	);
 	h_bridge_write(
-	    ENGINE_RIGHT_2, current_engine_right.speed * (current_engine_right.sense == TT_ENGINE_SENSE_FRONT)
+	    ENGINE_RIGHT_2,
+	    current_engine_right.speed * (current_engine_right.sense == TT_ENGINE_SENSE_FRONT)
 	);
 }
 #endif

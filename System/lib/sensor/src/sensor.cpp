@@ -6,8 +6,8 @@
 #pragma GCC diagnostic ignored "-Werror"
 #pragma GCC diagnostic ignored "-Wcpp"
 #include <Arduino.h>
-#include <Wire.h>
 #include <VL53L0X.h>
+#include <Wire.h>
 #pragma GCC diagnostic pop
 #include "engine.hpp"
 #include "internal.hpp"
@@ -87,11 +87,14 @@ void setup()
 	pinMode(SENSOR_LINE, INPUT_PULLUP);
 
 	Wire.begin(SENSOR_DATA, SENSOR_CLOCK);
-	if (sensor_dist.init()) {
+	if (sensor_dist.init())
+	{
 		Serial.printf(STRLN("[INFO]: VL53L0X Init"));
 		sensor_dist.startContinuous();
 		Serial.printf(STRLN("[INFO]: VL53L0X Start Continuous"));
-	} else {
+	}
+	else
+	{
 		Serial.printf(STRLN("[ERRO]: VL53L0X don't Init"));
 	}
 }
@@ -137,15 +140,15 @@ void set_mode(sensor_mode_t mode)
 	switch (mode)
 	{
 	case sensor_mode_t::sender:
-	    digitalWrite(SENSOR_TRANSISTOR, HIGH);
-	    break;
+		digitalWrite(SENSOR_TRANSISTOR, HIGH);
+		break;
 
 	case sensor_mode_t::receiver:
-	    digitalWrite(SENSOR_TRANSISTOR, LOW);
-	    break;
+		digitalWrite(SENSOR_TRANSISTOR, LOW);
+		break;
 
 	case sensor_mode_t::none:
-	    break;
+		break;
 	}
 }
 
@@ -160,8 +163,8 @@ void debug(char *out_buffer, const size_t out_size, const sensor_t sensor, const
 	    sensor.left,
 	    sensor.front,
 	    sensor.right,
-		sensor.dist,
-		sensor.line
+	    sensor.dist,
+	    sensor.line
 	);
 }
 
