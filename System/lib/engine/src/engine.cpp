@@ -17,11 +17,17 @@
 #pragma endregion "Size Data Defines"
 
 #pragma region "Analog Data Defines"
+#ifndef ANALOG_LEN
+#define ANALOG_LEN 8
+#endif
 #ifndef ANALOG_LOW
 #define ANALOG_LOW 0
 #endif
 #ifndef ANALOG_HIGH
-#define ANALOG_HIGH 255
+#define ANALOG_HIGH ((1 << ANALOG_LEN) - 1)
+#endif
+#ifndef ANALOG_HZ
+#define ANALOG_HZ (1 << 14)
 #endif
 #pragma endregion "Analog Data Defines"
 
@@ -72,6 +78,8 @@ static void h_bridge_write(uint8_t pin, int value)
 #if defined MODERN_ELECTRONICS
 static void setup_modern()
 {
+	// analogWriteResolution(ANALOG_LEN);
+	// analogWriteFrequency(ANALOG_HZ);
 	pinMode(ENGINE_LEFT_1, OUTPUT);
 	pinMode(ENGINE_LEFT_2, OUTPUT);
 	pinMode(ENGINE_RIGHT_1, OUTPUT);
