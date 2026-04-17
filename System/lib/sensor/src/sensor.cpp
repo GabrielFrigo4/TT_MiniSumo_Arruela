@@ -83,7 +83,7 @@ void setup()
 	pinMode(SENDER_FRONT, INPUT);
 	pinMode(SENDER_RIGHT, INPUT);
 	pinMode(RECEIVER_LEFT, INPUT);
-	pinMode(RECEIVER_RIGHT, INPUT);
+	pinMode(RECEIVER_RIGHT, INPUT_PULLUP);
 	//pinMode(SENSOR_LINE, INPUT_PULLUP);
 
 	/*
