@@ -242,6 +242,8 @@ void setup_estrategia()
 			tt::serial::printf(STRLN("+----------------------------+"));
 			tt::serial::printf(STRLN("\"Sinal\" -> \"Nome\""));
 			tt::serial::printf(STRLN("\"%c\" -> \"%s\""), COMMAND_SETUP, "SETUP");
+			tt::serial::printf(STRLN("\"%c\" -> \"%s\""), COMMAND_SENDER, "SENDER");
+			tt::serial::printf(STRLN("\"%c\" -> \"%s\""), COMMAND_RECEIVER, "RECEIVER");
 			tt::serial::printf(STRLN("\"%c\" -> \"%s\""), COMMAND_LEFT, "LEFT");
 			tt::serial::printf(STRLN("\"%c\" -> \"%s\""), COMMAND_RIGHT, "RIGHT");
 			break;
@@ -260,6 +262,20 @@ void setup_estrategia()
 			tt::serial::printf(STRLN("+------------------+"));
 			tt::serial::printf(STRLN("| SETUP FINALIZADO |"));
 			tt::serial::printf(STRLN("+------------------+"));
+			break;
+
+		case COMMAND_SENDER:
+			tt::sensor::set_mode(tt::sensor_mode_t::sender);
+			tt::serial::printf(STRLN("+---------------+"));
+			tt::serial::printf(STRLN("| SENSOR SENDER |"));
+			tt::serial::printf(STRLN("+---------------+"));
+			break;
+
+		case COMMAND_RECEIVER:
+			tt::sensor::set_mode(tt::sensor_mode_t::receiver);
+			tt::serial::printf(STRLN("+-----------------+"));
+			tt::serial::printf(STRLN("| SENSOR RECEIVER |"));
+			tt::serial::printf(STRLN("+-----------------+"));
 			break;
 
 		case COMMAND_LEFT:

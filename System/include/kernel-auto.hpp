@@ -38,6 +38,12 @@
 #ifndef COMMAND_SETUP
 #define COMMAND_SETUP '.'
 #endif
+#ifndef COMMAND_SENDER
+#define COMMAND_SENDER '+'
+#endif
+#ifndef COMMAND_RECEIVER
+#define COMMAND_RECEIVER '-'
+#endif
 #ifndef COMMAND_LEFT
 #define COMMAND_LEFT '<'
 #endif

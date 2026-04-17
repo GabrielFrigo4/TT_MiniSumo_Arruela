@@ -282,7 +282,7 @@ void sensor_task(void *pvParameters)
 {
 	while (running)
 	{
-		vTaskDelay(1);
+		vTaskDelay(500);
 		sensor = tt::sensor::create_snapshot();
 	}
 

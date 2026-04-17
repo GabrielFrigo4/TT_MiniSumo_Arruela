@@ -84,8 +84,9 @@ void setup()
 	pinMode(SENDER_RIGHT, INPUT);
 	pinMode(RECEIVER_LEFT, INPUT);
 	pinMode(RECEIVER_RIGHT, INPUT);
-	pinMode(SENSOR_LINE, INPUT_PULLUP);
+	//pinMode(SENSOR_LINE, INPUT_PULLUP);
 
+	/*
 	Wire.begin(SENSOR_DATA, SENSOR_CLOCK);
 	if (sensor_dist.init())
 	{
@@ -97,6 +98,7 @@ void setup()
 	{
 		Serial.printf(STRLN("[ERRO]: VL53L0X don't Init"));
 	}
+	*/
 }
 
 void init()
@@ -125,8 +127,10 @@ sensor_t create_snapshot()
 	case sensor_mode_t::none:
 		break;
 	}
-	sensor.dist = sensor_dist.readRangeContinuousMillimeters();
-	sensor.line = digitalRead(SENSOR_LINE);
+	sensor.dist = -1;
+	//sensor.dist = sensor_dist.readRangeContinuousMillimeters();
+	sensor.line = -1;
+	//sensor.line = digitalRead(SENSOR_LINE);
 	return sensor;
 }
 
@@ -137,7 +141,8 @@ sensor_mode_t get_mode()
 
 void set_mode(sensor_mode_t mode)
 {
-	switch (mode)
+	sensor_mode = mode;
+	switch (sensor_mode)
 	{
 	case sensor_mode_t::sender:
 		digitalWrite(SENSOR_TRANSISTOR, HIGH);
